@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.TeacherMapper">
+    <resultMap id="teacherResultMap" type="com.example.model.domain.Teacher">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="userId" column="userId"/>
+        <result property="vxName" column="vxName"/>
+        <result property="primarySchool" column="primarySchool"/>
+        <result property="middleSchool" column="middleSchool"/>
+        <result property="highSchool" column="highSchool"/>
+        <result property="chinaIdNumberPictureFileName" column="chinaIdNumberPictureFileName"/>
+        <result property="address" column="address"/>
+        <result property="mobile" column="mobile"/>
+        <result property="teachingSeniority" column="teachingSeniority"/>
+        <result property="teachingType" column="teachingType"/>
+        <result property="personalProfile" column="personalProfile"/>
+        <result property="academicQualificationPictureFileName" column="academicQualificationPictureFileName"/>
+    </resultMap>
+
+    <insert id="saveTeacher" parameterType="com.example.model.domain.Teacher">
+        INSERT INTO teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">userId,</if>
+            <if test="name != null">name,</if>
+            <if test="vxName != null">vxName,</if>
+            <if test="gender != null">gender,</if>
+            <if test="primarySchool != null">primarySchool,</if>
+            <if test="middleSchool != null">middleSchool,</if>
+            <if test="highSchool != null">highSchool,</if>
+            <if test="chinaIdNumber != null">chinaIdNumber,</if>
+            <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName,</if>
+            <if test="address != null">address,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="teachingSeniority != null">teachingSeniority,</if>
+            <if test="teachingType != null">teachingType,</if>
+            <if test="personalProfile != null">personalProfile,</if>
+            <if test="academicQualification != null">academicQualification,</if>
+            <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="vxName != null">#{vxName},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="primarySchool != null">#{primarySchool},</if>
+            <if test="middleSchool != null">#{middleSchool},</if>
+            <if test="highSchool != null">#{highSchool},</if>
+            <if test="chinaIdNumber != null">#{chinaIdNumber},</if>
+            <if test="chinaIdNumberPictureFileName != null">#{chinaIdNumberPictureFileName},</if>
+            <if test="address != null">#{address},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="teachingSeniority != null">#{teachingSeniority},</if>
+            <if test="teachingType != null">#{teachingType},</if>
+            <if test="personalProfile != null">#{personalProfile},</if>
+            <if test="academicQualification != null">#{academicQualification},</if>
+            <if test="academicQualificationPictureFileName != null">#{academicQualificationPictureFileName},</if>
+        </trim>
+
+    </insert>
+
+    <update id="updateTeacher" parameterType="com.example.model.domain.Teacher">
+        UPDATE teacher
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="vxName != null">vxName = #{vxName},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="primarySchool != null">primarySchool = #{primarySchool},</if>
+            <if test="middleSchool != null">middleSchool = #{middleSchool},</if>
+            <if test="highSchool != null">highSchool = #{highSchool}</if>
+            <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName}</if>
+            <if test="address != null">address = #{address}</if>
+            <if test="mobile != null">mobile = #{mobile}</if>
+            <if test="teachingSeniority != null">teachingSeniority = #{teachingSeniority}</if>
+            <if test="teachingType != null">teachingType = #{teachingType}</if>
+            <if test="personalProfile != null">personalProfile = #{personalProfile}</if>
+            <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
+        </set>
+        WHERE userId = #{id}
+    </update>
+
+    <delete id="deleteTeacher" parameterType="com.example.model.domain.User">
+        delete from  teacher where  WHERE userId = #{id}
+    </delete>
+
+    <select id="queryByUserId" resultMap="teacherResultMap">
+        select * from teacher
+        WHERE userId = #{id}
+    </select>
+
+</mapper>

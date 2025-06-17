@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <insert id="saveUser" parameterType="com.example.model.domain.User">
+        insert into  user
+        (id,openid,mobile,password,hxUser,type,photoFileName)
+        values
+        (#{id}, #{openid}, #{mobile}, #{password}, #{hxUser}, #{type}, #{photoFileName})
+    </insert>
+
+    <update id="updateById" parameterType="com.example.model.domain.User">
+        UPDATE user
+        <set>
+            <if test="openid != null">openid = #{openid},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="hxUser != null">hxUser = #{hxUser},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="photoFileName != null">photoFileName = #{photoFileName}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="com.example.model.domain.User">
+        delete from  user where  WHERE id = #{id}
+    </delete>
+
+</mapper>
