@@ -1,0 +1,58 @@
+<mapper namespace="com.example.mapper.NotificationMapper">
+
+    <!-- 插入通知信息 -->
+    <insert id="saveNotification" parameterType="com.example.model.domain.Notification">
+        insert into notification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">userId,</if>
+            <if test="message != null">message,</if>
+            <if test="created != null">created</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="message != null">#{message},</if>
+            <if test="created != null">#{created}</if>
+        </trim>
+    </insert>
+
+    <!-- 查询所有通知信息 -->
+    <select id="getAllNotifications" resultType="com.example.model.domain.Notification">
+        SELECT * FROM notification
+    </select>
+
+    <!-- 根据ID查询通知信息 -->
+    <select id="getNotificationById" parameterType="long" resultType="com.example.model.domain.Notification">
+        SELECT * FROM notification WHERE id = #{id}
+    </select>
+
+    <!-- 根据多个条件查询通知信息 -->
+    <select id="getNotificationsByConditions" parameterType="map" resultType="com.example.model.domain.Notification">
+        SELECT * FROM notification
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="userId != null">AND userId = #{userId}</if>
+            <if test="message != null">AND message = #{message}</if>
+            <if test="created != null">AND created = #{created}</if>
+        </where>
+    </select>
+
+    <!-- 更新通知信息 -->
+    <update id="updateNotification" parameterType="com.example.model.domain.Notification">
+        UPDATE notification
+        <set>
+            <if test="userId != null">userId = #{userId},</if>
+            <if test="message != null">message = #{message},</if>
+            <if test="created != null">created = #{created}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除通知信息 -->
+    <delete id="deleteNotificationById" parameterType="long">
+        DELETE FROM notification WHERE id = #{id}
+    </delete>
+
+</mapper>
