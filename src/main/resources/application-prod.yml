@@ -1,0 +1,17 @@
+server:
+  port: 8766
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 300MB
+      max-request-size: 300MB
+logging:
+  level:
+    com: debug
+nas:
+  basepath: "/home/nas"
+  ffmpeg-bin-dir: "/home/nas/ffmpeg"
+  # 转码目录位置
+  out-dir: "/home/nas/ts"
+  base-url: http://182.254.177.123:8766/nas/file
