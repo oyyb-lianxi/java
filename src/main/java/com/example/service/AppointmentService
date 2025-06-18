@@ -11,13 +11,18 @@ public class AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
-
+     @Transactional
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
 
+    @Transactional
     public Appointment createAppointment(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+        if (isTimeSlotAvailable(appointment.getAppointmentDate())) {
+            return appointmentRepository.save(appointment);
+        } else {
+            throw new RuntimeException("Selected time slot is not available");
+        }
     }
 
     public boolean isTimeSlotAvailable(LocalDateTime appointmentDate) {
