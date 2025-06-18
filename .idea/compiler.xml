@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="helloworld" />
         <module name="werun-java" />
+        <module name="java" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="helloworld" options="-parameters" />
+      <module name="java" options="-parameters" />
       <module name="werun-java" options="-parameters" />
     </option>
   </component>

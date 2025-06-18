@@ -9,5 +9,15 @@ import java.util.Map;
 
 @Mapper
 public interface NotificationMapper {
-  
+
+    int saveNotification(Notification notification);
+
+    List<Notification>getAllNotifications();
+    Notification getNotificationById(Long id);
+
+    Notification getNotificationsByConditions(Notification notification);
+
+    int updateNotification(Notification notification);
+
+    int deleteNotificationById(Long id);
 }

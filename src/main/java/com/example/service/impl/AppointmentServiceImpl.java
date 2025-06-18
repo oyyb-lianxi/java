@@ -1,11 +1,19 @@
 
 package com.example.service.impl;
 
-import com.example.mapper.UserMapper;
-import com.example.model.domain.User;
+import com.example.mapper.*;
+import com.example.model.domain.*;
+import com.example.service.AppointmentService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -21,6 +29,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private NotificationMapper notificationMapper;
+
 //预约
     public void makeAppointment(Long studentId, Long teacherId, String subject, String appointmentDate, String appointmentTime) {
         // 验证学生和老师是否存在
@@ -36,10 +45,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         // 检查老师是否有该科目
-        boolean hasSubject = teacherMapper.hasSubject(teacherId, subject);
-        if (!hasSubject) {
-            throw new RuntimeException("Teacher does not teach this subject");
-        }
+//        boolean hasSubject = teacherMapper.hasSubject(teacherId, subject);
+//        if (!hasSubject) {
+//            throw new RuntimeException("Teacher does not teach this subject");
+//        }
 
         // 创建预约
         Appointment appointment = new Appointment();
@@ -121,4 +130,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         params.put("teacherId", teacherId);
         return appointmentMapper.getAppointmentsByConditions(params);
     }
+
+//    @Transactional
+//    public List<Appointment> getAllAppointments() {
+//        return appointmentMapper.getAllAppointments();
+//    }
+//
+//    @Transactional
+//    public Appointment createAppointment(Appointment appointment) {
+//        if (isTimeSlotAvailable(appointment.getAppointmentDate())) {
+//            return appointmentMapper.save(appointment);
+//        } else {
+//            throw new RuntimeException("Selected time slot is not available");
+//        }
+//    }
+//
+//    public boolean isTimeSlotAvailable(LocalDateTime appointmentDate) {
+//        return !appointmentMapper.existsByAppointmentDate(appointmentDate);
+//    }
 }

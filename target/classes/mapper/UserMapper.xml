@@ -2,15 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.mapper.UserMapper">
+   <!-- 插入用户信息 -->
+<insert id="saveUser" parameterType="com.example.model.domain.User">
+    insert into user
+    (<if test="id != null">id,</if>
+     <if test="openid != null">openid,</if>
+     <if test="mobile != null">mobile,</if>
+     <if test="password != null">password,</if>
+     <if test="hxUser != null">hxUser,</if>
+     <if test="type != null">type,</if>
+     <if test="photoFileName != null">photoFileName</if>)
+    values
+    (<if test="id != null">#{id},</if>
+     <if test="openid != null">#{openid},</if>
+     <if test="mobile != null">#{mobile},</if>
+     <if test="password != null">#{password},</if>
+     <if test="hxUser != null">#{hxUser},</if>
+     <if test="type != null">#{type},</if>
+     <if test="photoFileName != null">#{photoFileName}</if>)
+</insert>
+    <!-- 查询所有用户信息 -->
+    <select id="getAllUsers" resultType="com.example.model.domain.User">
+        SELECT * FROM user
+    </select>
 
-    <insert id="saveUser" parameterType="com.example.model.domain.User">
-        insert into  user
-        (id,openid,mobile,password,hxUser,type,photoFileName)
-        values
-        (#{id}, #{openid}, #{mobile}, #{password}, #{hxUser}, #{type}, #{photoFileName})
-    </insert>
-
-    <update id="updateById" parameterType="com.example.model.domain.User">
+    <!-- 根据ID查询用户信息 -->
+    <select id="getUserById" parameterType="long" resultType="com.example.model.domain.User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+    
+    <!-- 根据多个条件查询用户信息 -->
+    <select id="getUsersByConditions" parameterType="map" resultType="com.example.model.domain.User">
+        SELECT * FROM user
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="openid != null">AND openid = #{openid}</if>
+            <if test="mobile != null">AND mobile = #{mobile}</if>
+            <if test="password != null">AND password = #{password}</if>
+            <if test="hxUser != null">AND hxUser = #{hxUser}</if>
+            <if test="type != null">AND type = #{type}</if>
+            <if test="photoFileName != null">AND photoFileName = #{photoFileName}</if>
+        </where>
+    </select>
+    
+    <!-- 更新用户信息 -->
+    <update id="updateUser" parameterType="com.example.model.domain.User">
         UPDATE user
         <set>
             <if test="openid != null">openid = #{openid},</if>
@@ -23,8 +59,9 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteById" parameterType="com.example.model.domain.User">
-        delete from  user where  WHERE id = #{id}
+    <!-- 删除用户信息 -->
+    <delete id="deleteUserById" parameterType="long">
+        DELETE FROM user WHERE id = #{id}
     </delete>
 
 </mapper>

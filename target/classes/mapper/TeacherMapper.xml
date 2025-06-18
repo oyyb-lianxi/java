@@ -59,31 +59,67 @@
             <if test="academicQualification != null">#{academicQualification},</if>
             <if test="academicQualificationPictureFileName != null">#{academicQualificationPictureFileName},</if>
         </trim>
-
     </insert>
 
+        <!-- 查询所有老师信息 -->
+    <select id="getAllTeachers" resultType="com.example.model.domain.Teacher">
+        SELECT * FROM teacher
+    </select>
+    <!-- 根据ID查询老师信息 -->
+    <select id="getTeacherById" parameterType="long" resultType="com.example.model.domain.Teacher">
+        SELECT * FROM teacher WHERE id = #{id}
+    </select>
+   <!-- 根据多个条件查询老师信息 -->
+    <select id="getTeachersByConditions" parameterType="map" resultType="com.example.model.domain.Teacher">
+        SELECT * FROM teacher
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="userId != null">AND userId = #{userId}</if>
+            <if test="name != null">AND name = #{name}</if>
+            <if test="vxName != null">AND vxName = #{vxName}</if>
+            <if test="gender != null">AND gender = #{gender}</if>
+            <if test="primarySchool != null">AND primarySchool = #{primarySchool}</if>
+            <if test="middleSchool != null">AND middleSchool = #{middleSchool}</if>
+            <if test="highSchool != null">AND highSchool = #{highSchool}</if>
+            <if test="chinaIdNumber != null">AND chinaIdNumber = #{chinaIdNumber}</if>
+            <if test="chinaIdNumberPictureFileName != null">AND chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName}</if>
+            <if test="address != null">AND address = #{address}</if>
+            <if test="mobile != null">AND mobile = #{mobile}</if>
+            <if test="teachingSeniority != null">AND teachingSeniority = #{teachingSeniority}</if>
+            <if test="teachingType != null">AND teachingType = #{teachingType}</if>
+            <if test="personalProfile != null">AND personalProfile = #{personalProfile}</if>
+            <if test="academicQualification != null">AND academicQualification = #{academicQualification}</if>
+            <if test="academicQualificationPictureFileName != null">AND academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
+        </where>
+    </select>
+
+    <!-- 更新老师信息 -->
     <update id="updateTeacher" parameterType="com.example.model.domain.Teacher">
         UPDATE teacher
         <set>
+            <if test="userId != null">userId = #{userId},</if>
             <if test="name != null">name = #{name},</if>
             <if test="vxName != null">vxName = #{vxName},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="primarySchool != null">primarySchool = #{primarySchool},</if>
             <if test="middleSchool != null">middleSchool = #{middleSchool},</if>
-            <if test="highSchool != null">highSchool = #{highSchool}</if>
-            <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName}</if>
-            <if test="address != null">address = #{address}</if>
-            <if test="mobile != null">mobile = #{mobile}</if>
-            <if test="teachingSeniority != null">teachingSeniority = #{teachingSeniority}</if>
-            <if test="teachingType != null">teachingType = #{teachingType}</if>
-            <if test="personalProfile != null">personalProfile = #{personalProfile}</if>
+            <if test="highSchool != null">highSchool = #{highSchool},</if>
+            <if test="chinaIdNumber != null">chinaIdNumber = #{chinaIdNumber},</if>
+            <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="teachingSeniority != null">teachingSeniority = #{teachingSeniority},</if>
+            <if test="teachingType != null">teachingType = #{teachingType},</if>
+            <if test="personalProfile != null">personalProfile = #{personalProfile},</if>
+            <if test="academicQualification != null">academicQualification = #{academicQualification},</if>
             <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
         </set>
-        WHERE userId = #{id}
+        WHERE id = #{id}
     </update>
-
-    <delete id="deleteTeacher" parameterType="com.example.model.domain.User">
-        delete from  teacher where  WHERE userId = #{id}
+    
+    <!-- 删除老师信息 -->
+    <delete id="deleteTeacherById" parameterType="long">
+        DELETE FROM teacher WHERE id = #{id}
     </delete>
 
     <select id="queryByUserId" resultMap="teacherResultMap">

@@ -1,17 +1,5 @@
+
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://114.215.194.161:3306/jiajiaoxiaochengxu?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-    username: root
-    password: Oyyb258369!
-server:
-  port: 8080
-
-coisini:
-  security:
-    jwt-key: coisini
-    # 过期时间
-    token-expired-in: 86400000
-
+  profiles:
+    active: prod
 
