@@ -28,4 +28,6 @@ public class AppointmentService {
     public boolean isTimeSlotAvailable(LocalDateTime appointmentDate) {
         return !appointmentRepository.existsByAppointmentDate(appointmentDate);
     }
+
+public void makeAppointment(Long studentId, Long teacherId, String subject, String appointmentDate, String appointmentTime);
 }
