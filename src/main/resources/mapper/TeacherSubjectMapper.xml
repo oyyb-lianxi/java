@@ -1,0 +1,54 @@
+<mapper namespace="com.example.mapper.TeacherSubjectMapper">
+
+    <!-- 插入教师科目信息 -->
+    <insert id="saveTeacherSubject" parameterType="com.example.model.domain.TeacherSubject">
+        insert into teacher_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="teacherId != null">teacherId,</if>
+            <if test="subject != null">subject</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="subject != null">#{subject}</if>
+        </trim>
+    </insert>
+
+    <!-- 查询所有教师科目信息 -->
+    <select id="getAllTeacherSubjects" resultType="com.example.model.domain.TeacherSubject">
+        SELECT * FROM teacher_subject
+    </select>
+
+    <!-- 根据ID查询教师科目信息 -->
+    <select id="getTeacherSubjectById" parameterType="long" resultType="com.example.model.domain.TeacherSubject">
+        SELECT * FROM teacher_subject WHERE id = #{id}
+    </select>
+
+    <!-- 根据多个条件查询教师科目信息 -->
+    <select id="getTeacherSubjectsByConditions" parameterType="map" resultType="com.example.model.domain.TeacherSubject">
+        SELECT * FROM teacher_subject
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+            <if test="subject != null">AND subject = #{subject}</if>
+        </where>
+    </select>
+
+    <!-- 更新教师科目信息 -->
+    <update id="updateTeacherSubject" parameterType="com.example.model.domain.TeacherSubject">
+        UPDATE teacher_subject
+        <set>
+            <if test="teacherId != null">teacherId = #{teacherId},</if>
+            <if test="subject != null">subject = #{subject}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除教师科目信息 -->
+    <delete id="deleteTeacherSubjectById" parameterType="long">
+        DELETE FROM teacher_subject WHERE id = #{id}
+    </delete>
+
+</mapper>
