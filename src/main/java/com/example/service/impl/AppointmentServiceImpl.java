@@ -109,4 +109,16 @@ public class AppointmentServiceImpl implements AppointmentService {
         notification.setCreated(new Date().toString());
         notificationMapper.saveNotification(notification);
     }
+  //查询学生的所有预约
+    public List<Appointment> getStudentsAppointments(Long studentId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("studentId", studentId);
+        return appointmentMapper.getAppointmentsByConditions(params);
+    }
+  //查询老师的所有预约
+      public List<Appointment> getTeachersAppointments(Long teacherId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("teacherId", teacherId);
+        return appointmentMapper.getAppointmentsByConditions(params);
+    }
 }
