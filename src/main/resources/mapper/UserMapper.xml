@@ -3,12 +3,24 @@
 
 <mapper namespace="com.example.mapper.UserMapper">
 
-    <insert id="saveUser" parameterType="com.example.model.domain.User">
-        insert into  user
-        (id,openid,mobile,password,hxUser,type,photoFileName)
-        values
-        (#{id}, #{openid}, #{mobile}, #{password}, #{hxUser}, #{type}, #{photoFileName})
-    </insert>
+<insert id="saveUser" parameterType="com.example.model.domain.User">
+    insert into user
+    (<if test="id != null">id,</if>
+     <if test="openid != null">openid,</if>
+     <if test="mobile != null">mobile,</if>
+     <if test="password != null">password,</if>
+     <if test="hxUser != null">hxUser,</if>
+     <if test="type != null">type,</if>
+     <if test="photoFileName != null">photoFileName</if>)
+    values
+    (<if test="id != null">#{id},</if>
+     <if test="openid != null">#{openid},</if>
+     <if test="mobile != null">#{mobile},</if>
+     <if test="password != null">#{password},</if>
+     <if test="hxUser != null">#{hxUser},</if>
+     <if test="type != null">#{type},</if>
+     <if test="photoFileName != null">#{photoFileName}</if>)
+</insert>
 
     <update id="updateById" parameterType="com.example.model.domain.User">
         UPDATE user
