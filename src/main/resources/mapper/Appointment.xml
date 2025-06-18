@@ -9,25 +9,70 @@ CREATE TABLE appointment (
     FOREIGN KEY (studentId) REFERENCES student(id),
     FOREIGN KEY (teacherId) REFERENCES teacher(id)
 );
-//插入预约记录
-INSERT INTO appointment (studentId, teacherId, appointmentTime, status)
-VALUES (#{studentId}, #{teacherId}, #{appointmentTime}, 'PENDING');
-<insert id="createAppointment" parameterType="com.example.model.domain.Appointment">
-    INSERT INTO appointment
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="studentId != null">studentId,</if>
-        <if test="teacherId != null">teacherId,</if>
-        <if test="appointmentTime != null">appointmentTime,</if>
-        <if test="status != null">status,</if>
-    </trim>
-    <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-        <if test="studentId != null">#{studentId},</if>
-        <if test="teacherId != null">#{teacherId},</if>
-        <if test="appointmentTime != null">#{appointmentTime},</if>
-        <if test="status != null">#{status},</if>
-    </trim>
-</insert>
+    <!-- 插入预约信息 -->
+    <insert id="saveAppointment" parameterType="com.example.model.domain.Appointment">
+        insert into appointment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="studentId != null">studentId,</if>
+            <if test="teacherId != null">teacherId,</if>
+            <if test="subject != null">subject,</if>
+            <if test="appointmentDate != null">appointmentDate,</if>
+            <if test="appointmentTime != null">appointmentTime,</if>
+            <if test="status != null">status</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="subject != null">#{subject},</if>
+            <if test="appointmentDate != null">#{appointmentDate},</if>
+            <if test="appointmentTime != null">#{appointmentTime},</if>
+            <if test="status != null">#{status}</if>
+        </trim>
+    </insert>
 
+    <!-- 查询所有预约信息 -->
+    <select id="getAllAppointments" resultType="com.example.model.domain.Appointment">
+        SELECT * FROM appointment
+    </select>
+    <!-- 根据ID查询预约信息 -->
+    <select id="getAppointmentById" parameterType="long" resultType="com.example.model.domain.Appointment">
+        SELECT * FROM appointment WHERE id = #{id}
+    </select>
+
+    <!-- 根据多个条件查询预约信息 -->
+    <select id="getAppointmentsByConditions" parameterType="map" resultType="com.example.model.domain.Appointment">
+        SELECT * FROM appointment
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="studentId != null">AND studentId = #{studentId}</if>
+            <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+            <if test="subject != null">AND subject = #{subject}</if>
+            <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
+            <if test="appointmentTime != null">AND appointmentTime = #{appointmentTime}</if>
+            <if test="status != null">AND status = #{status}</if>
+        </where>
+    </select>
+    <!-- 更新预约信息 -->
+    <update id="updateAppointment" parameterType="com.example.model.domain.Appointment">
+        UPDATE appointment
+        <set>
+            <if test="studentId != null">studentId = #{studentId},</if>
+            <if test="teacherId != null">teacherId = #{teacherId},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="appointmentDate != null">appointmentDate = #{appointmentDate},</if>
+            <if test="appointmentTime != null">appointmentTime = #{appointmentTime},</if>
+            <if test="status != null">status = #{status}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除预约信息 -->
+    <delete id="deleteAppointmentById" parameterType="long">
+        DELETE FROM appointment WHERE id = #{id}
+    </delete>
 //查询老师的所有预约记录
 SELECT a.id, a.studentId, s.name AS studentName, a.appointmentTime, a.status
 FROM appointment a
