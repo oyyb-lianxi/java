@@ -30,7 +30,7 @@ public class fileController {
     private UserService userService;
 
     /**
-     * 本地头像下载  回显
+     * 本地头像下载  回显111
      */
     @GetMapping("/download")
     public void download(Long id, HttpServletResponse response) throws IOException {
