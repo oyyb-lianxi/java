@@ -1,0 +1,102 @@
+CREATE TABLE appointment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    studentId BIGINT NOT NULL,
+    teacherId BIGINT NOT NULL,
+    appointmentTime DATETIME NOT NULL,
+    status VARCHAR(50) DEFAULT 'PENDING', -- 可能的状态：PENDING, CONFIRMED, CANCELLED
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (studentId) REFERENCES student(id),
+    FOREIGN KEY (teacherId) REFERENCES teacher(id)
+);
+//插入预约记录
+INSERT INTO appointment (studentId, teacherId, appointmentTime, status)
+VALUES (#{studentId}, #{teacherId}, #{appointmentTime}, 'PENDING');
+<insert id="createAppointment" parameterType="com.example.model.domain.Appointment">
+    INSERT INTO appointment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="studentId != null">studentId,</if>
+        <if test="teacherId != null">teacherId,</if>
+        <if test="appointmentTime != null">appointmentTime,</if>
+        <if test="status != null">status,</if>
+    </trim>
+    <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+        <if test="studentId != null">#{studentId},</if>
+        <if test="teacherId != null">#{teacherId},</if>
+        <if test="appointmentTime != null">#{appointmentTime},</if>
+        <if test="status != null">#{status},</if>
+    </trim>
+</insert>
+
+//查询老师的所有预约记录
+SELECT a.id, a.studentId, s.name AS studentName, a.appointmentTime, a.status
+FROM appointment a
+JOIN student s ON a.studentId = s.id
+WHERE a.teacherId = #{teacherId}
+ORDER BY a.appointmentTime;
+<select id="getAppointmentsByTeacherId" parameterType="map" resultType="com.example.model.domain.Appointment">
+    SELECT a.id, a.studentId, s.name AS studentName, a.appointmentTime, a.status
+    FROM appointment a
+    JOIN student s ON a.studentId = s.id
+    <where>
+        <if test="teacherId != null">a.teacherId = #{teacherId}</if>
+        <if test="studentId != null">AND a.studentId = #{studentId}</if>
+        <if test="status != null">AND a.status = #{status}</if>
+    </where>
+    ORDER BY a.appointmentTime
+</select>
+
+//查询特定日期的预约记录
+SELECT a.id, a.studentId, s.name AS studentName, a.appointmentTime, a.status
+FROM appointment a
+JOIN student s ON a.studentId = s.id
+WHERE a.teacherId = #{teacherId} AND DATE(a.appointmentTime) = #{date}
+ORDER BY a.appointmentTime;
+<select id="getAppointmentsByTeacherIdAndDate" parameterType="map" resultType="com.example.model.domain.Appointment">
+    SELECT a.id, a.studentId, s.name AS studentName, a.appointmentTime, a.status
+    FROM appointment a
+    JOIN student s ON a.studentId = s.id
+    <where>
+        <if test="teacherId != null">a.teacherId = #{teacherId}</if>
+        <if test="date != null">AND DATE(a.appointmentTime) = #{date}</if>
+        <if test="studentId != null">AND a.studentId = #{studentId}</if>
+        <if test="status != null">AND a.status = #{status}</if>
+    </where>
+    ORDER BY a.appointmentTime
+</select>
+
+//取消预约-更新预约状态为取消
+UPDATE appointment
+SET status = 'CANCELLED', updatedAt = CURRENT_TIMESTAMP
+WHERE id = #{appointmentId};
+<update id="cancelAppointment" parameterType="map">
+    UPDATE appointment
+    SET status = #{newStatus}, updatedAt = CURRENT_TIMESTAMP
+    WHERE id = #{appointmentId}
+    <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+    <if test="studentId != null">AND studentId = #{studentId}</if>
+</update>
+
+//更新预约信息-更新预约时间
+UPDATE appointment
+SET appointmentTime = #{newAppointmentTime}, updatedAt = CURRENT_TIMESTAMP
+WHERE id = #{appointmentId};
+<update id="updateAppointmentTime" parameterType="map">
+    UPDATE appointment
+    SET appointmentTime = #{newAppointmentTime}, updatedAt = CURRENT_TIMESTAMP
+    WHERE id = #{appointmentId}
+    <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+    <if test="studentId != null">AND studentId = #{studentId}</if>
+</update>
+
+//更新预约状态
+UPDATE appointment
+SET status = #{newStatus}, updatedAt = CURRENT_TIMESTAMP
+WHERE id = #{appointmentId};
+<update id="updateAppointmentStatus" parameterType="map">
+    UPDATE appointment
+    SET status = #{newStatus}, updatedAt = CURRENT_TIMESTAMP
+    WHERE id = #{appointmentId}
+    <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+    <if test="studentId != null">AND studentId = #{studentId}</if>
+</update>
