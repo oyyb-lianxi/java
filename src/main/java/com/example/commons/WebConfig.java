@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/user/login", "/user/loginVerification");
+                .addPathPatterns("/**") // 应用到所有路径
+                .excludePathPatterns("/user/login", "/user/loginVerification");// 排除某些路径
     }
 }
