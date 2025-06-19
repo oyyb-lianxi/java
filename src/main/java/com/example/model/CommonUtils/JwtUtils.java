@@ -23,7 +23,7 @@ public class JwtUtils {
     /**
      * 加密KEY
      */
-    private static final String TOKEN_SECRET = "itcast";
+    private static final String TOKEN_SECRET = "my_secret_key";
 
 
     /**
