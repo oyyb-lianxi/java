@@ -131,6 +131,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentMapper.getAppointmentsByConditions(params);
     }
 
+    @Override
+    public List<Appointment> getAllAppointments() {
+        return null;
+    }
+
 //    @Transactional
 //    public List<Appointment> getAllAppointments() {
 //        return appointmentMapper.getAllAppointments();

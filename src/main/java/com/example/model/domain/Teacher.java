@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor  //满参构造方法
 @NoArgsConstructor  //无参构造方法
 public class Teacher {
-    private Long id;
-    private Long userId;
+    private String id;
+    private String userId;
     private String name;
     private String vxName;
     private String gender; //性别 man woman
@@ -25,4 +25,6 @@ public class Teacher {
     private String personalProfile;  //个人简介;
     private String academicQualification; //学历
     private String academicQualificationPictureFileName; //学历照片
+
+
 }

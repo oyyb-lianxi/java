@@ -20,25 +20,61 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/student")
-public class teacherController {
+public class studentController {
 
     @Autowired
     StudentService studentService;
     /**
+     * 保存学生信息
+     */
+    @PostMapping("/saveStudent")
+    public ResponseEntity saveStudent(@RequestBody Student student){
+        Boolean aBoolean = studentService.saveStudent(student);
+        return ResponseEntity.ok(aBoolean);
+    }
+
+    /**
+     * 修改学生信息
+     */
+    @PostMapping("/updateStudent")
+    public ResponseEntity updateStudent(@RequestBody Student student){
+        Boolean aBoolean = studentService.updateStudent(student);
+        return ResponseEntity.ok(aBoolean);
+    }
+
+    /**
+     * 删除学生信息
+     */
+    @PostMapping("/deleteStudent")
+    public ResponseEntity deleteStudent(@RequestBody Student student){
+        Boolean aBoolean = studentService.deleteStudent(student);
+        return ResponseEntity.ok(aBoolean);
+    }
+
+    /**
+     * 根据学生id查询学生信息
+     */
+    @GetMapping("/getStudentById/{studentId}")
+    public ResponseEntity getStudentById(@PathVariable Long studentId){
+        Student student = studentService.getStudentById(studentId);
+        return ResponseEntity.ok(student);
+    }
+
+    /**
      * 查询所有学生信息
      */
-    @GetMapping("/studentList")
-    public ResponseEntity selectAllTeacher(){
-        List<Student> students = studentService.selectAll();
+    @GetMapping("/getAllStudents")
+    public ResponseEntity getStudentById(){
+        List<Student> students = studentService.getAllStudents();
         return ResponseEntity.ok(students);
     }
 
     /**
-     * 根据用户id查询学生信息
+     * 根据条件筛选查询学生信息
      */
-    @GetMapping("/queryByUserId/{userId}")
-    public ResponseEntity queryByUserId(@PathVariable Long userId){
-        Student students = studentService.queryByUserId(userId);
-        return ResponseEntity.ok(students);
+    @PostMapping("/getStudentsByConditions")
+    public ResponseEntity getStudentsByConditions(@RequestBody Student student){
+        Student result = studentService.getStudentsByConditions(student);
+        return ResponseEntity.ok(result);
     }
 }

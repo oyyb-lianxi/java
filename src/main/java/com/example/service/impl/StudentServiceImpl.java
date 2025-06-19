@@ -1,9 +1,11 @@
 package com.example.service.impl;
 
+import com.example.mapper.StudentMapper;
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
 import com.example.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,15 +13,24 @@ import java.util.List;
 @Service
 @Slf4j
 public class StudentServiceImpl implements StudentService {
-
+    @Autowired
+    private StudentMapper studentMapper;
     @Override
-    public Boolean saveStudent(Student userInfo) {
-        return null;
+    public Boolean saveStudent(Student student) {
+        int i = studentMapper.saveStudent(student);
+        if(i==1){
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Boolean updateStudent(Student userInfo) {
-        return null;
+    public Boolean updateStudent(Student student) {
+        int i = studentMapper.updateStudent(student);
+        if(i==1){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -28,12 +39,37 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Teacher> selectAll() {
+    public List<Student> selectAll() {
         return null;
     }
 
     @Override
     public Student queryByUserId(Long userId) {
         return null;
+    }
+
+
+    @Override
+    public Boolean deleteStudent(Student student) {
+        int i = studentMapper.deleteStudent(student);
+        if(i==1){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Student getStudentById(Long studentId) {
+        return studentMapper.getStudentById(studentId);
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return studentMapper.getAllStudents();
+    }
+
+    @Override
+    public Student getStudentsByConditions(Student student) {
+        return studentMapper.getStudentsByConditions(student);
     }
 }

@@ -23,9 +23,9 @@ logging:
   level:
     com: debug
 nas:
-  basepath: "F:/nas"
+  basepath: "D:\\"
   ffmpeg-bin-dir: "F:/nas/ffmpeg/bin"
   # 转码目录位置
   out-dir: "F:/nas/ts"
-  base-url: http://localhost:8766/nas/file
+  base-url: http://localhost:8080/file
 

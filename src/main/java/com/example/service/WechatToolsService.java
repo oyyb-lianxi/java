@@ -1,12 +1,16 @@
 package com.example.service;
 
 import com.example.service.HttpUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class WechatToolsService  {
 
-    public String getOpenid(String code) {
+    public String getOpenid(String code){
 // 调用接口必要的参数
         StringBuilder data=new StringBuilder();
 // appid、secret定义在配置文件中，注入到项目里
@@ -16,7 +20,6 @@ public class WechatToolsService  {
         data.append("grant_type="+ "authorization_code");
         System.out.println(data);
         String response = HttpUtils.getRequest("https://api.weixin.qq.com/sns/jscode2session?" + data);
-
         return response;
     }
 

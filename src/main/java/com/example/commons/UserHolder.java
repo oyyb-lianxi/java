@@ -27,7 +27,7 @@ public class UserHolder {
     /**
      * 从当前线程，获取用户对象的id
      */
-    public static Long getUserId() {
+    public static String getUserId() {
         if (tl.get() == null) {
             return null;
         }

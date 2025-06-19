@@ -27,7 +27,7 @@
     </select>
 
     <!-- 根据ID查询用户信息 -->
-    <select id="getUserById" parameterType="long" resultType="com.example.model.domain.User">
+    <select id="getUserById" parameterType="String" resultType="com.example.model.domain.User">
         SELECT * FROM user WHERE id = #{id}
     </select>
     

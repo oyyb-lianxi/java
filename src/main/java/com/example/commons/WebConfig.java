@@ -7,13 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author Administrator
  */
-//@Configuration
+@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor())
                 .addPathPatterns("/**") // 应用到所有路径
-                .excludePathPatterns("/user/login", "/user/loginVerification");// 排除某些路径
+                .excludePathPatterns("/login/**");// 排除某些路径
     }
 }

@@ -10,5 +10,5 @@ public interface UserService {
 
     public Boolean deleteById(User user);
 
-    public User getById(Long userId);
+    public User getByOpenId(String openid);
 }

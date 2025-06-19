@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.CommonUtils.JwtUtils;
+import com.example.model.dto.TeacherDto;
 import com.example.service.TeacherInfoService;
 import com.example.service.WechatToolsService;
 import com.example.model.domain.Student;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -39,5 +41,36 @@ public class teacherController {
     public ResponseEntity queryByUserId(@PathVariable Long userId){
         Teacher teachers = teacherInfoService.queryByUserId(userId);
         return ResponseEntity.ok(teachers);
+    }
+
+    /**
+     * 保存老师信息
+     */
+    @PostMapping("/saveTeacher")
+    public ResponseEntity saveTeacher(@RequestBody TeacherDto teacherDto){
+        String teacherId = UUID.randomUUID().toString();
+        teacherDto.setId(teacherId);
+        //3、调用service
+        System.out.println("saveUserInfo ==>"+teacherDto);
+        Boolean aBoolean = teacherInfoService.saveTeacher(teacherDto);
+        return ResponseEntity.ok(aBoolean);
+    }
+
+    /**
+     * 修改老师信息
+     */
+    @PostMapping("/updateTeacher")
+    public ResponseEntity updateTeacher(@RequestBody Teacher teacher){
+        Boolean aBoolean = teacherInfoService.updateTeacher(teacher);
+        return ResponseEntity.ok(aBoolean);
+    }
+
+    /**
+     * 删除老师信息
+     */
+    @PostMapping("/deleteTeacher")
+    public ResponseEntity deleteTeacher(@RequestBody Teacher teacher){
+        Boolean aBoolean = teacherInfoService.deleteTeacher(teacher);
+        return ResponseEntity.ok(aBoolean);
     }
 }

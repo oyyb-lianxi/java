@@ -15,5 +15,6 @@ public interface AppointmentService {
     public void cancelAppointment(Long appointmentId);
     public List<Appointment> getStudentsAppointments(Long studentId);
     public List<Appointment> getTeachersAppointments(Long teacherId);
+    public List<Appointment> getAllAppointments();
 
 }

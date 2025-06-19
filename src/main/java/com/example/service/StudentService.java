@@ -13,7 +13,15 @@ public interface StudentService {
 
     public Boolean deleteStudentById(Student userInfo);
 
-    public List<Teacher> selectAll();
+    public List<Student> selectAll();
 
     public Student queryByUserId(Long userId);
+
+    public Boolean deleteStudent(Student userInfo);
+
+    public Student getStudentById(Long studentId);
+
+    public List<Student> getAllStudents();
+
+    public Student getStudentsByConditions(Student student);
 }

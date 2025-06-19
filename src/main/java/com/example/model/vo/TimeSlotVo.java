@@ -1,10 +1,15 @@
-import java.time.LocalDateTime;
+package com.example.model.vo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+@Data
 public class TimeSlotVo {
     private LocalDateTime start;
     private LocalDateTime end;
 
-    public TimeSlot(LocalDateTime start, LocalDateTime end) {
+    public TimeSlotVo(LocalDateTime start, LocalDateTime end) {
         this.start = start;
         this.end = end;
     }

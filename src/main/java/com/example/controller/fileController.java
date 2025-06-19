@@ -1,19 +1,25 @@
 package com.example.controller;
 
+import com.example.model.CommonUtils.SystemUtil;
+import com.example.model.entity.NasProperties;
+import com.example.model.entity.Result;
+import com.example.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import com.example.model.domain.User;
 import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -28,13 +34,17 @@ public class fileController {
     private String uploadPath;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private NasProperties nasProperties;
+    private Logger logger = LoggerFactory.getLogger(fileController.class);
     /**
      * 本地头像下载  回显111
      */
     @GetMapping("/download")
-    public void download(Long id, HttpServletResponse response) throws IOException {
-        User emp = userService.getById(id);
+    public void download(String id, HttpServletResponse response) throws IOException {
+        User emp = userService.getByOpenId(id);
 
         if (emp.getPhotoFileName() != null) {
             // 根据头像存储地址创建文件输入流，读取头像
@@ -64,7 +74,7 @@ public class fileController {
      */
     @PostMapping("/upload")
     public ResponseEntity upload(@RequestParam("file") MultipartFile file,
-                                 @RequestParam("id") Long id) throws IOException {
+                                 @RequestParam("id") String id) throws IOException {
 
         Map<String, Object> result = new HashMap<>();
         //获取 原始文件名
@@ -108,5 +118,106 @@ public class fileController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 上传文件
+     */
+    @PostMapping("/uploadFile")
+    @ResponseBody
+    public Result uploadFile(@RequestParam("file") MultipartFile file)  {
+        return fileService.uploadFile(file);
+    }
+
+    /**
+     * 展示图片、pdf
+     * @param para
+     * @param response
+     */
+    @GetMapping(value = "/showFile/{para}")
+    @ResponseBody
+    public void showFile(@PathVariable String para, HttpServletResponse response){
+        String parameter;
+        try {
+            parameter = new String(SystemUtil.hex2byte(para),"UTF-8");
+            System.out.println("parameter"+parameter);
+            if(new File(parameter).exists()) {
+                String sb =parameter.substring(parameter.indexOf("."),parameter.length());
+                if (showMaps.get(sb) != null) {
+                    response.setContentType(showMaps.get(sb));//设置预览文件类型
+                    response.setHeader("Access-Control-Allow-Origin", "*");//设置跨域可访问
+                    FileInputStream fis = new FileInputStream(parameter);
+                    byte data[]=new byte[fis.available()];
+                    fis.read(data);  //读数据
+                    fis.close();
+                    OutputStream os = response.getOutputStream();
+                    os.write(data);
+                    os.flush();
+                    os.close();
+                }else {
+                    response.setContentType("text/html;charset=utf-8");
+                    PrintWriter writer = response.getWriter();
+                    writer.print("此类型不支持!");
+                }
+            }else{
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter writer = response.getWriter();
+                writer.print("抱歉!该文件不存在");
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 下载文件
+     * @param para
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/downloadFile/{para}",method = RequestMethod.GET)
+    public void downloadFile(@PathVariable String para, HttpServletResponse response){
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        //获取文件
+        try {
+            byte[] bytes = SystemUtil.hex2byte(para);
+            String parameter = new String(bytes, "UTF-8");
+            logger.info("resource-下载文件:"+parameter);
+            String name = parameter.substring(parameter.indexOf("\\"));
+            if(new File(parameter).exists()) {
+                response.setHeader("contend-type", "application/octet-stream");
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8"));
+                fis = new FileInputStream(parameter);
+                bis = new BufferedInputStream(fis);
+                OutputStream os = response.getOutputStream();
+                int len = 0;
+                byte [] b = new byte[1024];
+                while ((len=bis.read(b)) !=-1) {
+                    os.write(b, 0,len);
+                }
+                fis.close();
+                bis.close();
+            }else{
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter writer = response.getWriter();
+                writer.print("抱歉!该文件不存在");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static Map<String, String> showMaps = new HashMap<String, String>(){{
+        put(".png", "image/png");
+        put(".gif", "image/gif");
+        put(".jpeg", "image/jpeg");
+        put(".bmp", "image/bmp");
+        put(".jpg", "image/jpeg");
+        put(".pdf","application/pdf");
+    }};
 
 }

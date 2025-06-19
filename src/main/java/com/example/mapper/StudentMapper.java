@@ -14,11 +14,12 @@ public interface StudentMapper {
     int saveStudent(Student student);
     Student getStudentById(Long studentId);
 
-    List<Student> getAllStudents(Long studentId);
+    List<Student> getAllStudents();
 
     Student getStudentsByConditions(Student student);
 
-    int updateStudent();
-
     int deleteStudentById(Long studentId);
+    int updateStudent(Student student);
+
+    int deleteStudent(Student student);
 }

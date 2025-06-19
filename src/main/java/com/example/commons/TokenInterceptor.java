@@ -15,7 +15,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+        System.out.println("===========正在身份验证========");
         //1、获取请求头
         String token = request.getHeader("Authorization");
 
@@ -30,12 +30,12 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         //解析token，获取id和手机号码，
         Claims claims = JwtUtils.getClaims(token);
         String openid = (String) claims.get("openid");
-        Integer id = (Integer) claims.get("id");
+        String id = (String) claims.get("id");
 
         //构造User对象，存入Threadlocal
         User user = new User();
-        user.setId(Long.valueOf(id));
-        user.setMobile(openid);
+        user.setId(id);
+        user.setOpenid(openid);
 
         UserHolder.set(user);
 
