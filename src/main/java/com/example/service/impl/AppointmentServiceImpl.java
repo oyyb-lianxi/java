@@ -31,7 +31,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private NotificationMapper notificationMapper;
 
 //预约
-    public void makeAppointment(Long studentId, Long teacherId, String subject, String appointmentDate, String appointmentTime) {
+    public void makeAppointment(String studentId, String teacherId, String subject, String appointmentDate, String appointmentTime) {
         // 验证学生和老师是否存在
         Student student = studentMapper.getStudentById(studentId);
         Teacher teacher = teacherMapper.getTeacherById(teacherId);
@@ -69,7 +69,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationMapper.saveNotification(notification);
     }
 //确认预约
-      public void confirmAppointment(Long appointmentId) {
+      public void confirmAppointment(String appointmentId) {
         Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
         if (appointment == null) {
             throw new RuntimeException("Appointment not found");
@@ -94,7 +94,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationMapper.saveNotification(notification);
     }
   //取消预约
-  public void cancelAppointment(Long appointmentId) {
+  public void cancelAppointment(String appointmentId) {
         Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
         if (appointment == null) {
             throw new RuntimeException("Appointment not found");
@@ -119,13 +119,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationMapper.saveNotification(notification);
     }
   //查询学生的所有预约
-    public List<Appointment> getStudentsAppointments(Long studentId) {
+    public List<Appointment> getStudentsAppointments(String studentId) {
         Map<String, Object> params = new HashMap<>();
         params.put("studentId", studentId);
         return appointmentMapper.getAppointmentsByConditions(params);
     }
   //查询老师的所有预约
-      public List<Appointment> getTeachersAppointments(Long teacherId) {
+      public List<Appointment> getTeachersAppointments(String teacherId) {
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", teacherId);
         return appointmentMapper.getAppointmentsByConditions(params);
