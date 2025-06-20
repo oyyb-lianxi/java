@@ -12,7 +12,7 @@ public interface AppointmentMapper {
   
     void saveAppointment(Appointment appointment);
 
-    Appointment getAppointmentById(Long id);
+    Appointment getAppointmentById(String id);
 
     List<Appointment> getAllAppointments();
 
@@ -20,7 +20,7 @@ public interface AppointmentMapper {
 
     void updateAppointment(Appointment appointment);
 
-    void deleteAppointmentById(Long id);
+    void deleteAppointmentById(String id);
 
     void saveNotification(Notification notification);
 }
