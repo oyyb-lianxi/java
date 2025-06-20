@@ -16,6 +16,6 @@ public interface TeacherInfoService {
 
     public List<Teacher> selectAll();
 
-    public Teacher queryByUserId(Long userId);
+    public Teacher queryByUserId(String userId);
 
 }
