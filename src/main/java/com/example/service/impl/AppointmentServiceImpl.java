@@ -130,7 +130,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         params.put("teacherId", teacherId);
         return appointmentMapper.getAppointmentsByConditions(params);
     }
-
+    @Override
+    public List<Appointment> getAppointmentsByUserId(String userId) {
+        return appointmentMapper.getAppointmentById(userId);
+    }
     @Override
     public List<Appointment> getAllAppointments() {
         return null;
