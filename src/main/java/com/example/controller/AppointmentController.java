@@ -21,16 +21,21 @@ public class AppointmentController {
         return appointmentService.getAllAppointments();
     }
 
-//    @PostMapping
-//    public ResponseEntity<?> createAppointment(@RequestBody Appointment appointment) {
-//        LocalDateTime appointmentDate = appointment.getAppointmentDate();
-//        if (appointmentService.isTimeSlotAvailable(appointmentDate)) {
-//            appointmentService.createAppointment(appointment);
-//            return ResponseEntity.ok("Appointment created successfully");
-//        } else {
-//            return ResponseEntity.badRequest().body("Selected time slot is not available");
-//        }
-//    }
+   @PostMapping("/createAppointment")
+   public ResponseEntity<?> createAppointment(@RequestBody Appointment appointment) {
+       LocalDateTime appointmentDate = appointment.getAppointmentDate();
+       if (appointmentService.isTimeSlotAvailable(appointmentDate)) {
+           appointmentService.createAppointment(appointment);
+           return ResponseEntity.ok("Appointment created successfully");
+       } else {
+           return ResponseEntity.badRequest().body("Selected time slot is not available");
+       }
+   }
+
+    @GetMapping("/getAppointmentsByUserId"/{userId})
+    public List<Appointment> getAppointmentsByUserId(@PathVariable String userId) {
+        return appointmentService.getAppointmentsByUserId(userId);
+    }
 }
 
 
