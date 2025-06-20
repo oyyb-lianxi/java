@@ -75,19 +75,6 @@ public class loginController {
      */
     @PostMapping("/saveTeacherInfo")
     public ResponseEntity saveTeacherInfo(@RequestBody Teacher teacherDto){
-        //1、判断token是否合法,
-        //                                          @RequestHeader("Authorization") String token
-//        boolean verifyToken = JwtUtils.verifyToken(token);
-//        if(!verifyToken) {
-//            return ResponseEntity.status(401).body(null);
-//        }
-        //2、向userinfo中设置用户id
-//        Claims claims = JwtUtils.getClaims(token);
-//        Integer id = (Integer) claims.get("id");
-//        long uid = System.currentTimeMillis();
-
-//        Long aLong = Long.valueOf(uuid.toString());
-
         String teacherId = UUID.randomUUID().toString();
         teacherDto.setId(teacherId);
         //3、调用service
