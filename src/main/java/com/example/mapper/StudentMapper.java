@@ -12,13 +12,13 @@ import java.util.List;
 public interface StudentMapper {
 
     int saveStudent(Student student);
-    Student getStudentById(Long studentId);
+    Student getStudentById(String userId);
 
     List<Student> getAllStudents();
 
     Student getStudentsByConditions(Student student);
 
-    int deleteStudentById(Long studentId);
+    int deleteStudentById(String userId);
     int updateStudent(Student student);
 
     int deleteStudent(Student student);
