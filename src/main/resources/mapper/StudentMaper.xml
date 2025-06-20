@@ -7,12 +7,13 @@
         insert into student
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
+            <if test="userId != null">userId,</if>
             <if test="name != null">name,</if>
             <if test="vxName != null">vxName,</if>
+            <if test="gender != null">gender,</if>
             <if test="primarySchool != null">primarySchool,</if>
             <if test="middleSchool != null">middleSchool,</if>
             <if test="highSchool != null">highSchool,</if>
-            <if test="chinaIdNumber != null">chinaIdNumber,</if>
             <if test="address != null">address,</if>
             <if test="mobile != null">mobile,</if>
             <if test="academicQualification != null">academicQualification</if>
@@ -20,12 +21,13 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="name != null">#{name},</if>
             <if test="vxName != null">#{vxName},</if>
+            <if test="gender != null">#{gender},</if>
             <if test="primarySchool != null">#{primarySchool},</if>
             <if test="middleSchool != null">#{middleSchool},</if>
             <if test="highSchool != null">#{highSchool},</if>
-            <if test="chinaIdNumber != null">#{chinaIdNumber},</if>
             <if test="address != null">#{address},</if>
             <if test="mobile != null">#{mobile},</if>
             <if test="academicQualification != null">#{academicQualification}</if>
@@ -47,12 +49,13 @@
         SELECT * FROM student
         <where>
             <if test="id != null">id = #{id}</if>
+            <if test="userId != null">userId = #{userId}</if>
             <if test="name != null">AND name = #{name}</if>
             <if test="vxName != null">AND vxName = #{vxName}</if>
+            <if test="gender != null">AND gender = #{gender}</if>
             <if test="primarySchool != null">AND primarySchool = #{primarySchool}</if>
             <if test="middleSchool != null">AND middleSchool = #{middleSchool}</if>
             <if test="highSchool != null">AND highSchool = #{highSchool}</if>
-            <if test="chinaIdNumber != null">AND chinaIdNumber = #{chinaIdNumber}</if>
             <if test="address != null">AND address = #{address}</if>
             <if test="mobile != null">AND mobile = #{mobile}</if>
             <if test="academicQualification != null">AND academicQualification = #{academicQualification}</if>
@@ -65,15 +68,15 @@
         <set>
             <if test="name != null">name = #{name},</if>
             <if test="vxName != null">vxName = #{vxName},</if>
+            <if test="gender != null">gender = #{gender},</if>
             <if test="primarySchool != null">primarySchool = #{primarySchool},</if>
             <if test="middleSchool != null">middleSchool = #{middleSchool},</if>
             <if test="highSchool != null">highSchool = #{highSchool},</if>
-            <if test="chinaIdNumber != null">chinaIdNumber = #{chinaIdNumber},</if>
             <if test="address != null">address = #{address},</if>
             <if test="mobile != null">mobile = #{mobile},</if>
             <if test="academicQualification != null">academicQualification = #{academicQualification}</if>
         </set>
-        WHERE id = #{id}
+        WHERE userId = #{userId}
     </update>
 
     <!-- 删除学生信息 -->
