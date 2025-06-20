@@ -15,17 +15,17 @@ public interface TeacherMapper {
     @Select("SELECT * FROM teacher")
     List<Teacher> selectAll();
 
-    Teacher getTeacherById(Long id);
+    Teacher getTeacherById(String userId);
     List<Teacher> getAllTeachers();
 
     Teacher getTeachersByConditions(Teacher teacher);
 
-    Teacher queryByUserId(Long userId);
+    Teacher queryByUserId(String userId);
 
     int saveTeacher(Teacher teacher);
 
     int updateTeacher(Teacher teacher);
-    int deleteTeacherById(Long id);
+    int deleteTeacherById(String userId);
 
     int deleteTeacher(Teacher teacher);
     @InheritInverseConfiguration(name = "TeacherDto")
