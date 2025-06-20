@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -29,11 +30,12 @@ public class studentController {
      */
     @PostMapping("/saveStudent")
     public ResponseEntity saveStudent(@RequestBody Student student){
-                String studentId = UUID.randomUUID().toString();
-        student.setId(studentId);
         //3、调用service
         System.out.println("saveUserInfo ==>"+student);
         Boolean aBoolean = studentService.saveStudent(student);
+        if(aBoolean){
+            return  ResponseEntity.ok(student);
+        }
         return ResponseEntity.ok(aBoolean);
     }
 
@@ -59,7 +61,7 @@ public class studentController {
      * 根据学生id查询学生信息
      */
     @GetMapping("/getStudentById/{studentId}")
-    public ResponseEntity getStudentById(@PathVariable Long studentId){
+    public ResponseEntity getStudentById(@PathVariable String studentId){
         Student student = studentService.getStudentById(studentId);
         return ResponseEntity.ok(student);
     }

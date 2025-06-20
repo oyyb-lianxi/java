@@ -10,12 +10,14 @@ import java.util.List;
 
 public interface AppointmentService {
 
-    public void makeAppointment(String studentId, String teacherId, String subject, String appointmentDate, String appointmentTime);
+    public void makeAppointment(String studentId, String teacherId, String subject, String appointmentDate, String appointmentStartTime,String appointmentEndTime);
     public void confirmAppointment(String appointmentId);
     public void cancelAppointment(String appointmentId);
-    public List<Appointment> getStudentsAppointments(String studentId);
-    public List<Appointment> getTeachersAppointments(String teacherId);
-    public List<Appointment> getTeachersAppointments(String userId);
-    public List<Appointment> getAllAppointments();
+    public List<Appointment> getAppointmentsByUserId(String userId);
 
+    public Appointment getAppointmentsById(String appointmentId);
+    public List<Appointment> getAllAppointments();
+    public List<Appointment> getTeachersAppointments(String teacherId);
+    public Appointment createAppointment(Appointment appointment);
+    public boolean isTimeSlotAvailable(String teacherId,String studentId,String appointmentDate,String startTime,String endTime);
 }

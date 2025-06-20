@@ -9,10 +9,12 @@ import java.util.Map;
 
 @Mapper
 public interface AppointmentMapper {
-  
-    void saveAppointment(Appointment appointment);
+
+    Appointment saveAppointment(Appointment appointment);
 
     Appointment getAppointmentById(String id);
+
+    List<Appointment> getAppointmentByUserId(String id);
 
     List<Appointment> getAllAppointments();
 
@@ -23,4 +25,6 @@ public interface AppointmentMapper {
     void deleteAppointmentById(String id);
 
     void saveNotification(Notification notification);
+
+    boolean existsByAppointmentDate(String appointmentDate, String appointmentStartTime, String appointmentEndTime);
 }

@@ -38,7 +38,7 @@ public class teacherController {
      * 根据用户id查询老师信息
      */
     @GetMapping("/queryByUserId/{userId}")
-    public ResponseEntity queryByUserId(@PathVariable Long userId){
+    public ResponseEntity queryByUserId(@PathVariable String userId){
         Teacher teachers = teacherInfoService.queryByUserId(userId);
         return ResponseEntity.ok(teachers);
     }
@@ -48,11 +48,12 @@ public class teacherController {
      */
     @PostMapping("/saveTeacher")
     public ResponseEntity saveTeacher(@RequestBody TeacherDto teacherDto){
-        String teacherId = UUID.randomUUID().toString();
-        teacherDto.setId(teacherId);
         //3、调用service
         System.out.println("saveUserInfo ==>"+teacherDto);
         Boolean aBoolean = teacherInfoService.saveTeacher(teacherDto);
+        if(aBoolean){
+            return ResponseEntity.ok(teacherDto);
+        }
         return ResponseEntity.ok(aBoolean);
     }
 

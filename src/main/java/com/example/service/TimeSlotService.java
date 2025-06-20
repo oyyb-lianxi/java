@@ -15,7 +15,16 @@ import java.util.stream.Collectors;
 
 public class TimeSlotService {
     @Autowired AppointmentService appointmentService;
-    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(Long teacherId, LocalDateTime startDate, LocalDateTime endDate, int slotDuration) {
+
+    /**
+     * 寻找某个时间段有空的老师
+     * @param teacherId
+     * @param startDate
+     * @param endDate
+     * @param slotDuration
+     * @return
+     */
+    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(String teacherId, String startDate, String endDate, int slotDuration) {
 
         List<Appointment> appointments = appointmentService.getTeachersAppointments(teacherId);
 
@@ -23,12 +32,13 @@ public class TimeSlotService {
         appointments.sort((a1, a2) -> a1.getAppointmentDate().compareTo(a2.getAppointmentDate()));
 
         List<TimeSlotVo> freeTimeSlots = new ArrayList<>();
-
-        LocalDateTime current = startDate;
-        while (current.isBefore(endDate)) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime appointmentStartTime = LocalDateTime.parse(startDate, formatter);
+        LocalDateTime appointmentEndTime = LocalDateTime.parse(endDate, formatter);
+        LocalDateTime current = appointmentStartTime;
+        while (current.isBefore(appointmentEndTime)) {
             boolean isFree = true;
             for (Appointment appointment : appointments) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 LocalDateTime appointmentStart = LocalDateTime.parse(appointment.getAppointmentDate(), formatter);
                 LocalDateTime appointmentEnd = appointmentStart.plusMinutes(appointment.getDuration());
 

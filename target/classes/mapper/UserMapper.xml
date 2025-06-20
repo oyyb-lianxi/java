@@ -28,7 +28,7 @@
 
     <!-- 根据ID查询用户信息 -->
     <select id="getUserById" parameterType="String" resultType="com.example.model.domain.User">
-        SELECT * FROM user WHERE id = #{id}
+        SELECT * FROM user WHERE openid = #{openid}
     </select>
     
     <!-- 根据多个条件查询用户信息 -->
@@ -46,22 +46,21 @@
     </select>
     
     <!-- 更新用户信息 -->
-    <update id="updateUser" parameterType="com.example.model.domain.User">
+    <update id="updateById" parameterType="com.example.model.domain.User">
         UPDATE user
         <set>
-            <if test="openid != null">openid = #{openid},</if>
             <if test="mobile != null">mobile = #{mobile},</if>
             <if test="password != null">password = #{password},</if>
             <if test="hxUser != null">hxUser = #{hxUser},</if>
             <if test="type != null">type = #{type},</if>
             <if test="photoFileName != null">photoFileName = #{photoFileName}</if>
         </set>
-        WHERE id = #{id}
+        WHERE openid = #{openid}
     </update>
 
     <!-- 删除用户信息 -->
-    <delete id="deleteUserById" parameterType="long">
-        DELETE FROM user WHERE id = #{id}
+    <delete id="deleteUserById" parameterType="com.example.model.domain.User">
+        DELETE FROM user WHERE openid = #{openid}
     </delete>
 
 </mapper>

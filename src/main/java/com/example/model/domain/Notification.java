@@ -12,5 +12,4 @@ public class Notification extends BasePojo{
     private String teacherId;
     private String studentId;
     private String message;
-    private String created;
 }

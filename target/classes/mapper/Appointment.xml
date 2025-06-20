@@ -11,8 +11,11 @@
         <if test="teacherId != null">teacherId,</if>
         <if test="subject != null">subject,</if>
         <if test="appointmentDate != null">appointmentDate,</if>
-        <if test="appointmentTime != null">appointmentTime,</if>
+        <if test="appointmentStartTime != null">appointmentStartTime,</if>
+        <if test="appointmentEndTime != null">appointmentEndTime,</if>
         <if test="status != null">status</if>
+        <if test="location != null">location</if>
+        <if test="comments != null">comments</if>
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -21,8 +24,11 @@
         <if test="teacherId != null">#{teacherId},</if>
         <if test="subject != null">#{subject},</if>
         <if test="appointmentDate != null">#{appointmentDate},</if>
-        <if test="appointmentTime != null">#{appointmentTime},</if>
+        <if test="appointmentStartTime != null">#{appointmentStartTime},</if>
+        <if test="appointmentEndTime != null">#{appointmentEndTime},</if>
         <if test="status != null">#{status}</if>
+        <if test="location != null">#{location}</if>
+        <if test="comments != null">#{comments}</if>
     </trim>
 </insert>
 
@@ -44,8 +50,10 @@ SELECT * FROM appointment
     <if test="teacherId != null">AND teacherId = #{teacherId}</if>
     <if test="subject != null">AND subject = #{subject}</if>
     <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
-    <if test="appointmentTime != null">AND appointmentTime = #{appointmentTime}</if>
+    <if test="appointmentStartTime != null">AND appointmentStartTime = #{appointmentStartTime}</if>
+    <if test="appointmentEndTime != null">AND appointmentEndTime = #{appointmentEndTime}</if>
     <if test="status != null">AND status = #{status}</if>
+    <if test="location != null">AND location = #{location}</if>
 </where>
 </select>
         <!-- 更新预约信息 -->
@@ -56,8 +64,11 @@ UPDATE appointment
     <if test="teacherId != null">teacherId = #{teacherId},</if>
     <if test="subject != null">subject = #{subject},</if>
     <if test="appointmentDate != null">appointmentDate = #{appointmentDate},</if>
-    <if test="appointmentTime != null">appointmentTime = #{appointmentTime},</if>
+    <if test="appointmentStartTime != null">appointmentStartTime = #{appointmentStartTime},</if>
+    <if test="appointmentEndTime != null">appointmentEndTime = #{appointmentEndTime},</if>
     <if test="status != null">status = #{status}</if>
+    <if test="location != null">location = #{location}</if>
+    <if test="comments != null">comments = #{comments}</if>
 </set>
 WHERE id = #{id}
 </update>

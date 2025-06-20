@@ -30,11 +30,9 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         //解析token，获取id和手机号码，
         Claims claims = JwtUtils.getClaims(token);
         String openid = (String) claims.get("openid");
-        String id = (String) claims.get("id");
 
         //构造User对象，存入Threadlocal
         User user = new User();
-        user.setId(id);
         user.setOpenid(openid);
 
         UserHolder.set(user);

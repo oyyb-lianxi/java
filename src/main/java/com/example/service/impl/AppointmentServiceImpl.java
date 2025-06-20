@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     private NotificationMapper notificationMapper;
 
 //预约
-    public void makeAppointment(String studentId, String teacherId, String subject, String appointmentDate, String appointmentTime) {
+    public void makeAppointment(String studentId, String teacherId,
+                                String subject, String appointmentDate,
+                                String appointmentStartTime,String appointmentEndTime) {
         // 验证学生和老师是否存在
         Student student = studentMapper.getStudentById(studentId);
         Teacher teacher = teacherMapper.getTeacherById(teacherId);
@@ -56,16 +59,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setTeacherId(teacherId);
         appointment.setSubject(subject);
         appointment.setAppointmentDate(appointmentDate);
-        appointment.setAppointmentTime(appointmentTime);
+        appointment.setAppointmentStartTime(appointmentStartTime);
+        appointment.setAppointmentEndTime(appointmentEndTime);
         appointment.setStatus("PENDING");
 
         appointmentMapper.saveAppointment(appointment);
 
         // 生成通知
         Notification notification = new Notification();
-        notification.setUserId(teacherId);
+        notification.setTeacherId(teacherId);
+        notification.setStudentId(studentId);
         notification.setMessage("New appointment request from student: " + student.getName());
-        notification.setCreated(new Date().toString());
+        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
     }
 //确认预约
@@ -88,9 +93,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         Teacher teacher = teacherMapper.getTeacherById(appointment.getTeacherId());
 
         Notification notification = new Notification();
-        notification.setUserId(appointment.getStudentId());
+        notification.setStudentId(appointment.getStudentId());
+        notification.setTeacherId(appointment.getTeacherId());
         notification.setMessage("Your appointment with teacher " + teacher.getName() + " has been confirmed");
-        notification.setCreated(new Date().toString());
+        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
     }
   //取消预约
@@ -113,9 +119,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         Teacher teacher = teacherMapper.getTeacherById(appointment.getTeacherId());
 
         Notification notification = new Notification();
-        notification.setUserId(appointment.getTeacherId());
+        notification.setTeacherId(appointment.getTeacherId());
+        notification.setStudentId(appointment.getStudentId());
         notification.setMessage("Appointment with student " + student.getName() + " has been cancelled");
-        notification.setCreated(new Date().toString());
+        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
     }
   //查询学生的所有预约
@@ -131,29 +138,29 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentMapper.getAppointmentsByConditions(params);
     }
     @Override
-    public List<Appointment> getAppointmentsByUserId(String userId) {
-        return appointmentMapper.getAppointmentById(userId);
-    }
-    @Override
-    public List<Appointment> getAllAppointments() {
-        return null;
+    public Appointment getAppointmentsById(String appointmentId) {
+        return appointmentMapper.getAppointmentById(appointmentId);
     }
 
-//    @Transactional
-//    public List<Appointment> getAllAppointments() {
-//        return appointmentMapper.getAllAppointments();
-//    }
-//
-//    @Transactional
-//    public Appointment createAppointment(Appointment appointment) {
-//        if (isTimeSlotAvailable(appointment.getAppointmentDate())) {
-//            return appointmentMapper.save(appointment);
-//        } else {
-//            throw new RuntimeException("Selected time slot is not available");
-//        }
-//    }
-//
-//    public boolean isTimeSlotAvailable(LocalDateTime appointmentDate) {
-//        return !appointmentMapper.existsByAppointmentDate(appointmentDate);
-//    }
+    @Override
+    public List<Appointment> getAppointmentsByUserId(String appointmentId) {
+        return appointmentMapper.getAppointmentByUserId(appointmentId);
+    }
+
+    @Transactional
+    @Override
+    public List<Appointment> getAllAppointments() {
+        return appointmentMapper.getAllAppointments();
+    }
+
+    @Transactional
+    @Override
+    public Appointment createAppointment(Appointment appointment) {
+            return appointmentMapper.saveAppointment(appointment);
+    }
+
+    public boolean isTimeSlotAvailable(String teacherId,String studentId,String appointmentDate,
+                                       String appointmentStartTime,String appointmentEndTime) {
+        return !appointmentMapper.existsByAppointmentDate(appointmentDate,appointmentStartTime,appointmentEndTime);
+    }
 }

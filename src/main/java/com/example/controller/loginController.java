@@ -3,12 +3,9 @@ package com.example.controller;
 import com.example.model.CommonUtils.JwtUtils;
 import com.example.model.domain.User;
 import com.example.model.dto.TeacherDto;
-import com.example.service.TeacherInfoService;
-import com.example.service.UserService;
-import com.example.service.WechatToolsService;
+import com.example.service.*;
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
-import com.example.service.HttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +31,8 @@ public class loginController {
     TeacherInfoService teacherInfoService;
     @Autowired
     UserService userService;
+    @Autowired
+    StudentService studentService;
     /**
      * 校验登录
      */
@@ -75,17 +74,23 @@ public class loginController {
      */
     @PostMapping("/saveTeacherInfo")
     public ResponseEntity saveTeacherInfo(@RequestBody Teacher teacherDto){
-        String teacherId = UUID.randomUUID().toString();
-        teacherDto.setId(teacherId);
         //3、调用service
         System.out.println("saveUserInfo ==>"+teacherDto);
-        teacherInfoService.saveTeacher(teacherDto);
-        return ResponseEntity.ok(teacherDto);
+        Boolean aBoolean = teacherInfoService.saveTeacher(teacherDto);
+        if(aBoolean){
+            return  ResponseEntity.ok(teacherDto);
+        }
+        return ResponseEntity.ok(aBoolean);
     }
     @PostMapping("/saveStudentInfo")
-    public String saveStudentInfo(@RequestBody Student student){
-        System.out.println("saveStudentInfo ==>"+student);
-        return "hello ,student";
+    public ResponseEntity saveStudentInfo(@RequestBody Student student){
+        //3、调用service
+        System.out.println("saveUserInfo ==>"+student);
+        Boolean aBoolean = studentService.saveStudent(student);
+        if(aBoolean){
+            return  ResponseEntity.ok(student);
+        }
+        return ResponseEntity.ok(aBoolean);
     }
 
 //    @PostMapping("/getWxInfoTest")

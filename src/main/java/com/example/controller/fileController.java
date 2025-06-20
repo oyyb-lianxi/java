@@ -97,7 +97,7 @@ public class fileController {
         User emp = new User();
         //将文件名保存到数据库表的头像字段
         emp.setPhotoFileName(fileName);
-        emp.setId(id);
+        emp.setOpenid(id);
         boolean uploadPhoto = userService.updateById(emp);
 
         //图片路径保存到数据库表成功之后执行  将图片放入对应路径

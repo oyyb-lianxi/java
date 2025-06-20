@@ -11,12 +11,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor  // 无参构造方法
 public class Appointment {
     private Long id;
-    private Long studentId;
-    private Long teacherId;
+    private String studentId;
+    private String teacherId;
     private String subject;
     private String appointmentDate;
 
-    private String appointmentTime;
+    private String appointmentStartTime;
+
+    private String appointmentEndTime;
     private String status; // 例如：PENDING, CONFIRMED, CANCELLED
     private String location;
     private String comments;

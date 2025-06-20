@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor  //满参构造方法
 @NoArgsConstructor  //无参构造方法
 public class Teacher extends BasePojo{
-    private String id;
+    private Long id;
     private String userId;
     private String name;
     private String vxName;
@@ -16,6 +16,7 @@ public class Teacher extends BasePojo{
     private String primarySchool;
     private String middleSchool;
     private String highSchool;
+    private String university;
     private String chinaIdNumber;
     private String chinaIdNumberPictureFileName;
     private String address;
@@ -25,6 +26,7 @@ public class Teacher extends BasePojo{
     private String personalProfile;  //个人简介;
     private String academicQualification; //学历
     private String academicQualificationPictureFileName; //学历照片
+    private Integer price; //价格
 
 
 }

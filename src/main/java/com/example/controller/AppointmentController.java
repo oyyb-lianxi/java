@@ -23,8 +23,13 @@ public class AppointmentController {
 
    @PostMapping("/createAppointment")
    public ResponseEntity<?> createAppointment(@RequestBody Appointment appointment) {
-       LocalDateTime appointmentDate = appointment.getAppointmentDate();
-       if (appointmentService.isTimeSlotAvailable(appointmentDate)) {
+       String appointmentDate = appointment.getAppointmentDate();
+       String appointmentStartTime = appointment.getAppointmentStartTime();
+       String appointmentEndTime = appointment.getAppointmentEndTime();
+       String studentId = appointment.getStudentId();
+       String teacherId = appointment.getTeacherId();
+       if (appointmentService.isTimeSlotAvailable(teacherId,studentId,
+               appointmentDate,appointmentStartTime,appointmentEndTime)) {
            appointmentService.createAppointment(appointment);
            return ResponseEntity.ok("Appointment created successfully");
        } else {
@@ -32,7 +37,7 @@ public class AppointmentController {
        }
    }
 
-    @GetMapping("/getAppointmentsByUserId"/{userId})
+    @GetMapping("/getAppointmentsByUserId/{userId}")
     public List<Appointment> getAppointmentsByUserId(@PathVariable String userId) {
         return appointmentService.getAppointmentsByUserId(userId);
     }

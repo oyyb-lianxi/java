@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor  //满参构造方法
 @NoArgsConstructor  //无参构造方法
 public class User extends BasePojo {
-    private String id;
+    private Long id;
     private String openid;
     private String mobile;
     private String password;

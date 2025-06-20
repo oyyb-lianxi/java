@@ -10,6 +10,7 @@
         <result property="primarySchool" column="primarySchool"/>
         <result property="middleSchool" column="middleSchool"/>
         <result property="highSchool" column="highSchool"/>
+        <result property="university" column="university"/>
         <result property="chinaIdNumberPictureFileName" column="chinaIdNumberPictureFileName"/>
         <result property="address" column="address"/>
         <result property="mobile" column="mobile"/>
@@ -17,6 +18,7 @@
         <result property="teachingType" column="teachingType"/>
         <result property="personalProfile" column="personalProfile"/>
         <result property="academicQualificationPictureFileName" column="academicQualificationPictureFileName"/>
+        <result property="price" column="price"/>
     </resultMap>
 
     <insert id="saveTeacher" parameterType="com.example.model.domain.Teacher">
@@ -30,6 +32,7 @@
             <if test="primarySchool != null">primarySchool,</if>
             <if test="middleSchool != null">middleSchool,</if>
             <if test="highSchool != null">highSchool,</if>
+            <if test="university != null">university,</if>
             <if test="chinaIdNumber != null">chinaIdNumber,</if>
             <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName,</if>
             <if test="address != null">address,</if>
@@ -39,6 +42,7 @@
             <if test="personalProfile != null">personalProfile,</if>
             <if test="academicQualification != null">academicQualification,</if>
             <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName,</if>
+            <if test="price != null">price,</if>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -49,6 +53,7 @@
             <if test="primarySchool != null">#{primarySchool},</if>
             <if test="middleSchool != null">#{middleSchool},</if>
             <if test="highSchool != null">#{highSchool},</if>
+            <if test="university != null">#{university},</if>
             <if test="chinaIdNumber != null">#{chinaIdNumber},</if>
             <if test="chinaIdNumberPictureFileName != null">#{chinaIdNumberPictureFileName},</if>
             <if test="address != null">#{address},</if>
@@ -58,6 +63,7 @@
             <if test="personalProfile != null">#{personalProfile},</if>
             <if test="academicQualification != null">#{academicQualification},</if>
             <if test="academicQualificationPictureFileName != null">#{academicQualificationPictureFileName},</if>
+            <if test="price != null">#{price},</if>
         </trim>
     </insert>
 
@@ -81,6 +87,7 @@
             <if test="primarySchool != null">AND primarySchool = #{primarySchool}</if>
             <if test="middleSchool != null">AND middleSchool = #{middleSchool}</if>
             <if test="highSchool != null">AND highSchool = #{highSchool}</if>
+            <if test="university != null">AND university = #{university}</if>
             <if test="chinaIdNumber != null">AND chinaIdNumber = #{chinaIdNumber}</if>
             <if test="chinaIdNumberPictureFileName != null">AND chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName}</if>
             <if test="address != null">AND address = #{address}</if>
@@ -90,6 +97,7 @@
             <if test="personalProfile != null">AND personalProfile = #{personalProfile}</if>
             <if test="academicQualification != null">AND academicQualification = #{academicQualification}</if>
             <if test="academicQualificationPictureFileName != null">AND academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
+            <if test="price != null">AND price = #{price}</if>
         </where>
     </select>
 
@@ -104,6 +112,7 @@
             <if test="primarySchool != null">primarySchool = #{primarySchool},</if>
             <if test="middleSchool != null">middleSchool = #{middleSchool},</if>
             <if test="highSchool != null">highSchool = #{highSchool},</if>
+            <if test="university != null">university = #{university},</if>
             <if test="chinaIdNumber != null">chinaIdNumber = #{chinaIdNumber},</if>
             <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName},</if>
             <if test="address != null">address = #{address},</if>
@@ -113,6 +122,7 @@
             <if test="personalProfile != null">personalProfile = #{personalProfile},</if>
             <if test="academicQualification != null">academicQualification = #{academicQualification},</if>
             <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
+            <if test="price != null">price = #{price}</if>
         </set>
         WHERE id = #{id}
     </update>

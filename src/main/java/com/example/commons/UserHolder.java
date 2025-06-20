@@ -31,7 +31,7 @@ public class UserHolder {
         if (tl.get() == null) {
             return null;
         }
-        return tl.get().getId();
+        return tl.get().getOpenid();
     }
 
     /**
