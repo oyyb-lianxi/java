@@ -15,11 +15,11 @@ public interface StudentService {
 
     public List<Student> selectAll();
 
-    public Student queryByUserId(Long userId);
+    public Student queryByUserId(String userId);
 
     public Boolean deleteStudent(Student userInfo);
 
-    public Student getStudentById(Long studentId);
+    public Student getStudentById(String studentId);
 
     public List<Student> getAllStudents();
 
