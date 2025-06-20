@@ -15,6 +15,7 @@ public interface AppointmentService {
     public void cancelAppointment(String appointmentId);
     public List<Appointment> getStudentsAppointments(String studentId);
     public List<Appointment> getTeachersAppointments(String teacherId);
+    public List<Appointment> getTeachersAppointments(String userId);
     public List<Appointment> getAllAppointments();
 
 }
