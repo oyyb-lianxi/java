@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor  // 满参构造方法
 @NoArgsConstructor  // 无参构造方法
 public class Subject {
-    private Long id;
+    private String id;
     private String name;
     private String description;
 }
