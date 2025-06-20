@@ -62,7 +62,7 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
     }
 
     @Override
-    public Teacher queryByUserId(Long userId) {
+    public Teacher queryByUserId(String userId) {
         Teacher teacherInfo = teacherMapper.queryByUserId(userId);
         log.info("teacherInfo");
         System.out.println("teacherInfo"+teacherInfo);
