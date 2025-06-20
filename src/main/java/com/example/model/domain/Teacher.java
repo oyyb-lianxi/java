@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor  //满参构造方法
 @NoArgsConstructor  //无参构造方法
-public class Teacher {
+public class Teacher extends BasePojo{
     private String id;
     private String userId;
     private String name;
