@@ -13,11 +13,11 @@ public interface NotificationMapper {
     int saveNotification(Notification notification);
 
     List<Notification>getAllNotifications();
-    Notification getNotificationById(Long id);
+    Notification getNotificationById(String id);
 
     Notification getNotificationsByConditions(Notification notification);
 
     int updateNotification(Notification notification);
 
-    int deleteNotificationById(Long id);
+    int deleteNotificationById(String id);
 }
