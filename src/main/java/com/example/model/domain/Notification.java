@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor  // 满参构造方法
 @NoArgsConstructor  // 无参构造方法
 public class Notification extends BasePojo{
-    private Long id;
-    private Long userId;
+    private String id;
+    private String teacherId;
+    private String studentId;
     private String message;
     private String created;
 }
