@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student queryByUserId(Long userId) {
+    public Student queryByUserId(String userId) {
         return null;
     }
 
@@ -59,7 +59,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(Long studentId) {
+    public Student getStudentById(String studentId) {
         return studentMapper.getStudentById(studentId);
     }
 
