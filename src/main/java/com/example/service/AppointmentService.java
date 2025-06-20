@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface AppointmentService {
 
-    public void makeAppointment(Long studentId, Long teacherId, String subject, String appointmentDate, String appointmentTime);
-    public void confirmAppointment(Long appointmentId);
-    public void cancelAppointment(Long appointmentId);
-    public List<Appointment> getStudentsAppointments(Long studentId);
-    public List<Appointment> getTeachersAppointments(Long teacherId);
+    public void makeAppointment(String studentId, String teacherId, String subject, String appointmentDate, String appointmentTime);
+    public void confirmAppointment(String appointmentId);
+    public void cancelAppointment(String appointmentId);
+    public List<Appointment> getStudentsAppointments(String studentId);
+    public List<Appointment> getTeachersAppointments(String teacherId);
     public List<Appointment> getAllAppointments();
 
 }
