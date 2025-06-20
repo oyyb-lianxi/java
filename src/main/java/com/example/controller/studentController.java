@@ -29,6 +29,10 @@ public class studentController {
      */
     @PostMapping("/saveStudent")
     public ResponseEntity saveStudent(@RequestBody Student student){
+                String studentId = UUID.randomUUID().toString();
+        student.setId(studentId);
+        //3、调用service
+        System.out.println("saveUserInfo ==>"+student);
         Boolean aBoolean = studentService.saveStudent(student);
         return ResponseEntity.ok(aBoolean);
     }
