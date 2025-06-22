@@ -4,6 +4,7 @@ import com.example.model.domain.Appointment;
 import com.example.model.domain.Notification;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -12,13 +13,11 @@ public interface AppointmentMapper {
 
     Appointment saveAppointment(Appointment appointment);
 
-    Appointment getAppointmentById(String id);
-
-    List<Appointment> getAppointmentByUserId(String id);
+    Appointment getAppointmentById(Long id);
 
     List<Appointment> getAllAppointments();
 
-    List<Appointment> getAppointmentsByConditions(Map<String, Object> params);
+    List<Appointment> getAppointmentsByConditions(Appointment appointment);
 
     void updateAppointment(Appointment appointment);
 
@@ -26,6 +25,6 @@ public interface AppointmentMapper {
 
     void saveNotification(Notification notification);
 
-    boolean existsByAppointmentDate(String teacherId,String studentId,String appointmentDate,
-                                    String appointmentStartTime,String appointmentEndTime);
+    boolean existsByAppointmentDate(String teacherId, String studentId, LocalDateTime appointmentDate,
+                                    LocalDateTime appointmentStartTime, LocalDateTime appointmentEndTime);
 }

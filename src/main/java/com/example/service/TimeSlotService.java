@@ -18,15 +18,16 @@ public class TimeSlotService {
 
     /**
      * 寻找某个时间段有空的老师
-     * @param teacherId
+     * @param teacherAppointment
      * @param startDate
      * @param endDate
      * @param slotDuration
      * @return
      */
-    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(String teacherId, String appointmentDate,String startDate, String endDate, int slotDuration) {
+    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(Appointment teacherAppointment, String appointmentDate,String startDate, String endDate, int slotDuration) {
+
         //查询该老师的所有预约
-        List<Appointment> appointments = appointmentService.getTeachersAppointments(teacherId);
+        List<Appointment> appointments = appointmentService.getAppointmentsByConditions(teacherAppointment);
 
         // 按时间排序预约记录
         appointments.sort((a1, a2) -> a1.getAppointmentDate().compareTo(a2.getAppointmentDate()));

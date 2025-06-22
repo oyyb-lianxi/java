@@ -33,8 +33,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 //预约
     public void makeAppointment(String studentId, String teacherId,
-                                String subject, String appointmentDate,
-                                String appointmentStartTime,String appointmentEndTime) {
+                                String subject, LocalDateTime appointmentDate,
+                                LocalDateTime appointmentStartTime,LocalDateTime appointmentEndTime) {
         // 验证学生和老师是否存在
         Student student = studentMapper.getStudentById(studentId);
         Teacher teacher = teacherMapper.getTeacherById(teacherId);
@@ -73,8 +73,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
     }
-//确认预约
-      public void confirmAppointment(String appointmentId) {
+
+    //确认预约
+      public void confirmAppointment(Long appointmentId) {
         Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
         if (appointment == null) {
             throw new RuntimeException("Appointment not found");
@@ -100,7 +101,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationMapper.saveNotification(notification);
     }
   //取消预约
-  public void cancelAppointment(String appointmentId) {
+  public void cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
         if (appointment == null) {
             throw new RuntimeException("Appointment not found");
@@ -126,25 +127,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationMapper.saveNotification(notification);
     }
   //查询学生的所有预约
-    public List<Appointment> getStudentsAppointments(String studentId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("studentId", studentId);
-        return appointmentMapper.getAppointmentsByConditions(params);
-    }
-  //查询老师的所有预约
-      public List<Appointment> getTeachersAppointments(String teacherId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("teacherId", teacherId);
-        return appointmentMapper.getAppointmentsByConditions(params);
+  //查询预约
+      public List<Appointment> getAppointmentsByConditions(Appointment appointment) {
+        return appointmentMapper.getAppointmentsByConditions(appointment);
     }
     @Override
-    public Appointment getAppointmentsById(String appointmentId) {
+    public Appointment getAppointmentsById(Long appointmentId) {
         return appointmentMapper.getAppointmentById(appointmentId);
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByUserId(String appointmentId) {
-        return appointmentMapper.getAppointmentByUserId(appointmentId);
     }
 
     @Transactional
@@ -159,9 +148,9 @@ public class AppointmentServiceImpl implements AppointmentService {
             return appointmentMapper.saveAppointment(appointment);
     }
 
-    public boolean isTimeSlotAvailable(String teacherId,String studentId,String appointmentDate,
-                                       String appointmentStartTime,String appointmentEndTime) {
-
+    public boolean isTimeSlotAvailable(String teacherId,String studentId,LocalDateTime appointmentDate,
+                                       LocalDateTime appointmentStartTime,LocalDateTime appointmentEndTime) {
+        //该时间段已经存在则返回false
         return !appointmentMapper.existsByAppointmentDate(teacherId,studentId,appointmentDate,appointmentStartTime,appointmentEndTime);
     }
 }

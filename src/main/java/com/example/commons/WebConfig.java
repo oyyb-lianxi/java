@@ -17,10 +17,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login/**");// 排除某些路径
     }
 
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        registrar.registerFormatters(registry);
-    }
 }
