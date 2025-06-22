@@ -23,6 +23,7 @@ public class AppointmentController {
 
    @PostMapping("/createAppointment")
    public ResponseEntity<?> createAppointment(@RequestBody Appointment appointment) {
+
        String appointmentDate = appointment.getAppointmentDate();
        String appointmentStartTime = appointment.getAppointmentStartTime();
        String appointmentEndTime = appointment.getAppointmentEndTime();

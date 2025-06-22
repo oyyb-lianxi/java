@@ -26,5 +26,6 @@ public interface AppointmentMapper {
 
     void saveNotification(Notification notification);
 
-    boolean existsByAppointmentDate(String appointmentDate, String appointmentStartTime, String appointmentEndTime);
+    boolean existsByAppointmentDate(String teacherId,String studentId,String appointmentDate,
+                                    String appointmentStartTime,String appointmentEndTime);
 }

@@ -161,6 +161,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     public boolean isTimeSlotAvailable(String teacherId,String studentId,String appointmentDate,
                                        String appointmentStartTime,String appointmentEndTime) {
-        return !appointmentMapper.existsByAppointmentDate(appointmentDate,appointmentStartTime,appointmentEndTime);
+
+        return !appointmentMapper.existsByAppointmentDate(teacherId,studentId,appointmentDate,appointmentStartTime,appointmentEndTime);
     }
 }

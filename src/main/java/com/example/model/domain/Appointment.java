@@ -14,11 +14,11 @@ public class Appointment {
     private String studentId;
     private String teacherId;
     private String subject;
-    private String appointmentDate;
+    private LocalDateTime appointmentDate;
 
-    private String appointmentStartTime;
+    private LocalDateTime appointmentStartTime;
 
-    private String appointmentEndTime;
+    private LocalDateTime appointmentEndTime;
     private String status; // 例如：PENDING, CONFIRMED, CANCELLED
     private String location;
     private String comments;

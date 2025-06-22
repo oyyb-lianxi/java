@@ -24,8 +24,8 @@ public class TimeSlotService {
      * @param slotDuration
      * @return
      */
-    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(String teacherId, String startDate, String endDate, int slotDuration) {
-
+    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(String teacherId, String appointmentDate,String startDate, String endDate, int slotDuration) {
+        //查询该老师的所有预约
         List<Appointment> appointments = appointmentService.getTeachersAppointments(teacherId);
 
         // 按时间排序预约记录
@@ -39,7 +39,7 @@ public class TimeSlotService {
         while (current.isBefore(appointmentEndTime)) {
             boolean isFree = true;
             for (Appointment appointment : appointments) {
-                LocalDateTime appointmentStart = LocalDateTime.parse(appointment.getAppointmentDate(), formatter);
+                LocalDateTime appointmentStart =appointment.getAppointmentStartTime();
                 LocalDateTime appointmentEnd = appointmentStart.plusMinutes(appointment.getDuration());
 
                 if (current.isBefore(appointmentEnd) && current.plusMinutes(slotDuration).isAfter(appointmentStart)) {
