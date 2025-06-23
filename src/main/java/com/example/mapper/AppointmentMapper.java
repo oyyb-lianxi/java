@@ -11,7 +11,7 @@ import java.util.Map;
 @Mapper
 public interface AppointmentMapper {
 
-    Appointment saveAppointment(Appointment appointment);
+    int saveAppointment(Appointment appointment);
 
     Appointment getAppointmentById(Long id);
 

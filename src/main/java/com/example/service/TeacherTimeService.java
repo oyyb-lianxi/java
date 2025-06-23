@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TeacherTimeService {
-    public boolean isTimeSlotAvailable(String teacherId, String startTime, String endTime);
+    public boolean isTimeSlotAvailable(TeacherTime teacherTime);
     public boolean createTeacherTime(TeacherTime teacherTime);
     public List<TeacherTime> getTeacherTimeByConditions(TeacherTime teacherTime);
-
+    public boolean deleteTeacherTimeById(Long teacherTimeId);
+    public boolean updateTeacherTime(TeacherTime teacherTime);
 
 }

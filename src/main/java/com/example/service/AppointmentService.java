@@ -18,6 +18,6 @@ public interface AppointmentService {
 
     public Appointment getAppointmentsById(Long appointmentId);
     public List<Appointment> getAllAppointments();
-    public Appointment createAppointment(Appointment appointment);
+    public Integer createAppointment(Appointment appointment);
     public boolean isTimeSlotAvailable(String teacherId,String studentId,LocalDateTime appointmentDate,LocalDateTime startTime,LocalDateTime endTime);
 }

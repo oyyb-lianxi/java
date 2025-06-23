@@ -9,8 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface TeacherTimeMapper {
-    boolean existsByTeacherTime(String teacherId, String startTime, String endTime);
-    TeacherTime saveTeacherTime(TeacherTime teacherTime);
-
+    boolean existsByTeacherTime(TeacherTime teacherTime);
+    int saveTeacherTime(TeacherTime teacherTime);
+    int deleteTeacherTimeById(Long id);
+    int updateTeacherTime(TeacherTime teacherTime);
     List<TeacherTime>  getAllTeacherTimeByTeacherId(TeacherTime teacherTime);
 }

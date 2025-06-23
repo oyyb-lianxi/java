@@ -32,15 +32,21 @@
 
 
     <!--//更新空闲时间-->
-    <update id="updateTeacherTime" parameterType="map">
+    <update id="updateTeacherTime" parameterType="com.example.model.domain.TeacherTime">
         UPDATE teacherTime
-        SET startTime = #{startTime}
-        SET endTime = #{endTime}
+        <set>
+            <if test="startTime != null">startTime = #{startTime},</if>
+            <if test="endTime != null">endTime = #{endTime},</if>
+        </set>
         WHERE id = #{id}
     </update>
 
+    <!-- 删除老师空闲时间 -->
+    <delete id="deleteTeacherTimeById">
+        DELETE FROM teacherTime WHERE id = #{id}
+    </delete>
 
-    <select id="existsByTeacherTime" parameterType="map" resultType="boolean">
+    <select id="existsByTeacherTime" parameterType="com.example.model.domain.TeacherTime" resultType="boolean">
         SELECT CASE WHEN EXISTS (
         SELECT 1
         FROM teacherTime
@@ -49,6 +55,9 @@
                 AND teacherId = #{teacherId}
             </if>
             <!-- 新增条件 'i' -->
+            <if test="id != null">
+                AND id = #{id}
+            </if>
             <if test="startTime != null">
                 AND startTime = #{startTime}
             </if>

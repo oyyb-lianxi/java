@@ -15,14 +15,35 @@ public class TeacherTimeServiceImpl implements TeacherTimeService {
     private TeacherTimeMapper teacherTimeMapper;
 
     @Override
-    public boolean isTimeSlotAvailable(String teacherId, String startTime, String endTime) {
-        return !teacherTimeMapper.existsByTeacherTime( teacherId,  startTime,  endTime);
+    public boolean isTimeSlotAvailable(TeacherTime teacherTime) {
+        return !teacherTimeMapper.existsByTeacherTime(teacherTime);
     }
 
     @Override
     public boolean createTeacherTime(TeacherTime teacherTime) {
-        teacherTimeMapper.saveTeacherTime(teacherTime);
-        return true;
+        int i = teacherTimeMapper.saveTeacherTime(teacherTime);
+        if(i==1){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteTeacherTimeById(Long teacherTimeId) {
+        int i = teacherTimeMapper.deleteTeacherTimeById(teacherTimeId);
+        if(i==1){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateTeacherTime(TeacherTime teacherTime) {
+        int i = teacherTimeMapper.updateTeacherTime(teacherTime);
+        if(i==1){
+            return true;
+        }
+        return false;
     }
 
     @Override

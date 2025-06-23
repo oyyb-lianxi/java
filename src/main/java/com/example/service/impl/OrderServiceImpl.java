@@ -1,23 +1,32 @@
 package com.example.service.impl;
+
+import com.example.model.domain.Order;
+import com.example.service.OrderService;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 public class OrderServiceImpl implements OrderService {
   @Override
-      public Order createOrder(Long userId, Long teacherId, Date startTime, Date endTime) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Teacher teacher = teacherRepository.findById(teacherId).orElse(() -> new RuntimeException("Teacher not found"));
+      public Order createOrder(String studentId, String teacherId, LocalDateTime startTime, LocalDateTime endTime) {
+      //查询学生跟家长是否存在
 
-        if(user.isMember()) {
-            throw new RuntimeException("User is not a member");
-        }
+//        if(user.isMember()) {
+//            throw new RuntimeException("User is not a member");
+//        }
+//
+//        if(teacher.getAvailability().contains(startTime.toString())) {
+//            throw new RuntimeException("Teacher not at the specified time");
+//        }
 
-        if(teacher.getAvailability().contains(startTime.toString())) {
-            throw new RuntimeException("Teacher not at the specified time");
-        }
-
-        Order order = new Order();
-        order.setUser(user);
-        order.setTeacher(teacher);
-        order.setOrderTime(new Date());
-        order.setStartTime(startTime);
+      Order order = new Order();
+      order.setStudentId(studentId);
+      order.setTeacherId(teacherId);
+//        order.setOrderTime(new Date());
+      order.setStartTime(startTime);
+      return order;
+  }
 }
 

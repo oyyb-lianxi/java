@@ -144,7 +144,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Transactional
     @Override
-    public Appointment createAppointment(Appointment appointment) {
+    public Integer createAppointment(Appointment appointment) {
+
             return appointmentMapper.saveAppointment(appointment);
     }
 
