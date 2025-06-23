@@ -6,7 +6,7 @@ public class Order {
     private String studentId;
     private String teacherId;
     private LocalDateTime orderTime;
-    private LocalDateTime orderTime;
+    private LocalDateTime orderDate
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String status;
