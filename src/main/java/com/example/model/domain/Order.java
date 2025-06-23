@@ -2,12 +2,14 @@
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-    private Long orderId;
+    private Long id;
     private String studentId;
     private String teacherId;
-    private Date orderTime;
-    private Date startTime;
-    private Date endTime;
+    private LocalDateTime orderTime;
+    private LocalDateTime orderTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String status;
     private BigDecimal amount;
+    
 }
