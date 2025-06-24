@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -75,7 +76,7 @@ public class AppointmentController {
    @PostMapping("/updateTeacherTime")
    public Result updateTeacherTime(@RequestBody TeacherTime teacherTime) {
        Result result=new Result();
-       if (teacherTimeService.isTimeSlotAvailable(teacherTime)) {
+       if (!teacherTimeService.isTimeSlotAvailable(teacherTime)) {
            if(teacherTimeService.updateTeacherTime(teacherTime)){
                result.setCode(200);
                result.setMsg("teacherTime修改成功");
@@ -107,6 +108,31 @@ public class AppointmentController {
     public List<Appointment> getAppointmentsByUserId(@RequestBody Appointment appointment) {
         return appointmentService.getAppointmentsByConditions(appointment);
     }
+
+    /**
+     * 学生预约
+     * @param appointment
+     * @return
+     */
+    @PostMapping("/studentAppointments")
+    public List<Appointment> studentAppointments(@RequestBody Appointment appointment) {
+        TeacherTime teacherTime =new TeacherTime();
+        teacherTime.setTeacherId(appointment.getTeacherId());
+        // 定义时间格式
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+        // 将 LocalDateTime 转换为字符串
+        teacherTime.setStartTime(formatterTime.format(appointment.getAppointmentStartTime()));
+        teacherTime.setEndTime(formatterTime.format(appointment.getAppointmentEndTime()));
+        //存在对应的老师空闲时间返回false
+        boolean timeSlotAvailable = teacherTimeService.isTimeSlotAvailable(teacherTime);
+        if(!timeSlotAvailable){
+            //判断是否已经被其他学生预约
+
+
+        }
+        return appointmentService.getAppointmentsByConditions(appointment);
+    }
+
 }
 
 

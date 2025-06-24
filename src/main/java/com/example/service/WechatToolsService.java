@@ -14,8 +14,8 @@ public class WechatToolsService  {
 // 调用接口必要的参数
         StringBuilder data=new StringBuilder();
 // appid、secret定义在配置文件中，注入到项目里
-        data.append("appid="+"wx9a84c192fabfc317"+"&");
-        data.append("secret="+ "50b111d93b4f19d272dde01f76507220"+"&");
+        data.append("appid="+"wx981c08ff1599d3db"+"&");
+        data.append("secret="+ "48dced9ca97e63700d2352f4935af512"+"&");
         data.append("js_code="+ code+"&");
         data.append("grant_type="+ "authorization_code");
         System.out.println(data);
