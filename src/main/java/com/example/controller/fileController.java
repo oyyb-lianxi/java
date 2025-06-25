@@ -89,9 +89,10 @@ public class fileController {
         String fileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf("."));
         //打印查看
         System.out.println("唯一文件名：" + fileName);
-
+        log.info("唯一文件名：" + fileName);
         // 指定文件保存的路径
-        String filePath = uploadPath + File.separator + fileName;
+//        String filePath = uploadPath + File.separator + fileName;
+        String filePath = uploadPath + "/img" + fileName;
 
         //文件名保存到对应数据的头像图片字段
         User emp = new User();

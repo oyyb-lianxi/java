@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.domain.Appointment;
 import com.example.model.domain.TeacherTime;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.entity.Result;
 import com.example.service.AppointmentService;
 import com.example.service.TeacherTimeService;
@@ -111,24 +112,28 @@ public class AppointmentController {
 
     /**
      * 学生预约
-     * @param appointment
+     * @param appointmentDto
      * @return
      */
     @PostMapping("/studentAppointments")
-    public List<Appointment> studentAppointments(@RequestBody Appointment appointment) {
+    public List<Appointment> studentAppointments(@RequestBody AppointmentDto appointmentDto) {
+        Appointment appointment = new Appointment();
         TeacherTime teacherTime =new TeacherTime();
-        teacherTime.setTeacherId(appointment.getTeacherId());
+        teacherTime.setTeacherId(appointmentDto.getTeacherId());
         // 定义时间格式
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
         // 将 LocalDateTime 转换为字符串
-        teacherTime.setStartTime(formatterTime.format(appointment.getAppointmentStartTime()));
-        teacherTime.setEndTime(formatterTime.format(appointment.getAppointmentEndTime()));
+        teacherTime.setStartTime(appointmentDto.getAppointmentStartTimeDto());
+        teacherTime.setEndTime(appointmentDto.getAppointmentEndTimeDto());
         //存在对应的老师空闲时间返回false
         boolean timeSlotAvailable = teacherTimeService.isTimeSlotAvailable(teacherTime);
         if(!timeSlotAvailable){
+
+//            appointment.setAppointmentDate(appointmentDto.getAppointmentDateDto());
+//            appointment.setAppointmentStartTime(formatterTime.format(appointmentDto.getAppointmentStartTimeDto()));
             //判断是否已经被其他学生预约
 
-
+            appointmentService.getAppointmentsByConditions(appointment);
         }
         return appointmentService.getAppointmentsByConditions(appointment);
     }

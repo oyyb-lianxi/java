@@ -4,7 +4,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://114.215.194.161:3306/jiajiaoxiaochengxu?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/jiajiaoxiaochengxu?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: Oyyb258369!
   servlet:
