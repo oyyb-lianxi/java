@@ -45,7 +45,8 @@
     </select>
 
     <!-- 根据多个条件查询学生信息 -->
-    <select id="getStudentsByConditions" parameterType="map" resultType="com.example.model.domain.Student">
+    <select id="getStudentsByConditions" parameterType="com.example.model.domain.Student"
+            resultType="com.example.model.domain.Student">
         SELECT * FROM student
         <where>
             <if test="id != null">id = #{id}</if>

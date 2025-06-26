@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author Administrator
  */
-@Configuration
+//@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override

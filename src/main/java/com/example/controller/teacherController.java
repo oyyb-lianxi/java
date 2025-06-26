@@ -1,7 +1,11 @@
 package com.example.controller;
 
 import com.example.model.CommonUtils.JwtUtils;
+import com.example.model.domain.Appointment;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.dto.TeacherDto;
+import com.example.model.entity.Result;
+import com.example.service.AppointmentService;
 import com.example.service.TeacherInfoService;
 import com.example.service.WechatToolsService;
 import com.example.model.domain.Student;
@@ -13,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +31,10 @@ public class teacherController {
 
     @Autowired
     TeacherInfoService teacherInfoService;
+    @Autowired
+    private AppointmentService appointmentService;
+
+
     /**
      * 查询所有老师信息
      */
@@ -73,5 +83,22 @@ public class teacherController {
     public ResponseEntity deleteTeacher(@RequestBody Teacher teacher){
         Boolean aBoolean = teacherInfoService.deleteTeacher(teacher);
         return ResponseEntity.ok(aBoolean);
+    }
+
+    /**
+     * 老师待办
+     */
+    @PostMapping("/teacherToDo")
+    public Result teacherToDo(@RequestBody AppointmentDto teacherAppointment){
+        Appointment appointment = new Appointment();
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(teacherAppointment.getAppointmentDateDto(), formatterDate);
+        appointment.setAppointmentDate(localDateTime);
+        appointment.setTeacherId(teacherAppointment.getTeacherId());
+        Result result =new Result();
+        List<Appointment> appointments = appointmentService.getAppointmentsByConditions(appointment);
+        result.setCode(200);
+        result.setData(appointments);
+        return result;
     }
 }

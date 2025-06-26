@@ -13,9 +13,9 @@
             <if test="appointmentDate != null">appointmentDate,</if>
             <if test="appointmentStartTime != null">appointmentStartTime,</if>
             <if test="appointmentEndTime != null">appointmentEndTime,</if>
-            <if test="status != null">status</if>
-            <if test="location != null">location</if>
-            <if test="comments != null">comments</if>
+            <if test="status != null">status,</if>
+            <if test="location != null">location,</if>
+            <if test="comments != null">comments,</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -26,9 +26,9 @@
             <if test="appointmentDate != null">#{appointmentDate},</if>
             <if test="appointmentStartTime != null">#{appointmentStartTime},</if>
             <if test="appointmentEndTime != null">#{appointmentEndTime},</if>
-            <if test="status != null">#{status}</if>
-            <if test="location != null">#{location}</if>
-            <if test="comments != null">#{comments}</if>
+            <if test="status != null">#{status},</if>
+            <if test="location != null">#{location},</if>
+            <if test="comments != null">#{comments},</if>
         </trim>
     </insert>
 
@@ -57,6 +57,17 @@
             <if test="location != null">AND location = #{location}</if>
         </where>
     </select>
+    <!-- 查询该老师某天的可预约时间 -->
+    <select id="getAppointmentsByTeacher" parameterType="com.example.model.domain.Appointment"
+            resultType="com.example.model.domain.Appointment">
+        SELECT * FROM appointment
+        <where>
+            <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+            <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
+            AND status != ''
+        </where>
+    </select>
+
     <!-- 更新预约信息 -->
     <update id="updateAppointment" parameterType="com.example.model.domain.Appointment">
         UPDATE appointment
@@ -133,7 +144,8 @@
         <if test="studentId != null">AND studentId = #{studentId}</if>
     </update>
 
-    <select id="existsByAppointmentDate" parameterType="map" resultType="boolean">
+    <select id="existsByAppointmentDate" parameterType="com.example.model.domain.Appointment"
+            resultType="boolean">
         SELECT CASE WHEN EXISTS (
         SELECT 1
         FROM appointment
@@ -148,13 +160,13 @@
                 AND appointmentDate = #{appointmentDate}
             </if>
             <!-- 新增条件 'i' -->
-            <if test="startDate != null">
-                AND (startDate = #{startDate}
-                )
+            <if test="appointmentStartTime != null">
+                AND appointmentStartTime = #{appointmentStartTime}
             </if>
-            <if test="endDate != null">
-                AND endDate = #{endDate}
+            <if test="appointmentEndTime != null">
+                AND appointmentEndTime = #{appointmentEndTime}
             </if>
+                AND status != 'CONFIRMED'
         </where>
         ) THEN 1 ELSE 0 END
     </select>

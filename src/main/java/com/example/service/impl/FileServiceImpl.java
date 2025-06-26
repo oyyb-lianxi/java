@@ -31,11 +31,11 @@ public class FileServiceImpl implements FileService {
         String suffix = filename.substring(filename.indexOf("."),filename.length());
         String filepath = "";
         if(".pdf".equals(suffix)) {
-            filepath = nasProperties.getBasepath()+ File.separator+"pdf"+File.separator+filename;
+            filepath = nasProperties.getBasepath()+ File.separator+"pdf"+File.separator+suffix;
         } else if(showMaps.containsKey(suffix)) {
-            filepath = nasProperties.getBasepath()+ File.separator+"img"+File.separator+filename;
+            filepath = nasProperties.getBasepath()+ File.separator+"img"+File.separator+suffix;
         }else{
-            filepath = nasProperties.getBasepath()+ File.separator+"file"+File.separator+filename;
+            filepath = nasProperties.getBasepath()+ File.separator+"file"+File.separator+suffix;
         }
         InputStream is = null;
         try {
@@ -54,7 +54,7 @@ public class FileServiceImpl implements FileService {
             String para = SystemUtil.byte2hex(filepath.getBytes());
             String url = "";
             if(showMaps.containsKey(suffix)) {
-                url =nasProperties.getBaseUrl()+"/show/"+para;
+                url =nasProperties.getBaseUrl()+"/showFile/"+para;
             }else{
                 url =nasProperties.getBaseUrl()+"/download/"+para;
             }

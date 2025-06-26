@@ -47,7 +47,7 @@ public class TeacherTimeServiceImpl implements TeacherTimeService {
     }
 
     @Override
-    public List<TeacherTime> getTeacherTimeByConditions(TeacherTime teacherTime) {
+    public List<TeacherTime> getAllTeacherTimeByTeacherId(TeacherTime teacherTime) {
         return teacherTimeMapper.getAllTeacherTimeByTeacherId(teacherTime);
     }
 }

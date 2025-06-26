@@ -27,6 +27,6 @@ public class Teacher extends BasePojo{
     private String academicQualification; //学历
     private String academicQualificationPictureFileName; //学历照片
     private Integer price; //价格
-
+    private String lifePicture; //头像
 
 }
