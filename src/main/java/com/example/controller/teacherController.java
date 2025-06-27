@@ -119,4 +119,21 @@ public class teacherController {
                result.setMsg("删除失败，请联系管理员");
            return result;
    }
+
+           /**
+     * 老师确认预约
+     * @param
+     * @return
+     */
+   @PostMapping("/confirmAppointment/{id}")
+   public Result confirmAppointment(@PathVariable Long id) {
+       Result result=new Result();
+           if(appointmentService.confirmAppointment(id)){
+               result.setCode(200);
+               result.setMsg("已经同意预约");
+               return result;
+           }
+               result.setMsg("失败，请联系管理员");
+           return result;
+   }
 }
