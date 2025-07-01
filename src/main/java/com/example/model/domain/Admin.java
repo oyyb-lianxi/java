@@ -24,7 +24,7 @@ public class Admin implements Serializable {
      */
     private String password;
     /**
-     * 头像
+     * 电话
      */
-    private String avatar;
+    private String phone;
 }
