@@ -62,5 +62,8 @@
     <delete id="deleteUserById" parameterType="com.example.model.domain.User">
         DELETE FROM user WHERE openid = #{openid}
     </delete>
-
+   
+    <select id="selectAdminByPhone" parameterType="String" resultType="com.example.model.domain.Admin">
+        select *  FROM admin WHERE phone = #{phone}
+    </select>
 </mapper>
