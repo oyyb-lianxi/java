@@ -27,4 +27,13 @@ public class Admin implements Serializable {
      * 电话
      */
     private String phone;
+    
+    /**
+     * 管理员的角色权限级别
+     */
+    private String role;
+    /**
+     *  管理员的头像路径或URL
+     */
+    private String avatar ;
 }
