@@ -21,4 +21,6 @@ public interface UserMapper {
     int updateById(User user);
 
     int deleteById(User user);
+    @Select("SELECT * FROM admin WHERE phone = #{phone}")
+    Admin selectAdminByPhone(@Param("phone") String phone)
 }
