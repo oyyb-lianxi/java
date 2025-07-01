@@ -93,10 +93,25 @@ public class loginController {
         return ResponseEntity.ok(aBoolean);
     }
    @PostMapping("/customerCheckSessionKey")
-   public String getWxInfoTest(@RequestBody Admin admin) {
-       admin.get
+   public ResponseEntity customerCheckSessionKey(@RequestBody Admin admin) {
+       Map<String, Object> result = new HashMap<>();
+        Strig phone =  admin.getPhone();
+      Strig password =  admin.getPassword();
        log.info("微信的返回值{}", wxJson);
-       return wxJson.toJSONString();
+       Admin  admin = userMapper.selectAdmin(admin);
+        if(admin == null){
+            result.put("message","用户名密码错误");
+            return ResponseEntity.ok(result);
+        }
+               //登录成功, 生成token
+        Map<String, Object> tokenMap = new HashMap<String, Object>();
+        tokenMap.put("openid", phone);
+        String token = JwtUtils.getToken(tokenMap);
+               //5. 封装数据返回
+        result.put("token", token);
+        result.put("openid", phone);
+        result.put("status", "OLD");
+        return ResponseEntity.ok(result);
    }
 //    @PostMapping("/getWxInfoTest")
 //    public String getWxInfoTest(@RequestBody JSONObject obj) {
