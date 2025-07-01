@@ -7,16 +7,16 @@
         insert into notification
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
-            <if test="userId != null">userId,</if>
+            <if test="teacherId != null">teacherId,</if>
+            <if test="studentId != null">studentId,</if>
             <if test="message != null">message,</if>
-            <if test="created != null">created</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
-            <if test="userId != null">#{userId},</if>
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="studentId != null">#{studentId},</if>
             <if test="message != null">#{message},</if>
-            <if test="created != null">#{created}</if>
         </trim>
     </insert>
 

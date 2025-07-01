@@ -75,8 +75,8 @@
         SELECT * FROM teacher
     </select>
     <!-- 根据ID查询老师信息 -->
-    <select id="getTeacherById" parameterType="long" resultType="com.example.model.domain.Teacher">
-        SELECT * FROM teacher WHERE id = #{id}
+    <select id="getTeacherById" parameterType="String" resultType="com.example.model.domain.Teacher">
+        SELECT * FROM teacher WHERE userId = #{userId}
     </select>
    <!-- 根据多个条件查询老师信息 -->
     <select id="getTeachersByConditions" parameterType="map" resultType="com.example.model.domain.Teacher">

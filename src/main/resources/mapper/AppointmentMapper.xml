@@ -78,9 +78,9 @@
             <if test="appointmentDate != null">appointmentDate = #{appointmentDate},</if>
             <if test="appointmentStartTime != null">appointmentStartTime = #{appointmentStartTime},</if>
             <if test="appointmentEndTime != null">appointmentEndTime = #{appointmentEndTime},</if>
-            <if test="status != null">status = #{status}</if>
-            <if test="location != null">location = #{location}</if>
-            <if test="comments != null">comments = #{comments}</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="comments != null">comments = #{comments},</if>
         </set>
         WHERE id = #{id}
     </update>

@@ -12,7 +12,7 @@ public interface AppointmentService {
 
     public void makeAppointment(String studentId, String teacherId, String subject, LocalDateTime appointmentDate,
                                 LocalDateTime appointmentStartTime,LocalDateTime appointmentEndTime);
-    public void confirmAppointment(Long appointmentId);
+    public Boolean confirmAppointment(Long appointmentId);
     public void cancelAppointment(Long appointmentId);
     public List<Appointment> getAppointmentsByConditions(Appointment appointment);
 

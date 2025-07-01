@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.mapper.UserMapper;
 import com.example.model.CommonUtils.JwtUtils;
+import com.example.model.domain.Admin;
 import com.example.model.domain.User;
 import com.example.model.dto.TeacherDto;
 import com.example.service.*;
@@ -33,6 +35,8 @@ public class loginController {
     UserService userService;
     @Autowired
     StudentService studentService;
+    @Autowired
+    UserMapper userMapper;
     /**
      * 校验登录
      */
@@ -93,12 +97,11 @@ public class loginController {
         return ResponseEntity.ok(aBoolean);
     }
    @PostMapping("/customerCheckSessionKey")
-   public ResponseEntity customerCheckSessionKey(@RequestBody Admin admin) {
+   public ResponseEntity customerCheckSessionKey(@RequestBody Admin adminDto) {
        Map<String, Object> result = new HashMap<>();
-        Strig phone =  admin.getPhone();
-      Strig password =  admin.getPassword();
-       log.info("微信的返回值{}", wxJson);
-       Admin  admin = userMapper.selectAdmin(admin);
+        String phone =  adminDto.getPhone();
+       String password =  adminDto.getPassword();
+       Admin  admin = userMapper.selectAdmin(phone,password);
         if(admin == null){
             result.put("message","用户名密码错误");
             return ResponseEntity.ok(result);

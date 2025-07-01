@@ -75,14 +75,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     //确认预约
-      public void confirmAppointment(Long appointmentId) {
+      public Boolean confirmAppointment(Long appointmentId) {
         Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
         if (appointment == null) {
-            throw new RuntimeException("Appointment not found");
+            return false;
         }
 
         if (!"PENDING".equals(appointment.getStatus())) {
-            throw new RuntimeException("Appointment is not in pending status");
+            return false;
         }
 
         // 更新预约状态
@@ -96,9 +96,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         Notification notification = new Notification();
         notification.setStudentId(appointment.getStudentId());
         notification.setTeacherId(appointment.getTeacherId());
-        notification.setMessage("Your appointment with teacher " + teacher.getName() + " has been confirmed");
+        notification.setMessage("student"+ student.getName()+ "appointment with teacher " + teacher.getName() + " has been confirmed");
         notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
+        return true;
     }
   //取消预约
   public void cancelAppointment(Long appointmentId) {

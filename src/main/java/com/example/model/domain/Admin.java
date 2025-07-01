@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin implements Serializable {
+public class Admin  extends BasePojo {
     /**
      * id
      */
@@ -35,5 +35,5 @@ public class Admin implements Serializable {
     /**
      *  管理员的头像路径或URL
      */
-    private String avatar ;
+    private String avatar;
 }

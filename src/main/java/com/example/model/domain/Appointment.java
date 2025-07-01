@@ -9,10 +9,12 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor  // 满参构造方法
 @NoArgsConstructor  // 无参构造方法
-public class Appointment {
+public class Appointment extends BasePojo{
     private Long id;
     private String studentId;
     private String teacherId;
+
+    private String adminPhone;
     private String subject;
     private LocalDateTime appointmentDate;
 

@@ -21,6 +21,7 @@ public class AppointmentDto {
     private Long id;
     private String studentId;
     private String teacherId;
+    private String adminPhone;
     private String subject;
     private String status; // 例如：PENDING, CONFIRMED, CANCELLED
     private String location;

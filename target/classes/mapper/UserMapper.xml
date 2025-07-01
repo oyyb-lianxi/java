@@ -62,5 +62,5 @@
     <delete id="deleteUserById" parameterType="com.example.model.domain.User">
         DELETE FROM user WHERE openid = #{openid}
     </delete>
-
+   
 </mapper>
