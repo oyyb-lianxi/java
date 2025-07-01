@@ -22,5 +22,7 @@ public interface UserMapper {
 
     int deleteById(User user);
     @Select("SELECT * FROM admin WHERE phone = #{phone}")
-    Admin selectAdminByPhone(@Param("phone") String phone)
+    Admin selectAdminByPhone(@Param("phone") String phone)；
+
+    Admin selectAdmin(Admin admin);
 }
