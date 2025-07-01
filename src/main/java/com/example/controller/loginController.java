@@ -92,7 +92,12 @@ public class loginController {
         }
         return ResponseEntity.ok(aBoolean);
     }
-
+   @PostMapping("/customerCheckSessionKey")
+   public String getWxInfoTest(@RequestBody Admin admin) {
+       admin.get
+       log.info("微信的返回值{}", wxJson);
+       return wxJson.toJSONString();
+   }
 //    @PostMapping("/getWxInfoTest")
 //    public String getWxInfoTest(@RequestBody JSONObject obj) {
 //        String AppId = AppConfigTools.getWxAppId();
