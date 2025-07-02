@@ -24,7 +24,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Boolean saveStudent(StudentDto studentDto) {
         Address address = getStudentAddress(studentDto);
-        addressMapper.saveUserAddress(address);
+        int i1 = addressMapper.saveUserAddress(address);
+        if(i1 != 1){
+            return false;
+        }
         int i = studentMapper.saveStudent(studentDto);
         if(i==1){
             return true;
@@ -35,7 +38,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Boolean updateStudent(StudentDto studentDto) {
         Address address = getStudentAddress(studentDto);
-        addressMapper.updateAddressById(address);
+        int i1 = addressMapper.updateAddressById(address);
+        if(i1 != 1){
+            return false;
+        }
         int i = studentMapper.updateStudent(studentDto);
         if(i==1){
             return true;
