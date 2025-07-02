@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TeacherInfoService {
 
-    public Boolean saveTeacher(Teacher teacherDto);
+    public Boolean saveTeacher(TeacherDto teacherDto);
 
     public Boolean updateTeacher(Teacher userInfo);
 
