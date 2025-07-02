@@ -73,7 +73,16 @@ public class teacherController {
         Boolean aBoolean = teacherInfoService.updateTeacher(teacher);
         return ResponseEntity.ok(aBoolean);
     }
-
+    
+    /**
+     * 修改老师地址信息
+     */
+    @PostMapping("/updateTeacherAdress")
+    public ResponseEntity updateTeacherAdress(@RequestBody Adress adress){
+        Boolean aBoolean = teacherInfoService.updateTeacher(adress);
+        return ResponseEntity.ok(aBoolean);
+    }
+    
     /**
      * 删除老师信息
      */
