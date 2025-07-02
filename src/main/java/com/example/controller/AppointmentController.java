@@ -59,24 +59,6 @@ public class AppointmentController {
 
 
    /**
-     * 老师接收预约
-     * @param
-     * @return
-     */
-   @PostMapping("/receiveAppointments/{id}")
-   public Result receiveAppointments(@PathVariable Long id) {
-       Result result=new Result();
-           if(teacherTimeService.deleteTeacherTimeById(id)){
-               result.setCode(200);
-               result.setMsg("teacherTime删除成功");
-               return result;
-           }
-               result.setMsg("删除失败，请联系管理员");
-           return result;
-   }
-
-
-   /**
      * 老师修改预约时间
      * @param
      * @return
