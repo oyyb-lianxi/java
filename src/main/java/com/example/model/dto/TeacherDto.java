@@ -11,4 +11,25 @@ import org.springframework.web.multipart.MultipartFile;
 public class TeacherDto extends Teacher {
     private MultipartFile academicQualificationPictureFile;
     private MultipartFile chinaIdNumberPictureFile;
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+      /**
+     * 县（区）
+     */
+    private String district;
+    
+    /**
+     * 详细地址
+     */
+    private String detailedAddress;
+
+    
 }
