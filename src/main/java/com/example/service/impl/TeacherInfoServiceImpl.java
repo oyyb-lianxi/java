@@ -26,7 +26,7 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 
     //保存用户信息
     @Override
-    public Boolean saveTeacher(Teacher teacherDto) {
+    public Boolean saveTeacher(TeacherDto teacherDto) {
         //保存地址信息
         
         //保存老师信息
