@@ -189,6 +189,7 @@ public class AppointmentController {
             boolean existAppointment = appointmentService.isTimeSlotAvailable(appointment);
             if(existAppointment){
                 appointment.setStudentId(appointmentDto.getStudentId());
+                appointment.setAdminPhone(appointmentDto.getAdminPhone());
                 appointment.setStatus("PENDING");
                 appointment.setLocation(appointmentDto.getLocation());
                 appointmentService.createAppointment(appointment);
