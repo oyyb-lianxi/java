@@ -1,1 +1,63 @@
 
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.AddressMapper">
+   <!-- 插入用户地址信息 -->
+<insert id="saveUser" parameterType="com.example.model.domain.Address">
+    insert into adress
+    (<if test="id != null">id,</if>
+     <if test="userId != null">userId,</if>
+     <if test="userType != null">userType,</if>
+     <if test="province != null">province,</if>
+     <if test="city != null">city,</if>
+     <if test="district != null">district,</if>
+     <if test="detailedAddress != null">detailedAddress</if>)
+    values
+    (<if test="id != null">#{id},</if>
+     <if test="userId != null">#{userId},</if>
+     <if test="userType != null">#{userType},</if>
+     <if test="province != null">#{province},</if>
+     <if test="city != null">#{city},</if>
+     <if test="district != null">#{district},</if>
+     <if test="detailedAddress != null">#{detailedAddress}</if>)
+</insert>
+
+
+    <!-- 根据用户ID查询用户地址信息 -->
+    <select id="getUserById" parameterType="String" resultType="com.example.model.domain.Address">
+        SELECT * FROM adress WHERE userId = #{userId}
+    </select>
+    
+    <!-- 根据多个条件查询用户信息 -->
+    <select id="getUsersAdressByConditions" parameterType="map" resultType="com.example.model.domain.Address">
+        SELECT * FROM adress
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="userId != null">AND userId = #{userId}</if>
+            <if test="userType != null">AND mobile = #{userType}</if>
+            <if test="province != null">AND password = #{province}</if>
+            <if test="city != null">AND hxUser = #{city}</if>
+            <if test="district != null">AND type = #{district}</if>
+            <if test="detailedAddress != null">AND detailedAddress = #{detailedAddress}</if>
+        </where>
+    </select>
+    
+    <!-- 更新用户地址信息 -->
+    <update id="updateById" parameterType="com.example.model.domain.Address">
+        UPDATE adress
+        <set>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="district != null">district = #{district},</if>
+            <if test="detailedAddress != null">detailedAddress = #{detailedAddress},</if>
+        </set>
+        WHERE userId = #{userId}
+    </update>
+
+    <!-- 删除用户地址信息 -->
+    <delete id="deleteUserAdressById" parameterType="com.example.model.domain.Address">
+        DELETE FROM adress WHERE userId = #{userId}
+    </delete>
+   
+</mapper>
