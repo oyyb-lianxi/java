@@ -4,7 +4,9 @@ import com.example.mapper.UserMapper;
 import com.example.model.CommonUtils.JwtUtils;
 import com.example.model.domain.Admin;
 import com.example.model.domain.User;
+import com.example.model.dto.StudentDto;
 import com.example.model.dto.TeacherDto;
+import com.example.model.entity.Result;
 import com.example.service.*;
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
@@ -77,24 +79,32 @@ public class loginController {
      *   请求头中携带token
      */
     @PostMapping("/saveTeacherInfo")
-    public ResponseEntity saveTeacherInfo(@RequestBody Teacher teacherDto){
-        //3、调用service
+    public Result saveTeacherInfo(@RequestBody TeacherDto teacherDto){
+        Result result =new Result();
         System.out.println("saveUserInfo ==>"+teacherDto);
         Boolean aBoolean = teacherInfoService.saveTeacher(teacherDto);
+        result.setCode(200);
         if(aBoolean){
-            return  ResponseEntity.ok(teacherDto);
+            result.setMsg("保存成功");
+            result.setData(teacherDto);
+        }else {
+            result.setMsg("保存失败");
         }
-        return ResponseEntity.ok(aBoolean);
+        return result;
     }
     @PostMapping("/saveStudentInfo")
-    public ResponseEntity saveStudentInfo(@RequestBody Student student){
-        //3、调用service
+    public Result saveStudentInfo(@RequestBody StudentDto student){
+        Result result =new Result();
         System.out.println("saveUserInfo ==>"+student);
         Boolean aBoolean = studentService.saveStudent(student);
+        result.setCode(200);
         if(aBoolean){
-            return  ResponseEntity.ok(student);
+            result.setMsg("保存成功");
+            result.setData(student);
+        }else {
+            result.setMsg("保存失败");
         }
-        return ResponseEntity.ok(aBoolean);
+        return result;
     }
    @PostMapping("/customerCheckSessionKey")
    public ResponseEntity customerCheckSessionKey(@RequestBody Admin adminDto) {

@@ -10,7 +10,7 @@ public interface TeacherInfoService {
 
     public Boolean saveTeacher(TeacherDto teacherDto);
 
-    public Boolean updateTeacher(Teacher userInfo);
+    public Boolean updateTeacher(TeacherDto userInfo);
 
     public Boolean deleteTeacher(Teacher userInfo);
 

@@ -2,14 +2,15 @@ package com.example.service;
 
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
+import com.example.model.dto.StudentDto;
 
 import java.util.List;
 
 public interface StudentService {
 
-    public Boolean saveStudent(Student userInfo);
+    public Boolean saveStudent(StudentDto studentDto);
 
-    public Boolean updateStudent(Student userInfo);
+    public Boolean updateStudent(StudentDto studentDto);
 
     public Boolean deleteStudentById(Student userInfo);
 

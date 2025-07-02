@@ -29,5 +29,5 @@ public interface TeacherMapper {
 
     int deleteTeacher(Teacher teacher);
     @InheritInverseConfiguration(name = "TeacherDto")
-    Teacher teacherDTOToTeacher(TeacherDto carDTO);
+    Teacher teacherDTOToTeacher(TeacherDto teacherDto);
 }

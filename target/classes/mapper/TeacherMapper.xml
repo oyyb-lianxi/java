@@ -108,7 +108,6 @@
     <update id="updateTeacher" parameterType="com.example.model.domain.Teacher">
         UPDATE teacher
         <set>
-            <if test="userId != null">userId = #{userId},</if>
             <if test="name != null">name = #{name},</if>
             <if test="vxName != null">vxName = #{vxName},</if>
             <if test="gender != null">gender = #{gender},</if>
@@ -124,16 +123,16 @@
             <if test="teachingType != null">teachingType = #{teachingType},</if>
             <if test="personalProfile != null">personalProfile = #{personalProfile},</if>
             <if test="academicQualification != null">academicQualification = #{academicQualification},</if>
-            <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
-            <if test="price != null">price = #{price}</if>
-            <if test="lifePicture != null">lifePicture = #{lifePicture}</if>
+            <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName = #{academicQualificationPictureFileName},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="lifePicture != null">lifePicture = #{lifePicture},</if>
         </set>
-        WHERE id = #{id}
+        WHERE userId = #{userId}
     </update>
     
     <!-- 删除老师信息 -->
     <delete id="deleteTeacherById" parameterType="long">
-        DELETE FROM teacher WHERE id = #{id}
+        DELETE FROM teacher WHERE userId = #{userId}
     </delete>
 
     <select id="queryByUserId" resultMap="teacherResultMap">

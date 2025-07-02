@@ -1,10 +1,8 @@
-
 package com.example.mapper;
 
 
-import com.example.model.domain.Admin;
-import com.example.model.domain.User;
-import com.example.model.domain.Adress;
+
+import com.example.model.domain.Address;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -14,15 +12,15 @@ import java.util.List;
 @Mapper
 public interface AddressMapper {
 
+//    <!-- 根据用户ID查询用户地址信息 -->
+    @Select("SELECT * FROM address  WHERE userId = #{userId}")
+    Address getUserAddressById(@Param("userId") String userId);
 
-    @Select("SELECT * FROM adress  WHERE userId = #{userId}")
-    Adress getUserAdressById(@Param("userId") String userId);
+    int saveUserAddress(Address address);
 
-    int saveUserAdress(Address adress);
+    int updateAddressById(Address address);
 
-    int updateAdressById(Address adress);
+    int deleteUserAddressById(Address address);
 
-    int deleteUserAdressById(Address adress);
-
-    ListL<Address> getUsersAdressByConditions(Address adress);
+    List<Address> getUsersAddressByConditions(Address address);
 }

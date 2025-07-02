@@ -1,7 +1,9 @@
 package com.example.service.impl;
 
+import com.example.mapper.AddressMapper;
 import com.example.mapper.TeacherMapper;
 import com.example.mapper.UserMapper;
+import com.example.model.domain.Address;
 import com.example.model.domain.Teacher;
 import com.example.model.domain.User;
 import com.example.model.dto.TeacherDto;
@@ -23,12 +25,18 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
     private TeacherMapper teacherMapper;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private AddressMapper addressMapper;
 
     //保存用户信息
     @Override
     public Boolean saveTeacher(TeacherDto teacherDto) {
         //保存地址信息
-        
+        Address address = getTeacherAddress(teacherDto);
+        int i1 = addressMapper.saveUserAddress(address);
+        if(i1 != 1){
+            return false;
+        }
         //保存老师信息
         int i = teacherMapper.saveTeacher(teacherDto);
         if(i==1){
@@ -37,9 +45,35 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
         return false;
     }
 
+    private static Address getTeacherAddress(TeacherDto teacherDto) {
+        Address address = new Address();
+        String province = teacherDto.getProvince();
+        String city = teacherDto.getCity();
+        String district = teacherDto.getDistrict();
+        String detailedAddress = teacherDto.getDetailedAddress();
+        String longitude = teacherDto.getLongitude();
+        String latitude = teacherDto.getLatitude();
+        String userId = teacherDto.getUserId();
+        address.setProvince(province);
+        address.setCity(city);
+        address.setDistrict(district);
+        address.setDetailedAddress(detailedAddress);
+        address.setLongitude(longitude);
+        address.setLatitude(latitude);
+        address.setUserId(userId);
+        address.setUserType("0");
+        return address;
+    }
+
     @Override
-    public Boolean updateTeacher(Teacher teacher) {
-        int i = teacherMapper.updateTeacher(teacher);
+    public Boolean updateTeacher(TeacherDto teacherDto) {
+        Address address = getTeacherAddress(teacherDto);
+        int i1 = addressMapper.updateAddressById(address);
+        if(i1 != 1){
+            return false;
+        }
+        teacherDto.setLatitude("123");
+        int i = teacherMapper.updateTeacher(teacherDto);
         if(i==1){
             return true;
         }

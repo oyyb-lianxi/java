@@ -2,6 +2,8 @@
 package com.example.controller;
 
 import com.example.model.CommonUtils.JwtUtils;
+import com.example.model.dto.StudentDto;
+import com.example.model.entity.Result;
 import com.example.service.StudentService;
 import com.example.service.WechatToolsService;
 import com.example.model.domain.Student;
@@ -29,23 +31,33 @@ public class studentController {
      * 保存学生信息
      */
     @PostMapping("/saveStudent")
-    public ResponseEntity saveStudent(@RequestBody Student student){
-        //3、调用service
+    public Result saveStudent(@RequestBody StudentDto student){
+        Result result =new Result();
         System.out.println("saveUserInfo ==>"+student);
         Boolean aBoolean = studentService.saveStudent(student);
+        result.setCode(200);
         if(aBoolean){
-            return  ResponseEntity.ok(student);
+            result.setMsg("保存成功");
+        }else {
+            result.setMsg("保存失败");
         }
-        return ResponseEntity.ok(aBoolean);
+        return result;
     }
 
     /**
      * 修改学生信息
      */
     @PostMapping("/updateStudent")
-    public ResponseEntity updateStudent(@RequestBody Student student){
+    public Result updateStudent(@RequestBody StudentDto student){
+        Result result =new Result();
         Boolean aBoolean = studentService.updateStudent(student);
-        return ResponseEntity.ok(aBoolean);
+        result.setCode(200);
+        if(aBoolean){
+            result.setMsg("修改成功");
+        }else {
+            result.setMsg("修改失败");
+        }
+        return result;
     }
 
     /**

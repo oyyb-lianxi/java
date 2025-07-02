@@ -1,8 +1,12 @@
 package com.example.service.impl;
 
+import com.example.mapper.AddressMapper;
 import com.example.mapper.StudentMapper;
+import com.example.model.domain.Address;
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
+import com.example.model.dto.StudentDto;
+import com.example.model.dto.TeacherDto;
 import com.example.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +19,13 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private AddressMapper addressMapper;
     @Override
-    public Boolean saveStudent(Student student) {
-        int i = studentMapper.saveStudent(student);
+    public Boolean saveStudent(StudentDto studentDto) {
+        Address address = getStudentAddress(studentDto);
+        addressMapper.saveUserAddress(address);
+        int i = studentMapper.saveStudent(studentDto);
         if(i==1){
             return true;
         }
@@ -25,8 +33,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean updateStudent(Student student) {
-        int i = studentMapper.updateStudent(student);
+    public Boolean updateStudent(StudentDto studentDto) {
+        Address address = getStudentAddress(studentDto);
+        addressMapper.updateAddressById(address);
+        int i = studentMapper.updateStudent(studentDto);
         if(i==1){
             return true;
         }
@@ -71,5 +81,25 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudentsByConditions(Student student) {
         return studentMapper.getStudentsByConditions(student);
+    }
+
+    private static Address getStudentAddress(StudentDto studentDto) {
+        Address address = new Address();
+        String province = studentDto.getProvince();
+        String city = studentDto.getCity();
+        String district = studentDto.getDistrict();
+        String detailedAddress = studentDto.getDetailedAddress();
+        String longitude = studentDto.getLongitude();
+        String latitude = studentDto.getLatitude();
+        String userId = studentDto.getUserId();
+        address.setProvince(province);
+        address.setCity(city);
+        address.setDistrict(district);
+        address.setDetailedAddress(detailedAddress);
+        address.setLongitude(longitude);
+        address.setLatitude(latitude);
+        address.setUserId(userId);
+        address.setUserType("1");
+        return address;
     }
 }

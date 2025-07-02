@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.mapper.AddressMapper;
 import com.example.model.CommonUtils.JwtUtils;
+import com.example.model.domain.Address;
 import com.example.model.domain.Appointment;
 import com.example.model.dto.AppointmentDto;
 import com.example.model.dto.TeacherDto;
@@ -32,6 +34,8 @@ public class teacherController {
     private AppointmentService appointmentService;
     @Autowired
     private TeacherTimeService teacherTimeService;
+    @Autowired
+    private AddressMapper addressMapper;
 
     /**
      * 查询所有老师信息
@@ -46,41 +50,62 @@ public class teacherController {
      * 根据用户id查询老师信息
      */
     @GetMapping("/queryByUserId/{userId}")
-    public ResponseEntity queryByUserId(@PathVariable String userId){
+    public Result queryByUserId(@PathVariable String userId){
+        Result result =new Result();
+        Map<String,Object> map =new HashMap();
+        TeacherDto teacherDto = new TeacherDto();
         Teacher teachers = teacherInfoService.queryByUserId(userId);
-        return ResponseEntity.ok(teachers);
+        Address userAddressById = addressMapper.getUserAddressById(userId);
+        map.put("teacher",teachers);
+        map.put("teacherAddress",userAddressById);
+        result.setCode(200);
+        result.setData(map);
+        return result;
     }
 
     /**
      * 保存老师信息
      */
     @PostMapping("/saveTeacher")
-    public ResponseEntity saveTeacher(@RequestBody TeacherDto teacherDto){
-        //3、调用service
+    public Result saveTeacher(@RequestBody TeacherDto teacherDto){
+        Result result =new Result();
         System.out.println("saveUserInfo ==>"+teacherDto);
         Boolean aBoolean = teacherInfoService.saveTeacher(teacherDto);
+        result.setCode(200);
         if(aBoolean){
-            return ResponseEntity.ok(teacherDto);
+            result.setMsg("保存成功");
+        }else {
+            result.setMsg("保存失败");
         }
-        return ResponseEntity.ok(aBoolean);
+        return result;
     }
 
     /**
      * 修改老师信息
      */
     @PostMapping("/updateTeacher")
-    public ResponseEntity updateTeacher(@RequestBody Teacher teacher){
+    public Result updateTeacher(@RequestBody TeacherDto teacher){
+        Result result =new Result();
         Boolean aBoolean = teacherInfoService.updateTeacher(teacher);
-        return ResponseEntity.ok(aBoolean);
+        result.setCode(200);
+        if(aBoolean){
+            result.setMsg("修改成功");
+        }else {
+            result.setMsg("修改失败");
+        }
+        return result;
     }
     
     /**
      * 修改老师地址信息
      */
-    @PostMapping("/updateTeacherAdress")
-    public ResponseEntity updateTeacherAdress(@RequestBody Adress adress){
-        Boolean aBoolean = teacherInfoService.updateTeacher(adress);
-        return ResponseEntity.ok(aBoolean);
+    @PostMapping("/updateTeacherAddress")
+    public Result updateTeacherAddress(@RequestBody Address address){
+        Result result =new Result();
+        addressMapper.updateAddressById(address);
+        result.setCode(200);
+        result.setMsg("修改成功");
+        return result;
     }
     
     /**
@@ -104,8 +129,17 @@ public class teacherController {
         appointment.setTeacherId(teacherAppointment.getTeacherId());
         Result result =new Result();
         List<Appointment> appointments = appointmentService.getAppointmentsByConditions(appointment);
+
+        //取消已经过期预约
+        for (Appointment appointment1 : appointments) {
+            if(appointment1.getAppointmentEndTime().isBefore(LocalDateTime.now()) &&
+                    appointment1.getStatus().equals("PENDING")){
+                appointmentService.cancelAppointment(appointment1.getId());
+            }
+        }
+        List<Appointment> newAppointments = appointmentService.getAppointmentsByConditions(appointment);
         result.setCode(200);
-        result.setData(appointments);
+        result.setData(newAppointments);
         return result;
     }
 
