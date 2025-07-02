@@ -4,7 +4,7 @@
 
 <mapper namespace="com.example.mapper.AddressMapper">
    <!-- 插入用户地址信息 -->
-<insert id="saveUser" parameterType="com.example.model.domain.Address">
+<insert id="saveUserAdress" parameterType="com.example.model.domain.Address">
     insert into adress
     (<if test="id != null">id,</if>
      <if test="userId != null">userId,</if>
@@ -25,7 +25,7 @@
 
 
     <!-- 根据用户ID查询用户地址信息 -->
-    <select id="getUserById" parameterType="String" resultType="com.example.model.domain.Address">
+    <select id="getUserAdressById" parameterType="String" resultType="com.example.model.domain.Address">
         SELECT * FROM adress WHERE userId = #{userId}
     </select>
     
@@ -44,7 +44,7 @@
     </select>
     
     <!-- 更新用户地址信息 -->
-    <update id="updateById" parameterType="com.example.model.domain.Address">
+    <update id="updateAdressById" parameterType="com.example.model.domain.Address">
         UPDATE adress
         <set>
             <if test="province != null">province = #{province},</if>
