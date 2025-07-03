@@ -1,7 +1,9 @@
 
 package com.example.controller;
 
+import com.example.mapper.AddressMapper;
 import com.example.model.CommonUtils.JwtUtils;
+import com.example.model.domain.Address;
 import com.example.model.dto.StudentDto;
 import com.example.model.entity.Result;
 import com.example.service.StudentService;
@@ -27,6 +29,8 @@ public class studentController {
 
     @Autowired
     StudentService studentService;
+    @Autowired
+    private AddressMapper addressMapper;
     /**
      * 保存学生信息
      */
@@ -91,8 +95,15 @@ public class studentController {
      * 根据条件筛选查询学生信息
      */
     @PostMapping("/getStudentsByConditions")
-    public ResponseEntity getStudentsByConditions(@RequestBody Student student){
-        Student result = studentService.getStudentsByConditions(student);
-        return ResponseEntity.ok(result);
+    public Result getStudentsByConditions(@RequestBody Student studentDto){
+        Result result =new Result();
+        Map<String,Object> map =new HashMap();
+        Student student = studentService.getStudentsByConditions(studentDto);
+        Address userAddressById = addressMapper.getUserAddressById(student.getUserId());
+        map.put("student",student);
+        map.put("studentAddress",userAddressById);
+        result.setCode(200);
+        result.setData(map);
+        return result;
     }
 }

@@ -7,6 +7,7 @@ import com.example.model.domain.Appointment;
 import com.example.model.dto.AppointmentDto;
 import com.example.model.dto.TeacherDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.AppointmentVo;
 import com.example.service.*;
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -128,16 +130,18 @@ public class teacherController {
         appointment.setAppointmentDate(localDateTime);
         appointment.setTeacherId(teacherAppointment.getTeacherId());
         Result result =new Result();
-        List<Appointment> appointments = appointmentService.getAppointmentsByConditions(appointment);
+        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(appointment);
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 
         //取消已经过期预约
-        for (Appointment appointment1 : appointments) {
-            if(appointment1.getAppointmentEndTime().isBefore(LocalDateTime.now()) &&
+        for (AppointmentVo appointment1 : appointments) {
+            if(new Timestamp(appointment1.getAppointmentEndTime()).before(currentTimestamp) &&
                     appointment1.getStatus().equals("PENDING")){
                 appointmentService.cancelAppointment(appointment1.getId());
             }
         }
-        List<Appointment> newAppointments = appointmentService.getAppointmentsByConditions(appointment);
+        List<AppointmentVo> newAppointments = appointmentService.getAppointmentsByConditions(appointment);
+
         result.setCode(200);
         result.setData(newAppointments);
         return result;

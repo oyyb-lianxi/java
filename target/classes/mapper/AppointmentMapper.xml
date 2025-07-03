@@ -34,7 +34,9 @@
 
     <!-- 查询所有预约信息 -->
     <select id="getAllAppointments" resultType="com.example.model.domain.Appointment">
-        SELECT * FROM appointment
+        SELECT a.*, s.name studentName, t.name teacherName  FROM appointment a
+        left join (select userId,name from student) s on a.studentId = s.userId
+        left join (select userId,name from teacher) t on a.teacherId = t.userId
     </select>
     <!-- 根据ID查询预约信息 -->
     <select id="getAppointmentById" parameterType="long" resultType="com.example.model.domain.Appointment">
@@ -43,7 +45,14 @@
 
     <!-- 根据多个条件查询预约信息 -->
     <select id="getAppointmentsByConditions" parameterType="com.example.model.domain.Appointment"
-                                                resultType="com.example.model.domain.Appointment">
+            resultType="com.example.model.vo.AppointmentVo">
+        select a.id,a.studentId,a.teacherId, a.adminPhone,a.subject,
+        UNIX_TIMESTAMP(a.appointmentDate) * 1000 AS appointmentDate,
+        UNIX_TIMESTAMP(a.appointmentStartTime) * 1000 AS appointmentStartTime,
+        UNIX_TIMESTAMP(a.appointmentEndTime) * 1000 AS appointmentEndTime,
+        a.status,a.location,a.comments,a.duration,
+        s.name studentName, t.name teacherName from
+        (
         SELECT * FROM appointment
         <where>
             <if test="id != null">id = #{id}</if>
@@ -56,16 +65,25 @@
             <if test="status != null">AND status = #{status}</if>
             <if test="location != null">AND location = #{location}</if>
         </where>
+        ) as a
+        left join (select userId,name from student) s on a.studentId = s.userId
+        left join (select userId,name from teacher) t on a.teacherId = t.userId
     </select>
+
     <!-- 查询该老师某天的可预约时间 -->
     <select id="getAppointmentsByTeacher" parameterType="com.example.model.domain.Appointment"
             resultType="com.example.model.domain.Appointment">
+        select a.*, s.name studentName, t.name teacherName from
+        (
         SELECT * FROM appointment
         <where>
             <if test="teacherId != null">AND teacherId = #{teacherId}</if>
             <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
             AND status != ''
         </where>
+        ) as a
+        left join (select userId,name from student) s on a.studentId = s.userId
+        left join (select userId,name from teacher) t on a.teacherId = t.userId
     </select>
 
     <!-- 更新预约信息 -->
@@ -166,7 +184,7 @@
             <if test="appointmentEndTime != null">
                 AND appointmentEndTime = #{appointmentEndTime}
             </if>
-                AND status != 'CONFIRMED'
+            AND status != 'CONFIRMED'
         </where>
         ) THEN 1 ELSE 0 END
     </select>

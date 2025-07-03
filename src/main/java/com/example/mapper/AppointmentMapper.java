@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.model.domain.Appointment;
 import com.example.model.domain.Notification;
+import com.example.model.vo.AppointmentVo;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public interface AppointmentMapper {
 
     List<Appointment> getAllAppointments();
 
-    List<Appointment> getAppointmentsByConditions(Appointment appointment);
+    List<AppointmentVo> getAppointmentsByConditions(Appointment appointment);
 
     void updateAppointment(Appointment appointment);
 

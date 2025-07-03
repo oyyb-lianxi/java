@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 public class Appointment extends BasePojo{
     private Long id;
     private String studentId;
+    private String studentName;
     private String teacherId;
+
+    private String teacherName;
 
     private String adminPhone;
     private String subject;

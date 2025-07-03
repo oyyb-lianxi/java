@@ -3,6 +3,7 @@ package com.example.service.impl;
 
 import com.example.mapper.*;
 import com.example.model.domain.*;
+import com.example.model.vo.AppointmentVo;
 import com.example.service.AppointmentService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +130,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
   //查询学生的所有预约
   //查询预约
-      public List<Appointment> getAppointmentsByConditions(Appointment appointment) {
+      public List<AppointmentVo> getAppointmentsByConditions(Appointment appointment) {
         return appointmentMapper.getAppointmentsByConditions(appointment);
     }
     @Override
