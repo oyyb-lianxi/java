@@ -13,5 +13,5 @@ public interface TeacherTimeMapper {
     int saveTeacherTime(TeacherTime teacherTime);
     int deleteTeacherTimeById(Long id);
     int updateTeacherTime(TeacherTime teacherTime);
-    List<TeacherTime>  getAllTeacherTimeByTeacherId(TeacherTime teacherTime);
+    List<TeacherTime>  getAllTeacherTimeByTeacherId(String teacherId);
 }

@@ -2,10 +2,16 @@
 package com.example.controller;
 
 import com.example.mapper.AddressMapper;
+import com.example.mapper.StudentMapper;
 import com.example.model.CommonUtils.JwtUtils;
 import com.example.model.domain.Address;
+import com.example.model.domain.TeacherTime;
 import com.example.model.dto.StudentDto;
+import com.example.model.dto.TeacherDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.StudentVo;
+import com.example.model.vo.TeacherVo;
+import com.example.service.AppointmentService;
 import com.example.service.StudentService;
 import com.example.service.WechatToolsService;
 import com.example.model.domain.Student;
@@ -31,6 +37,10 @@ public class studentController {
     StudentService studentService;
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private AppointmentService appointmentService;
     /**
      * 保存学生信息
      */
@@ -92,16 +102,38 @@ public class studentController {
     }
 
     /**
-     * 根据条件筛选查询学生信息
+     * 学生确认完成
+     * @param
+     * @return
      */
-    @PostMapping("/getStudentsByConditions")
-    public Result getStudentsByConditions(@RequestBody Student studentDto){
+    @PostMapping("/successFinishAppointment/{id}")
+    public Result confirmAppointment(@PathVariable Long id) {
+        Result result=new Result();
+        if(appointmentService.successFinishAppointment(id)){
+            result.setCode(200);
+            result.setMsg("已经同意预约");
+            return result;
+        }
+        result.setMsg("失败，请联系管理员");
+        return result;
+    }
+    /**
+     * 按条件查询学生信息
+     */
+    @PostMapping("/getStudentsByConditions/{page}/{pageSize}")
+    public Result getStudentsByConditions(@RequestBody StudentDto studentDto,
+                                          @PathVariable Integer page,@PathVariable Integer pageSize){
         Result result =new Result();
+        log.info(studentDto+"studentDto");
         Map<String,Object> map =new HashMap();
-        Student student = studentService.getStudentsByConditions(studentDto);
-        Address userAddressById = addressMapper.getUserAddressById(student.getUserId());
-        map.put("student",student);
-        map.put("studentAddress",userAddressById);
+        studentDto.setOffSet((page-1) * pageSize);
+        studentDto.setPageSize(pageSize);
+        List<StudentVo> studentsByConditions = studentService.getStudentsByConditions(studentDto);
+        if(page!=null){
+            Integer  countTeachersByConditions= studentMapper.countStudentsByConditions(studentDto);
+            map.put("total",countTeachersByConditions);
+        }
+        map.put("students",studentsByConditions);
         result.setCode(200);
         result.setData(map);
         return result;

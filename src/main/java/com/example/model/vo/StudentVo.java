@@ -1,22 +1,15 @@
-package com.example.model.dto;
+package com.example.model.vo;
 
 import com.example.model.domain.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+
 @Data
 @AllArgsConstructor  //满参构造方法
 @NoArgsConstructor  //无参构造方法
-public class StudentDto extends Student {
-    /**
-     * 分页开始点
-     */
-    private Integer offSet;
-    /**
-     * 每页数量
-     */
-    private Integer pageSize;
+public class StudentVo extends Student {
+    private Integer countAppointment;
     /**
      * 省
      */
@@ -46,6 +39,4 @@ public class StudentDto extends Student {
      * 纬度
      */
     private String latitude;
-
-
 }

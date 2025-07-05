@@ -84,7 +84,7 @@ public class AppointmentController {
     @PostMapping("/getAllTeacherTimeByTeacherId")
     public Result getAllTeacherTimeByTeacherId(@RequestBody TeacherTime teacherTime) {
         Result result=new Result();
-        List<TeacherTime> teacherTimeByConditions = teacherTimeService.getAllTeacherTimeByTeacherId(teacherTime);
+        List<TeacherTime> teacherTimeByConditions = teacherTimeService.getAllTeacherTimeByTeacherId(teacherTime.getTeacherId());
         result.setData(teacherTimeByConditions);
         result.setCode(200);
         return result;
@@ -102,9 +102,7 @@ public class AppointmentController {
         List<TeacherTime> noExistsList = new ArrayList<>();
         Map<String,List<TeacherTime>> resultMap = new HashMap();
         //查询该老师自己设置的预约时间
-        TeacherTime teacherTime = new TeacherTime();
-        teacherTime.setTeacherId(appointmentDto.getTeacherId());
-        List<TeacherTime> timeByTeacherId = teacherTimeService.getAllTeacherTimeByTeacherId(teacherTime);
+        List<TeacherTime> timeByTeacherId = teacherTimeService.getAllTeacherTimeByTeacherId(appointmentDto.getTeacherId());
         //查询该老师自己设置的预约时间段是否存在学生已经预约成功
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -184,6 +182,7 @@ public class AppointmentController {
         result.setMsg("预约失败");
         return result;
     }
+
 
 }
 

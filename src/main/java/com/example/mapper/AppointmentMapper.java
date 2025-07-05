@@ -12,6 +12,11 @@ import java.util.Map;
 @Mapper
 public interface AppointmentMapper {
 
+    @Select("SELECT count(*) FROM appointment where created >= CURDATE()")
+    int countNewTodayAppointment();
+    @Select("SELECT count(*) FROM appointment")
+    int countAllAppointment();
+
     int saveAppointment(Appointment appointment);
 
     Appointment getAppointmentById(Long id);
@@ -19,6 +24,7 @@ public interface AppointmentMapper {
     List<Appointment> getAllAppointments();
 
     List<AppointmentVo> getAppointmentsByConditions(Appointment appointment);
+    Integer getAppointmentByTeacherId(String teacherId);
 
     void updateAppointment(Appointment appointment);
 

@@ -45,22 +45,52 @@
     </select>
 
     <!-- 根据多个条件查询学生信息 -->
-    <select id="getStudentsByConditions" parameterType="com.example.model.domain.Student"
-            resultType="com.example.model.domain.Student">
-        SELECT * FROM student
+    <select id="getStudentsByConditions" parameterType="com.example.model.dto.StudentDto"
+            resultType="com.example.model.vo.StudentVo">
+        SELECT a.*,
+        b.province, b.city,b.district,b.detailedAddress,
+        d.countAppointment
+        FROM student a left join address b on a.userId = b.userId
+        <if test="province != null">AND b.province = #{province}</if>
+        <if test="city != null">AND b.city = #{city}</if>
+        <if test="district != null">AND b.district = #{district}</if>
+        left join (SELECT count(*) as countAppointment,studentId from appointment GROUP BY studentId) d on a.userId = d.studentId
         <where>
             <if test="id != null">id = #{id}</if>
-            <if test="userId != null">userId = #{userId}</if>
-            <if test="name != null">AND name = #{name}</if>
-            <if test="vxName != null">AND vxName = #{vxName}</if>
+            <if test="userId != null">AND a.userId LIKE CONCAT('%', #{userId}, '%')</if>
+            <if test="name != null">AND a.name LIKE CONCAT('%', #{name}, '%')</if>
             <if test="gender != null">AND gender = #{gender}</if>
             <if test="primarySchool != null">AND primarySchool = #{primarySchool}</if>
             <if test="middleSchool != null">AND middleSchool = #{middleSchool}</if>
             <if test="highSchool != null">AND highSchool = #{highSchool}</if>
-            <if test="address != null">AND address = #{address}</if>
             <if test="mobile != null">AND mobile = #{mobile}</if>
             <if test="academicQualification != null">AND academicQualification = #{academicQualification}</if>
         </where>
+        ORDER BY d.countAppointment
+        <if test="pageSize != null">LIMIT #{pageSize}</if>
+        <if test="offSet != null">OFFSET #{offSet}</if>
+        ;
+    </select>
+
+    <!-- 根据多个条件查询学生信息总数 -->
+    <select id="countStudentsByConditions" parameterType="com.example.model.dto.StudentDto"
+            resultType="Integer">
+        SELECT count(*)
+        FROM student a left join address b on a.userId = b.userId
+        <if test="province != null">AND b.province = #{province}</if>
+        <if test="city != null">AND b.city = #{city}</if>
+        <if test="district != null">AND b.district = #{district}</if>
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="userId != null">AND a.userId LIKE CONCAT('%', #{userId}, '%')</if>
+            <if test="name != null">AND a.name LIKE CONCAT('%', #{name}, '%')</if>
+            <if test="gender != null">AND gender = #{gender}</if>
+            <if test="primarySchool != null">AND primarySchool = #{primarySchool}</if>
+            <if test="middleSchool != null">AND middleSchool = #{middleSchool}</if>
+            <if test="highSchool != null">AND highSchool = #{highSchool}</if>
+            <if test="mobile != null">AND mobile = #{mobile}</if>
+            <if test="academicQualification != null">AND academicQualification = #{academicQualification}</if>
+        </where>;
     </select>
 
     <!-- 更新学生信息 -->

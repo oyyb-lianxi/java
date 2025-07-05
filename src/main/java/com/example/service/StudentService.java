@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
 import com.example.model.dto.StudentDto;
+import com.example.model.vo.StudentVo;
 
 import java.util.List;
 
@@ -24,5 +25,5 @@ public interface StudentService {
 
     public List<Student> getAllStudents();
 
-    public Student getStudentsByConditions(Student student);
+    public List<StudentVo> getStudentsByConditions(StudentDto student);
 }

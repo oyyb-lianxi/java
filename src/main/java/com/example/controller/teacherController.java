@@ -1,16 +1,16 @@
 package com.example.controller;
 
 import com.example.mapper.AddressMapper;
+import com.example.mapper.AppointmentMapper;
+import com.example.mapper.TeacherMapper;
 import com.example.model.CommonUtils.JwtUtils;
-import com.example.model.domain.Address;
-import com.example.model.domain.Appointment;
+import com.example.model.domain.*;
 import com.example.model.dto.AppointmentDto;
 import com.example.model.dto.TeacherDto;
 import com.example.model.entity.Result;
 import com.example.model.vo.AppointmentVo;
+import com.example.model.vo.TeacherVo;
 import com.example.service.*;
-import com.example.model.domain.Student;
-import com.example.model.domain.Teacher;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +35,28 @@ public class teacherController {
     @Autowired
     private AppointmentService appointmentService;
     @Autowired
+    private AppointmentMapper appointmentMapper;
+    @Autowired
     private TeacherTimeService teacherTimeService;
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     /**
      * 查询所有老师信息
      */
-    @GetMapping("/teacherList")
-    public ResponseEntity selectAllTeacher(){
-        List<Teacher> teachers = teacherInfoService.selectAll();
-        return ResponseEntity.ok(teachers);
+    @GetMapping("/teacherList/{page}/{pageSize}")
+    public Result selectAllTeacher(@PathVariable Integer page,@PathVariable Integer pageSize){
+        Result result =new Result();
+        Map<String,Object> map =new HashMap();
+        List<TeacherVo> teachers = teacherInfoService.getAllTeacherByPage(page,pageSize);
+        int countTeacher = teacherMapper.countAllTeacher();
+        map.put("teachers",teachers);
+        map.put("total",countTeacher);
+        result.setCode(200);
+        result.setData(map);
+        return result;
     }
 
     /**
@@ -58,8 +69,41 @@ public class teacherController {
         TeacherDto teacherDto = new TeacherDto();
         Teacher teachers = teacherInfoService.queryByUserId(userId);
         Address userAddressById = addressMapper.getUserAddressById(userId);
+        Integer countAppointment = appointmentMapper.getAppointmentByTeacherId(userId);
         map.put("teacher",teachers);
         map.put("teacherAddress",userAddressById);
+        map.put("countAppointment",countAppointment);
+        result.setCode(200);
+        result.setData(map);
+        return result;
+    }
+    /**
+     * 按条件查询老师信息
+     */
+    @PostMapping("/getTeachersByConditions/{page}/{pageSize}")
+    public Result getTeachersByConditions(@RequestBody TeacherDto teacherDto,
+                                          @PathVariable Integer page,@PathVariable Integer pageSize){
+        Result result =new Result();
+        log.info(teacherDto+"queryTeacher");
+        Map<String,Object> map =new HashMap();
+        teacherDto.setOffSet((page-1) * pageSize);
+        teacherDto.setPageSize(pageSize);
+        List<TeacherVo> teachersByConditions = teacherInfoService.getTeachersByConditions(teacherDto);
+        Integer  countTeachersByConditions= teacherMapper.countTeachersByConditions(teacherDto);
+        for (TeacherVo teachersByCondition : teachersByConditions) {
+            StringBuffer sb = new StringBuffer();
+            List<TeacherTime> allTeacherTimeByTeacherId = teacherTimeService.getAllTeacherTimeByTeacherId(teachersByCondition.getUserId());
+            for (TeacherTime teacherTime : allTeacherTimeByTeacherId) {
+                sb.append(teacherTime.getStartTime());
+                sb.append("-");
+                sb.append(teacherTime.getEndTime());
+                sb.append(";");
+            }
+            teachersByCondition.setTeacherFreeTime(sb.toString());
+        }
+
+        map.put("teachers",teachersByConditions);
+        map.put("total",countTeachersByConditions);
         result.setCode(200);
         result.setData(map);
         return result;
@@ -71,7 +115,7 @@ public class teacherController {
     @PostMapping("/saveTeacher")
     public Result saveTeacher(@RequestBody TeacherDto teacherDto){
         Result result =new Result();
-        System.out.println("saveUserInfo ==>"+teacherDto);
+       log.info("saveUserInfo ==>"+teacherDto);
         Boolean aBoolean = teacherInfoService.saveTeacher(teacherDto);
         result.setCode(200);
         if(aBoolean){
@@ -164,7 +208,7 @@ public class teacherController {
            return result;
    }
 
-           /**
+   /**
      * 老师确认预约
      * @param
      * @return

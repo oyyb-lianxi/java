@@ -26,8 +26,13 @@
     </select>
 
     <!-- 查询老师空闲时间 -->
-    <select id="getAllTeacherTimeByTeacherId" resultType="com.example.model.domain.TeacherTime">
+    <select id="getAllTeacherTimeByTeacherId" parameterType="String" resultType="com.example.model.domain.TeacherTime">
         SELECT * FROM teacherTime where teacherId = #{teacherId}
+    </select>
+
+    <!-- 查询老师可预约时间 -->
+    <select id="getTeacherFreeTimeByTeacherId" resultType="com.example.model.domain.TeacherTime">
+
     </select>
 
 

@@ -26,4 +26,5 @@ public interface UserMapper {
     Admin selectAdminByPhone(@Param("phone") String phone);
     @Select("SELECT * FROM admin WHERE phone = #{phone} and password = #{password}")
     Admin selectAdmin(@Param("phone") String phone,@Param("password") String password);
+
 }

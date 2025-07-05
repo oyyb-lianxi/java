@@ -8,6 +8,7 @@ import com.example.model.domain.Teacher;
 import com.example.model.domain.User;
 import com.example.model.dto.TeacherDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.TeacherVo;
 import com.example.service.FileService;
 import com.example.service.TeacherInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,12 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<TeacherVo> getTeachersByConditions(TeacherDto teacherDto) {
+        List<TeacherVo> teachersByConditions = teacherMapper.getTeachersByConditions(teacherDto);
+        return teachersByConditions;
     }
 
     private static Address getTeacherAddress(TeacherDto teacherDto) {
@@ -90,10 +97,10 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
     }
 
     @Override
-    public List<Teacher> selectAll() {
-        List<Teacher> teacherList = teacherMapper.selectAll();
-        log.info("aaaaaaa");
-        System.out.println("teacherList"+teacherList);
+    public List<TeacherVo> getAllTeacherByPage(Integer page, Integer pageSize) {
+        Integer offSet = (page-1) * pageSize;
+        List<TeacherVo> teacherList = teacherMapper.getAllTeacherByPage(pageSize,offSet);
+        log.info("teacherList"+teacherList);
         return teacherList;
     }
 

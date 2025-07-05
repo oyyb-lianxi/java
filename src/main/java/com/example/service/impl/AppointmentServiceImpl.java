@@ -102,6 +102,34 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationMapper.saveNotification(notification);
         return true;
     }
+
+    //确认完成
+      public Boolean successFinishAppointment(Long appointmentId) {
+        Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
+        if (appointment == null) {
+            return false;
+        }
+
+        if (!"CONFIRMED".equals(appointment.getStatus())) {
+            return false;
+        }
+
+        // 更新预约状态
+        appointment.setStatus("SUCCESS");
+        appointmentMapper.updateAppointment(appointment);
+
+        // 生成通知
+        Student student = studentMapper.getStudentById(appointment.getStudentId());
+        Teacher teacher = teacherMapper.getTeacherById(appointment.getTeacherId());
+
+        Notification notification = new Notification();
+        notification.setStudentId(appointment.getStudentId());
+        notification.setTeacherId(appointment.getTeacherId());
+        notification.setMessage("student"+ student.getName()+ "appointment with teacher " + teacher.getName() + " has been SUCCESS");
+        notification.setCreated(new Date());
+        notificationMapper.saveNotification(notification);
+        return true;
+    }
   //取消预约
   public void cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);

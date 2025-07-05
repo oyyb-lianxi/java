@@ -12,6 +12,14 @@ public class TeacherDto extends Teacher {
     private MultipartFile academicQualificationPictureFile;
     private MultipartFile chinaIdNumberPictureFile;
     /**
+     * 分页开始点
+     */
+    private Integer offSet;
+    /**
+     * 每页数量
+     */
+    private Integer pageSize;
+    /**
      * 省
      */
     private String province;

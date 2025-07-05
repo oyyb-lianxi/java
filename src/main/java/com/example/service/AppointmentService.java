@@ -14,6 +14,7 @@ public interface AppointmentService {
     public void makeAppointment(String studentId, String teacherId, String subject, LocalDateTime appointmentDate,
                                 LocalDateTime appointmentStartTime,LocalDateTime appointmentEndTime);
     public Boolean confirmAppointment(Long appointmentId);
+    public Boolean successFinishAppointment(Long appointmentId);
     public void cancelAppointment(Long appointmentId);
     public List<AppointmentVo> getAppointmentsByConditions(Appointment appointment);
 

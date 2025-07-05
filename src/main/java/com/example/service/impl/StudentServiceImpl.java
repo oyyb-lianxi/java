@@ -7,6 +7,7 @@ import com.example.model.domain.Student;
 import com.example.model.domain.Teacher;
 import com.example.model.dto.StudentDto;
 import com.example.model.dto.TeacherDto;
+import com.example.model.vo.StudentVo;
 import com.example.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentsByConditions(Student student) {
+    public List<StudentVo> getStudentsByConditions(StudentDto student) {
         return studentMapper.getStudentsByConditions(student);
     }
 

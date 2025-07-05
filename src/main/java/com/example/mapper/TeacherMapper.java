@@ -3,6 +3,7 @@ package com.example.mapper;
 
 import com.example.model.domain.Teacher;
 import com.example.model.dto.TeacherDto;
+import com.example.model.vo.TeacherVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -14,11 +15,16 @@ import java.util.List;
 public interface TeacherMapper {
     @Select("SELECT * FROM teacher")
     List<Teacher> selectAll();
+    @Select("SELECT count(*) FROM user where type = '0'")
+    int countAllTeacher();
+    @Select("SELECT count(*) FROM user where type = '0' AND created >= CURDATE()")
+    int countNewTodayTeacher();
 
     Teacher getTeacherById(String userId);
-    List<Teacher> getAllTeachers();
+    List<TeacherVo> getAllTeacherByPage(Integer pageSize, Integer offSet);
 
-    Teacher getTeachersByConditions(Teacher teacher);
+    List<TeacherVo> getTeachersByConditions(TeacherDto teacher);
+    Integer countTeachersByConditions(TeacherDto teacher);
 
     Teacher queryByUserId(String userId);
 

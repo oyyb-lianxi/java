@@ -43,6 +43,11 @@
         SELECT * FROM appointment WHERE id = #{id}
     </select>
 
+    <!-- 统计老师被预约次数 -->
+    <select id="getAppointmentByTeacherId" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM appointment WHERE teacherId = #{teacherId}
+    </select>
+
     <!-- 根据多个条件查询预约信息 -->
     <select id="getAppointmentsByConditions" parameterType="com.example.model.domain.Appointment"
             resultType="com.example.model.vo.AppointmentVo">

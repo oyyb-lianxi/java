@@ -71,36 +71,65 @@
     </insert>
 
         <!-- 查询所有老师信息 -->
-    <select id="getAllTeachers" resultType="com.example.model.domain.Teacher">
-        SELECT * FROM teacher
+    <select id="getAllTeacherByPage" parameterType="Integer" resultType="com.example.model.vo.TeacherVo">
+        SELECT a.*,b.countAppointment from teacher a
+        LEFT JOIN (SELECT count(*) as countAppointment,teacherId from appointment GROUP BY teacherId) b
+        on a.userId = b.teacherId
+        ORDER BY b.countAppointment
+        LIMIT #{pageSize} OFFSET #{offSet};
     </select>
     <!-- 根据ID查询老师信息 -->
     <select id="getTeacherById" parameterType="String" resultType="com.example.model.domain.Teacher">
         SELECT * FROM teacher WHERE userId = #{userId}
     </select>
    <!-- 根据多个条件查询老师信息 -->
-    <select id="getTeachersByConditions" parameterType="map" resultType="com.example.model.domain.Teacher">
-        SELECT * FROM teacher
+    <select id="getTeachersByConditions" parameterType="map" resultType="com.example.model.vo.TeacherVo">
+        SELECT a.*,
+        b.province, b.city,b.district,b.detailedAddress,
+        d.countAppointment
+        FROM teacher a left join address b on a.userId = b.userId
+        <if test="province != null">AND b.province = #{province}</if>
+        <if test="city != null">AND b.city = #{city}</if>
+        <if test="district != null">AND b.district = #{district}</if>
+        left join (SELECT count(*) as countAppointment,teacherId from appointment GROUP BY teacherId) d on a.userId = d.teacherId
         <where>
-            <if test="id != null">id = #{id}</if>
-            <if test="userId != null">AND userId = #{userId}</if>
-            <if test="name != null">AND name = #{name}</if>
-            <if test="vxName != null">AND vxName = #{vxName}</if>
-            <if test="gender != null">AND gender = #{gender}</if>
-            <if test="primarySchool != null">AND primarySchool = #{primarySchool}</if>
-            <if test="middleSchool != null">AND middleSchool = #{middleSchool}</if>
-            <if test="highSchool != null">AND highSchool = #{highSchool}</if>
-            <if test="university != null">AND university = #{university}</if>
-            <if test="chinaIdNumber != null">AND chinaIdNumber = #{chinaIdNumber}</if>
-            <if test="chinaIdNumberPictureFileName != null">AND chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName}</if>
-            <if test="address != null">AND address = #{address}</if>
-            <if test="mobile != null">AND mobile = #{mobile}</if>
-            <if test="teachingSeniority != null">AND teachingSeniority = #{teachingSeniority}</if>
-            <if test="teachingType != null">AND teachingType = #{teachingType}</if>
-            <if test="personalProfile != null">AND personalProfile = #{personalProfile}</if>
-            <if test="academicQualification != null">AND academicQualification = #{academicQualification}</if>
-            <if test="academicQualificationPictureFileName != null">AND academicQualificationPictureFileName = #{academicQualificationPictureFileName}</if>
-            <if test="price != null">AND price = #{price}</if>
+            <if test="id != null">a.id = #{id}</if>
+            <if test="userId != null">AND a.userId LIKE CONCAT('%', #{userId}, '%')</if>
+            <if test="name != null">AND a.name LIKE CONCAT('%', #{name}, '%')</if>
+            <if test="gender != null">AND a.gender = #{gender}</if>
+            <if test="primarySchool != null">AND a.primarySchool = #{primarySchool}</if>
+            <if test="middleSchool != null">AND a.middleSchool = #{middleSchool}</if>
+            <if test="highSchool != null">AND a.highSchool = #{highSchool}</if>
+            <if test="university != null">AND a.university = #{university}</if>
+            <if test="address != null">AND a.address = #{address}</if>
+            <if test="mobile != null">AND a.mobile = #{mobile}</if>
+            <if test="teachingSeniority != null">AND a.teachingSeniority = #{teachingSeniority}</if>
+            <if test="teachingType != null">AND a.teachingType = #{teachingType}</if>
+            <if test="academicQualification != null">AND a.academicQualification = #{academicQualification}</if>
+        </where>
+        ORDER BY d.countAppointment
+        LIMIT #{pageSize} OFFSET #{offSet};
+    </select>
+    <select id="countTeachersByConditions" parameterType="map" resultType="Integer">
+        SELECT count(*)
+        FROM teacher a left join address b on a.userId = b.userId
+        <if test="province != null">AND b.province = #{province}</if>
+        <if test="city != null">AND b.city = #{city}</if>
+        <if test="district != null">AND b.district = #{district}</if>
+        <where>
+            <if test="id != null">a.id = #{id}</if>
+            <if test="userId != null">AND a.userId LIKE CONCAT('%', #{userId}, '%')</if>
+            <if test="name != null">AND a.name LIKE CONCAT('%', #{name}, '%')</if>
+            <if test="gender != null">AND a.gender = #{gender}</if>
+            <if test="primarySchool != null">AND a.primarySchool = #{primarySchool}</if>
+            <if test="middleSchool != null">AND a.middleSchool = #{middleSchool}</if>
+            <if test="highSchool != null">AND a.highSchool = #{highSchool}</if>
+            <if test="university != null">AND a.university = #{university}</if>
+            <if test="address != null">AND a.address = #{address}</if>
+            <if test="mobile != null">AND a.mobile = #{mobile}</if>
+            <if test="teachingSeniority != null">AND a.teachingSeniority = #{teachingSeniority}</if>
+            <if test="teachingType != null">AND a.teachingType = #{teachingType}</if>
+            <if test="academicQualification != null">AND a.academicQualification = #{academicQualification}</if>
         </where>
     </select>
 

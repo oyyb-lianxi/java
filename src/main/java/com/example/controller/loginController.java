@@ -108,24 +108,28 @@ public class loginController {
 
     }
    @PostMapping("/customerCheckSessionKey")
-   public ResponseEntity customerCheckSessionKey(@RequestBody Admin adminDto) {
-       Map<String, Object> result = new HashMap<>();
+   public Result customerCheckSessionKey(@RequestBody Admin adminDto) {
+
+       Result result =new Result();
+       result.setCode(200);
+       Map<String, Object> resultMap = new HashMap<>();
         String phone =  adminDto.getPhone();
        String password =  adminDto.getPassword();
        Admin  admin = userMapper.selectAdmin(phone,password);
         if(admin == null){
-            result.put("message","用户名密码错误");
-            return ResponseEntity.ok(result);
+            result.setMsg("用户名密码错误");
+            return result;
         }
                //登录成功, 生成token
         Map<String, Object> tokenMap = new HashMap<String, Object>();
         tokenMap.put("openid", phone);
         String token = JwtUtils.getToken(tokenMap);
                //5. 封装数据返回
-        result.put("token", token);
-        result.put("openid", phone);
-        result.put("status", "OLD");
-        return ResponseEntity.ok(result);
+       resultMap.put("token", token);
+       resultMap.put("openid", phone);
+       resultMap.put("status", "OLD");
+       result.setData(resultMap);
+        return result;
    }
 //    @PostMapping("/getWxInfoTest")
 //    public String getWxInfoTest(@RequestBody JSONObject obj) {
