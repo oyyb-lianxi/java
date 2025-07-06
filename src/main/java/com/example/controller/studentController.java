@@ -152,7 +152,6 @@ public class studentController {
     public Result studentToDo(@RequestBody AppointmentDto studentAppointment){
         String appointmentDateDto = studentAppointment.getAppointmentDateDto();
         String appointmentCreatedDto = studentAppointment.getAppointmentCreatedDto();
-        AppointmentDto appointment = new AppointmentDto();
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if(studentAppointment.getPage()!=null && studentAppointment.getPageSize()!= null){
             studentAppointment.setOffSet((studentAppointment.getPage()-1) * studentAppointment.getPageSize());
@@ -167,7 +166,7 @@ public class studentController {
         }
 
         Result result =new Result();
-        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(appointment);
+        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(studentAppointment);
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
         int countCancel = 0;
         //取消已经过期预约
@@ -181,7 +180,7 @@ public class studentController {
         result.setCode(200);
 
         if(countCancel>0){
-            List<AppointmentVo> newAppointments = appointmentService.getAppointmentsByConditions(appointment);
+            List<AppointmentVo> newAppointments = appointmentService.getAppointmentsByConditions(studentAppointment);
             result.setData(newAppointments);
         }else {
             result.setData(appointments);
