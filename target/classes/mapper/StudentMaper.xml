@@ -40,8 +40,11 @@
     </select>
 
     <!-- 根据ID查询学生信息 -->
-    <select id="getStudentById" parameterType="String" resultType="com.example.model.domain.Student">
-        SELECT * FROM student WHERE userId = #{userId}
+    <select id="getStudentById" parameterType="String" resultType="com.example.model.vo.StudentVo">
+        SELECT a.*,
+        b.province, b.city,b.district,b.detailedAddress
+        FROM student a left join address b on a.userId = b.userId
+        WHERE a.userId = #{userId}
     </select>
 
     <!-- 根据多个条件查询学生信息 -->

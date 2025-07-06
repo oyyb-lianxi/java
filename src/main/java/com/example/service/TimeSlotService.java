@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.domain.Appointment;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.vo.AppointmentVo;
 import com.example.model.vo.TimeSlotVo;
 import com.example.service.AppointmentService;
@@ -26,7 +27,7 @@ public class TimeSlotService {
      * @param slotDuration
      * @return
      */
-    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(Appointment teacherAppointment, String appointmentDate,String startDate, String endDate, int slotDuration) {
+    public List<TimeSlotVo> getFreeTimeSlotsByTeacherId(AppointmentDto teacherAppointment, String appointmentDate, String startDate, String endDate, int slotDuration) {
 
         //查询该老师的所有预约
         List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(teacherAppointment);

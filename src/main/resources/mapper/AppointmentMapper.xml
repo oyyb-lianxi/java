@@ -49,7 +49,7 @@
     </select>
 
     <!-- 根据多个条件查询预约信息 -->
-    <select id="getAppointmentsByConditions" parameterType="com.example.model.domain.Appointment"
+    <select id="getAppointmentsByConditions" parameterType="com.example.model.dto.AppointmentDto"
             resultType="com.example.model.vo.AppointmentVo">
         select a.id,a.studentId,a.teacherId, a.adminPhone,a.subject,
         UNIX_TIMESTAMP(a.appointmentDate) * 1000 AS appointmentDate,
@@ -69,10 +69,14 @@
             <if test="appointmentEndTime != null">AND appointmentEndTime = #{appointmentEndTime}</if>
             <if test="status != null">AND status = #{status}</if>
             <if test="location != null">AND location = #{location}</if>
+            <if test="created != null">AND created &amp;gt; #{created} and created &amp;lt; #{created} + INTERVAL 1 DAY</if>
         </where>
         ) as a
         left join (select userId,name from student) s on a.studentId = s.userId
         left join (select userId,name from teacher) t on a.teacherId = t.userId
+        ORDER BY appointmentDate
+        <if test="pageSize != null">LIMIT #{pageSize}</if>
+        <if test="offSet != null">OFFSET #{offSet}</if>
     </select>
 
     <!-- 查询该老师某天的可预约时间 -->
@@ -189,7 +193,7 @@
             <if test="appointmentEndTime != null">
                 AND appointmentEndTime = #{appointmentEndTime}
             </if>
-            AND status != 'CONFIRMED'
+            AND status = 'CONFIRMED'
         </where>
         ) THEN 1 ELSE 0 END
     </select>

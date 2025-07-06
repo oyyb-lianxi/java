@@ -21,7 +21,7 @@ public interface StudentService {
 
     public Boolean deleteStudent(Student userInfo);
 
-    public Student getStudentById(String studentId);
+    public StudentVo getStudentById(String studentId);
 
     public List<Student> getAllStudents();
 

@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.model.domain.Appointment;
 import com.example.model.domain.Notification;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.vo.AppointmentVo;
 import org.apache.ibatis.annotations.*;
 
@@ -23,7 +24,7 @@ public interface AppointmentMapper {
 
     List<Appointment> getAllAppointments();
 
-    List<AppointmentVo> getAppointmentsByConditions(Appointment appointment);
+    List<AppointmentVo> getAppointmentsByConditions(AppointmentDto appointment);
     Integer getAppointmentByTeacherId(String teacherId);
 
     void updateAppointment(Appointment appointment);

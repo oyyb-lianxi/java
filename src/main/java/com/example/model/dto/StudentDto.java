@@ -18,6 +18,10 @@ public class StudentDto extends Student {
      */
     private Integer pageSize;
     /**
+     * 页码
+     */
+    private Integer page;
+    /**
      * 省
      */
     private String province;

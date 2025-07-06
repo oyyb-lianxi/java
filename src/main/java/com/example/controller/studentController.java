@@ -4,18 +4,17 @@ package com.example.controller;
 import com.example.mapper.AddressMapper;
 import com.example.mapper.StudentMapper;
 import com.example.model.CommonUtils.JwtUtils;
-import com.example.model.domain.Address;
-import com.example.model.domain.TeacherTime;
+import com.example.model.domain.*;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.dto.StudentDto;
 import com.example.model.dto.TeacherDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.AppointmentVo;
 import com.example.model.vo.StudentVo;
 import com.example.model.vo.TeacherVo;
 import com.example.service.AppointmentService;
 import com.example.service.StudentService;
 import com.example.service.WechatToolsService;
-import com.example.model.domain.Student;
-import com.example.model.domain.Teacher;
 import com.example.service.HttpUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,10 +88,15 @@ public class studentController {
     /**
      * 根据学生id查询学生信息
      */
-    @GetMapping("/getStudentById/{studentId}")
-    public ResponseEntity getStudentById(@PathVariable String studentId){
-        Student student = studentService.getStudentById(studentId);
-        return ResponseEntity.ok(student);
+    @PostMapping("/getStudentById")
+    public Result getStudentById(@RequestBody Student Student){
+        Result result =new Result();
+        Map<String,Object> map =new HashMap();
+        StudentVo student = studentService.getStudentById(Student.getUserId());
+        map.put("student",student);
+        result.setCode(200);
+        result.setData(map);
+        return result;
     }
 
     /**
@@ -136,6 +143,49 @@ public class studentController {
         map.put("students",studentsByConditions);
         result.setCode(200);
         result.setData(map);
+        return result;
+    }
+    /**
+     * 学生预约列表
+     */
+    @PostMapping("/studentToDo")
+    public Result studentToDo(@RequestBody AppointmentDto studentAppointment){
+        String appointmentDateDto = studentAppointment.getAppointmentDateDto();
+        String appointmentCreatedDto = studentAppointment.getAppointmentCreatedDto();
+        AppointmentDto appointment = new AppointmentDto();
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        if(studentAppointment.getPage()!=null && studentAppointment.getPageSize()!= null){
+            studentAppointment.setOffSet((studentAppointment.getPage()-1) * studentAppointment.getPageSize());
+        }
+        if(appointmentDateDto!=null){
+            LocalDateTime localDateTime = LocalDateTime.parse(appointmentDateDto, formatterDate);
+            studentAppointment.setAppointmentDate(localDateTime);
+        }
+        if(appointmentCreatedDto!=null){
+            LocalDateTime localDateTime = LocalDateTime.parse(appointmentCreatedDto, formatterDate);
+            studentAppointment.setCreated(localDateTime);
+        }
+
+        Result result =new Result();
+        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(appointment);
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        int countCancel = 0;
+        //取消已经过期预约
+        for (AppointmentVo appointment1 : appointments) {
+            if(new Timestamp(appointment1.getAppointmentEndTime()).before(currentTimestamp) &&
+                    appointment1.getStatus().equals("PENDING")){
+                appointmentService.cancelAppointment(appointment1.getId());
+                countCancel++;
+            }
+        }
+        result.setCode(200);
+
+        if(countCancel>0){
+            List<AppointmentVo> newAppointments = appointmentService.getAppointmentsByConditions(appointment);
+            result.setData(newAppointments);
+        }else {
+            result.setData(appointments);
+        }
         return result;
     }
 }

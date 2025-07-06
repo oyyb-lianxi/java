@@ -3,6 +3,7 @@ package com.example.service.impl;
 
 import com.example.mapper.*;
 import com.example.model.domain.*;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.vo.AppointmentVo;
 import com.example.service.AppointmentService;
 import com.example.service.UserService;
@@ -71,7 +72,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         notification.setTeacherId(teacherId);
         notification.setStudentId(studentId);
         notification.setMessage("New appointment request from student: " + student.getName());
-        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
     }
 
@@ -98,7 +98,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         notification.setStudentId(appointment.getStudentId());
         notification.setTeacherId(appointment.getTeacherId());
         notification.setMessage("student"+ student.getName()+ "appointment with teacher " + teacher.getName() + " has been confirmed");
-        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
         return true;
     }
@@ -126,7 +125,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         notification.setStudentId(appointment.getStudentId());
         notification.setTeacherId(appointment.getTeacherId());
         notification.setMessage("student"+ student.getName()+ "appointment with teacher " + teacher.getName() + " has been SUCCESS");
-        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
         return true;
     }
@@ -153,12 +151,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         notification.setTeacherId(appointment.getTeacherId());
         notification.setStudentId(appointment.getStudentId());
         notification.setMessage("Appointment with student " + student.getName() + " has been cancelled");
-        notification.setCreated(new Date());
         notificationMapper.saveNotification(notification);
     }
   //查询学生的所有预约
   //查询预约
-      public List<AppointmentVo> getAppointmentsByConditions(Appointment appointment) {
+      public List<AppointmentVo> getAppointmentsByConditions(AppointmentDto appointment) {
         return appointmentMapper.getAppointmentsByConditions(appointment);
     }
     @Override

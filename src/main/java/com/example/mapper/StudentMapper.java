@@ -15,7 +15,7 @@ public interface StudentMapper {
 
     int saveStudent(Student student);
     Integer countStudentsByConditions(StudentDto studentDto);
-    Student getStudentById(String userId);
+    StudentVo getStudentById(String userId);
 
     @Select("SELECT count(*) FROM user where type = '1' ")
     int countAllStudent();

@@ -168,26 +168,41 @@ public class teacherController {
      */
     @PostMapping("/teacherToDo")
     public Result teacherToDo(@RequestBody AppointmentDto teacherAppointment){
-        Appointment appointment = new Appointment();
+        String appointmentDateDto = teacherAppointment.getAppointmentDateDto();
+        String appointmentCreatedDto = teacherAppointment.getAppointmentCreatedDto();
+        if(teacherAppointment.getPage()!=null && teacherAppointment.getPageSize()!= null){
+            teacherAppointment.setOffSet((teacherAppointment.getPage()-1) * teacherAppointment.getPageSize());
+        }
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime localDateTime = LocalDateTime.parse(teacherAppointment.getAppointmentDateDto(), formatterDate);
-        appointment.setAppointmentDate(localDateTime);
-        appointment.setTeacherId(teacherAppointment.getTeacherId());
-        Result result =new Result();
-        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(appointment);
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        if(appointmentDateDto!=null){
+            LocalDateTime localDateTime = LocalDateTime.parse(appointmentDateDto, formatterDate);
+            teacherAppointment.setAppointmentDate(localDateTime);
+        }
+        if(appointmentCreatedDto!=null){
+            LocalDateTime localDateTime = LocalDateTime.parse(appointmentCreatedDto, formatterDate);
+            teacherAppointment.setCreated(localDateTime);
+        }
 
+        Result result =new Result();
+        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(teacherAppointment);
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        int countCancel = 0;
         //取消已经过期预约
         for (AppointmentVo appointment1 : appointments) {
             if(new Timestamp(appointment1.getAppointmentEndTime()).before(currentTimestamp) &&
                     appointment1.getStatus().equals("PENDING")){
                 appointmentService.cancelAppointment(appointment1.getId());
+                countCancel++;
             }
         }
-        List<AppointmentVo> newAppointments = appointmentService.getAppointmentsByConditions(appointment);
-
         result.setCode(200);
-        result.setData(newAppointments);
+
+        if(countCancel>0){
+            List<AppointmentVo> newAppointments = appointmentService.getAppointmentsByConditions(teacherAppointment);
+            result.setData(newAppointments);
+        }else {
+            result.setData(appointments);
+        }
         return result;
     }
 
