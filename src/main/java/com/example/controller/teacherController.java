@@ -164,7 +164,7 @@ public class teacherController {
     }
 
     /**
-     * 老师待办
+     * 按日期查看老师待办
      */
     @PostMapping("/teacherToDo")
     public Result teacherToDo(@RequestBody AppointmentDto teacherAppointment){
