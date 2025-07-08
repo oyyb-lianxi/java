@@ -60,7 +60,8 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
         LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
          List<TeacherVo> teachersByConditions = appointmentMapper.queryTeacherMonthToDo(teacherId,startOfMonth,endOfMonth);
-        
+    //         @Query("SELECT a FROM Appointment a WHERE a.appointmentDate BETWEEN :startOfMonth AND :endOfMonth")
+    // List<Appointment> findByMonth(@Param("startOfMonth") LocalDateTime startOfMonth, @Param("endOfMonth") LocalDateTime endOfMonth);
     }
 
     private static Address getTeacherAddress(TeacherDto teacherDto) {
