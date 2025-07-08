@@ -213,9 +213,7 @@ public class teacherController {
     public Result teacherMonthToDo(@RequestBody AppointmentDto teacherAppointment){
          Result result =new Result();
         String teacherId = teacherAppointment.getTeacherId();
-        YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
-        LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
-        LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+
         List<String> toDoList = teacherInfoService.queryTeacherMonthToDo(teacherId,startOfMonth,endOfMonth);
         
         
