@@ -56,8 +56,10 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 
     @Override
     public List<String> queryTeacherMonthToDo(String teacherId, String month){
-        
-         List<TeacherVo> teachersByConditions = appointmentMapper.queryTeacherMonthToDo(teacherId,month);
+        YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
+        LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
+        LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+         List<TeacherVo> teachersByConditions = appointmentMapper.queryTeacherMonthToDo(teacherId,startOfMonth,endOfMonth);
         
     }
 
