@@ -1,13 +1,16 @@
 package com.example.service.impl;
 
 import com.example.mapper.AddressMapper;
+import com.example.mapper.AppointmentMapper;
 import com.example.mapper.TeacherMapper;
 import com.example.mapper.UserMapper;
 import com.example.model.domain.Address;
+import com.example.model.domain.Appointment;
 import com.example.model.domain.Teacher;
 import com.example.model.domain.User;
 import com.example.model.dto.TeacherDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.AppointmentVo;
 import com.example.model.vo.TeacherVo;
 import com.example.service.FileService;
 import com.example.service.TeacherInfoService;
@@ -16,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -59,9 +65,8 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
         YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
         LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
-         List<TeacherVo> teachersByConditions = appointmentMapper.queryTeacherMonthToDo(teacherId,startOfMonth,endOfMonth);
-    //         @Query("SELECT a FROM Appointment a WHERE a.appointmentDate BETWEEN :startOfMonth AND :endOfMonth")
-    // List<Appointment> findByMonth(@Param("startOfMonth") LocalDateTime startOfMonth, @Param("endOfMonth") LocalDateTime endOfMonth);
+         List<String> teachersByConditions = appointmentMapper.queryTeacherMonthToDo(teacherId,startOfMonth,endOfMonth);
+            return teachersByConditions;
     }
 
     private static Address getTeacherAddress(TeacherDto teacherDto) {

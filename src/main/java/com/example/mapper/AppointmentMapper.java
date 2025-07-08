@@ -17,8 +17,10 @@ public interface AppointmentMapper {
     int countNewTodayAppointment();
     @Select("SELECT count(*) FROM appointment")
     int countAllAppointment();
-    @Select("SELECT * FROM appointment  WHERE teacherId = #{teacherId} and appointmentDate BETWEEN #{startOfMonth} AND #{endOfMonth}")
-    List<Appointment> queryTeacherMonthToDo(@Param("teacherId") String teacherId, @Param("startOfMonth") LocalDateTime startOfMonth, @Param("endOfMonth") LocalDateTime endOfMonth));
+    @Select("SELECT appointmentDate FROM appointment  " +
+            "WHERE teacherId = #{teacherId} and appointmentDate BETWEEN #{startOfMonth} AND #{endOfMonth}" +
+            "GROUP BY appointmentDate")
+    List<String> queryTeacherMonthToDo(@Param("teacherId") String teacherId, @Param("startOfMonth") LocalDateTime startOfMonth, @Param("endOfMonth") LocalDateTime endOfMonth);
     
     int saveAppointment(Appointment appointment);
 

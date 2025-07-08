@@ -30,4 +30,33 @@ public class AppointmentVo {
     private String location;
     private String comments;
     private int duration;
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 县（区）
+     */
+    private String district;
+
+    /**
+     * 详细地址
+     */
+    private String detailedAddress;
+
+    /**
+     * 经度
+     */
+    private String longitude;
+
+    /**
+     * 纬度
+     */
+    private String latitude;
 }

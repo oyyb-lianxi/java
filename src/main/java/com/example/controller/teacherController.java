@@ -214,9 +214,11 @@ public class teacherController {
          Result result =new Result();
         String teacherId = teacherAppointment.getTeacherId();
 
-        List<String> toDoList = teacherInfoService.queryTeacherMonthToDo(teacherId,startOfMonth,endOfMonth);
+        String appointmentDateDto = teacherAppointment.getAppointmentDateDto();
+        List<String> toDoList = teacherInfoService.queryTeacherMonthToDo(teacherId, appointmentDateDto);
         
-        
+        result.setCode(200);
+        result.setData(toDoList);
          return result;
     }
 

@@ -51,12 +51,14 @@
     <!-- 根据多个条件查询预约信息 -->
     <select id="getAppointmentsByConditions" parameterType="com.example.model.dto.AppointmentDto"
             resultType="com.example.model.vo.AppointmentVo">
-        select a.id,a.studentId,a.teacherId, a.adminPhone,a.subject,
+        select a.id,a.studentId,a.teacherId, a.adminPhone,
         UNIX_TIMESTAMP(a.appointmentDate) * 1000 AS appointmentDate,
         UNIX_TIMESTAMP(a.appointmentStartTime) * 1000 AS appointmentStartTime,
         UNIX_TIMESTAMP(a.appointmentEndTime) * 1000 AS appointmentEndTime,
         a.status,a.location,a.comments,a.duration,
-        s.name studentName, t.name teacherName from
+        s.name studentName, t.name teacherName, t.teachingType AS subject,
+        d.province,d.city,d.district,d.detailedAddress,d.longitude,d.latitude
+        from
         (
         SELECT * FROM appointment
         <where>
@@ -73,8 +75,9 @@
         </where>
         ) as a
         left join (select userId,name from student) s on a.studentId = s.userId
-        left join (select userId,name from teacher) t on a.teacherId = t.userId
-        ORDER BY appointmentDate
+        left join (select userId,name,teachingType from teacher) t on a.teacherId = t.userId
+        left join (select province,city,district,detailedAddress,longitude,latitude from address where userType = 1) d on a.studentId = s.userId
+        ORDER BY appointmentStartTime
         <if test="pageSize != null">LIMIT #{pageSize}</if>
         <if test="offSet != null">OFFSET #{offSet}</if>
     </select>

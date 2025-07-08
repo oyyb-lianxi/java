@@ -25,13 +25,17 @@ public class AppointmentDto extends BasePojo {
      */
     private Integer page;
     private String appointmentStartOfMonthDto;
+
     private String appointmentEndOfMonthDto;
+
     private String appointmentDateDto;
+
     private String appointmentCreatedDto;
 
     private String appointmentStartTimeDto;
 
     private String appointmentEndTimeDto;
+
     private LocalDateTime appointmentDate;
 
     private LocalDateTime appointmentStartTime;
