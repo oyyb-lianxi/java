@@ -24,6 +24,8 @@ public class AppointmentDto extends BasePojo {
      * 页码
      */
     private Integer page;
+    private String appointmentStartOfMonthDto;
+    private String appointmentEndOfMonthDto;
     private String appointmentDateDto;
     private String appointmentCreatedDto;
 
