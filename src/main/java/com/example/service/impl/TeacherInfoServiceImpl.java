@@ -28,6 +28,8 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
     private FileService fileService;
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private AppointmentMapper appointmentMapper;
 
     //保存用户信息
     @Override
@@ -50,6 +52,13 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
     public List<TeacherVo> getTeachersByConditions(TeacherDto teacherDto) {
         List<TeacherVo> teachersByConditions = teacherMapper.getTeachersByConditions(teacherDto);
         return teachersByConditions;
+    }
+
+    @Override
+    public List<String> queryTeacherMonthToDo(String teacherId, String month){
+        
+         List<TeacherVo> teachersByConditions = appointmentMapper.queryTeacherMonthToDo(teacherId,month);
+        
     }
 
     private static Address getTeacherAddress(TeacherDto teacherDto) {
