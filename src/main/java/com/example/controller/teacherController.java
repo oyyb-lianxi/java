@@ -206,6 +206,20 @@ public class teacherController {
         return result;
     }
 
+    /**
+     * 按月查看老师待办
+     */
+    @PostMapping("/teacherMonthToDo")
+    public Result teacherMonthToDo(@RequestBody AppointmentDto teacherAppointment){
+         Result result =new Result();
+        YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
+        LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
+        LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+        List<AppointmentVo> appointments = appointmentService.getAppointmentsByConditions(teacherAppointment);
+         return result;
+    }
+
+    
        /**
      * 老师删除可以预约时间
      * @param
