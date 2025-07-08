@@ -11,7 +11,7 @@ public interface TeacherInfoService {
 
     public Boolean saveTeacher(TeacherDto teacherDto);
     public List<TeacherVo> getTeachersByConditions(TeacherDto teacherDto);
-
+    public List<String> queryTeacherMonthToDo(String teacherId, String month);
     public Boolean updateTeacher(TeacherDto userInfo);
 
     public Boolean deleteTeacher(Teacher userInfo);
