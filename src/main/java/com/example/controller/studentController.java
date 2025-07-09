@@ -118,7 +118,7 @@ public class studentController {
         Result result=new Result();
         if(appointmentService.successFinishAppointment(id)){
             result.setCode(200);
-            result.setMsg("已经同意预约");
+            result.setMsg("已经确认完成");
             return result;
         }
         result.setMsg("失败，请联系管理员");

@@ -27,6 +27,18 @@ nas:
   ffmpeg-bin-dir: "F:/nas/ffmpeg/bin"
   # 转码目录位置
   out-dir: "F:/nas/ts"
-#  base-url: http://192.168.1.104:8081/file
+#  base-url: http://localhost:8081/file
   base-url: http://114.215.194.161:8081/file
-
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.model.domain
+  configuration:
+    map-underscore-to-camel-case: "true"
+img:
+  path: /root
+server:
+  port: "8081"
+  ssl:
+    key-store: classpath:zhuoying.xin.pfx
+    key-store-password: 9h00prxd
+    key-store-type: JKS

@@ -76,7 +76,7 @@
         ) as a
         left join (select userId,name from student) s on a.studentId = s.userId
         left join (select userId,name,teachingType from teacher) t on a.teacherId = t.userId
-        left join (select province,city,district,detailedAddress,longitude,latitude from address where userType = 1) d on a.studentId = s.userId
+        left join (select userId,province,city,district,detailedAddress,longitude,latitude from address where userType = 1) d on a.studentId = d.userId
         ORDER BY appointmentStartTime
         <if test="pageSize != null">LIMIT #{pageSize}</if>
         <if test="offSet != null">OFFSET #{offSet}</if>
