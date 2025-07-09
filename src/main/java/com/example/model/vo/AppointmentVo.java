@@ -59,4 +59,9 @@ public class AppointmentVo {
      * 纬度
      */
     private String latitude;
+
+    /**
+     * 纬度
+     */
+    private String lifePicture;
 }

@@ -4,7 +4,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://114.215.194.161:3306/jiajiaoxiaochengxu?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/jiajiaoxiaochengxu?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: Oyyb258369!
   servlet:
@@ -24,11 +24,13 @@ logging:
     com: debug
 nas:
   basepath: "/root"
+#  basepath: "D://"
   ffmpeg-bin-dir: "F:/nas/ffmpeg/bin"
   # 转码目录位置
   out-dir: "F:/nas/ts"
-#  base-url: http://192.168.1.104:8081/file
-  base-url: http://114.215.194.161:8081/file
+#  base-url: http://localhost:8081/file
+#  base-url: http://114.215.194.161:8081/file
+  base-url: /file
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.model.domain
@@ -36,9 +38,10 @@ mybatis:
     map-underscore-to-camel-case: "true"
 img:
   path: /root
+#  path: D://
 server:
   port: "8081"
-#  ssl:
-#    key-store: classpath:zhuoying.xin.pfx
-#    key-store-password: 9h00prxd
-#    key-store-type: JKS
+  ssl:
+    key-store: classpath:zhuoying.xin.pfx
+    key-store-password: 9h00prxd
+    key-store-type: JKS

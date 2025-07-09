@@ -20,4 +20,5 @@ public class Student extends BasePojo{
     private String address;
     private String mobile;
     private String academicQualification; //学历
+    private String lifePicture; //学历
 }

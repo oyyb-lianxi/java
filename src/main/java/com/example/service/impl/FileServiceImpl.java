@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -26,18 +27,27 @@ public class FileServiceImpl implements FileService {
             result.setMsg("上传文件不能为空");
             return result;
         }
-        //上传文件
-        String filename = file.getOriginalFilename();
-        String suffix = filename.substring(filename.indexOf("."),filename.length());
+        //获取 原始文件名
+        String originalFileName = file.getOriginalFilename();
+        log.info("原始文件名：" + originalFileName);
+
+        //断言 判断文件名是否有值 没有则抛出异常中断程序执行
+        assert originalFileName != null;
+        //设置唯一文件路径 防止文件名重复 出现覆盖的情况
+        String fileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf("."));
+        String suffix = fileName.substring(fileName.indexOf("."),fileName.length());
         String filepath = "";
+        log.info("suffix：" + suffix);
         if(".pdf".equals(suffix)) {
-            filepath = nasProperties.getBasepath()+ File.separator+"pdf"+File.separator+suffix;
+            filepath = nasProperties.getBasepath()+ File.separator+"pdf"+File.separator+fileName;
         } else if(showMaps.containsKey(suffix)) {
-            filepath = nasProperties.getBasepath()+ File.separator+"img"+File.separator+suffix;
+            filepath = nasProperties.getBasepath()+ File.separator+"img"+File.separator+fileName;
         }else{
-            filepath = nasProperties.getBasepath()+ File.separator+"file"+File.separator+suffix;
+            filepath = nasProperties.getBasepath()+ File.separator+"file"+File.separator+fileName;
         }
         InputStream is = null;
+        log.info("唯一文件名：" + fileName);
+        log.info("filepath：" + filepath);
         try {
             is = file.getInputStream();
             byte[] buf = new byte[1024];

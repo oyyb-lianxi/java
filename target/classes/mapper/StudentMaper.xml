@@ -16,7 +16,8 @@
             <if test="highSchool != null">highSchool,</if>
             <if test="address != null">address,</if>
             <if test="mobile != null">mobile,</if>
-            <if test="academicQualification != null">academicQualification</if>
+            <if test="academicQualification != null">academicQualification,</if>
+            <if test="lifePicture != null">lifePicture</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -30,7 +31,8 @@
             <if test="highSchool != null">#{highSchool},</if>
             <if test="address != null">#{address},</if>
             <if test="mobile != null">#{mobile},</if>
-            <if test="academicQualification != null">#{academicQualification}</if>
+            <if test="academicQualification != null">#{academicQualification},</if>
+            <if test="lifePicture != null">#{lifePicture}</if>
         </trim>
     </insert>
 
@@ -108,7 +110,8 @@
             <if test="highSchool != null">highSchool = #{highSchool},</if>
             <if test="address != null">address = #{address},</if>
             <if test="mobile != null">mobile = #{mobile},</if>
-            <if test="academicQualification != null">academicQualification = #{academicQualification}</if>
+            <if test="academicQualification != null">academicQualification = #{academicQualification},</if>
+            <if test="lifePicture != null">lifePicture = #{lifePicture}</if>
         </set>
         WHERE userId = #{userId}
     </update>

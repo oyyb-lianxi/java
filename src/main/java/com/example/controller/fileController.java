@@ -125,7 +125,8 @@ public class fileController {
     @PostMapping("/uploadFile")
     @ResponseBody
     public Result uploadFile(@RequestParam("file") MultipartFile file)  {
-        return fileService.uploadFile(file);
+        Result result = fileService.uploadFile(file);
+        return result;
     }
 
     /**

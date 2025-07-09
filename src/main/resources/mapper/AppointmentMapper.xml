@@ -56,7 +56,7 @@
         UNIX_TIMESTAMP(a.appointmentStartTime) * 1000 AS appointmentStartTime,
         UNIX_TIMESTAMP(a.appointmentEndTime) * 1000 AS appointmentEndTime,
         a.status,a.location,a.comments,a.duration,
-        s.name studentName, t.name teacherName, t.teachingType AS subject,
+        s.name studentName, t.name teacherName, t.teachingType AS subject, t.lifePicture AS lifePicture,
         d.province,d.city,d.district,d.detailedAddress,d.longitude,d.latitude
         from
         (
@@ -75,7 +75,7 @@
         </where>
         ) as a
         left join (select userId,name from student) s on a.studentId = s.userId
-        left join (select userId,name,teachingType from teacher) t on a.teacherId = t.userId
+        left join (select userId,name,teachingType,lifePicture from teacher) t on a.teacherId = t.userId
         left join (select userId,province,city,district,detailedAddress,longitude,latitude from address where userType = 1) d on a.studentId = d.userId
         ORDER BY appointmentStartTime
         <if test="pageSize != null">LIMIT #{pageSize}</if>
