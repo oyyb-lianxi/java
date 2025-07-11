@@ -245,10 +245,10 @@ public class teacherController {
      * @param
      * @return
      */
-   @PostMapping("/confirmAppointment/{id}")
-   public Result confirmAppointment(@PathVariable Long id) {
+   @PostMapping("/confirmAppointment")
+   public Result confirmAppointment(@RequestBody AppointmentDto appointmentDto) {
        Result result=new Result();
-           if(appointmentService.confirmAppointment(id)){
+           if(appointmentService.confirmAppointment(appointmentDto)){
                result.setCode(200);
                result.setMsg("已经同意预约");
                return result;

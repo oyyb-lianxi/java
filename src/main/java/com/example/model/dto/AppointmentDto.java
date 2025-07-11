@@ -43,11 +43,27 @@ public class AppointmentDto extends BasePojo {
     private LocalDateTime appointmentEndTime;
     private Long id;
     private String studentId;
+    private String studentName;
     private String teacherId;
+    private String teacherName;
     private String adminPhone;
     private String subject;
     private String status; // 例如：PENDING, CONFIRMED, CANCELLED
     private String location;
     private String comments;
     private int duration;
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 县（区）
+     */
+    private String district;
 }

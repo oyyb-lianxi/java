@@ -29,7 +29,10 @@ public interface AppointmentMapper {
     List<Appointment> getAllAppointments();
 
     List<AppointmentVo> getAppointmentsByConditions(AppointmentDto appointment);
-    
+    List<AppointmentVo> getAppointmentsByAdmin(AppointmentDto appointment);
+    Integer countAppointmentsByConditions(AppointmentDto appointment);
+    Integer countAppointmentsByAdmin(AppointmentDto appointment);
+
     Integer getAppointmentByTeacherId(String teacherId);
 
     void updateAppointment(Appointment appointment);

@@ -20,12 +20,14 @@ public class AppointmentVo {
     private String teacherName;
 
     private String adminPhone;
+    private String mobile;
     private String subject;
     private Long appointmentDate;
 
     private Long appointmentStartTime;
 
     private Long appointmentEndTime;
+    private Long created;
     private String status; // 例如：PENDING, CONFIRMED, CANCELLED
     private String location;
     private String comments;

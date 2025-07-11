@@ -76,8 +76,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     //确认预约
-      public Boolean confirmAppointment(Long appointmentId) {
-        Appointment appointment = appointmentMapper.getAppointmentById(appointmentId);
+      public Boolean confirmAppointment(AppointmentDto appointmentDto) {
+        Appointment appointment = appointmentMapper.getAppointmentById(appointmentDto.getId());
         if (appointment == null) {
             return false;
         }
@@ -88,6 +88,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // 更新预约状态
         appointment.setStatus("CONFIRMED");
+          appointment.setAdminPhone(appointmentDto.getAdminPhone());
         appointmentMapper.updateAppointment(appointment);
 
         // 生成通知
@@ -158,6 +159,9 @@ public class AppointmentServiceImpl implements AppointmentService {
       public List<AppointmentVo> getAppointmentsByConditions(AppointmentDto appointment) {
         return appointmentMapper.getAppointmentsByConditions(appointment);
     }
+    public List<AppointmentVo> getAppointmentsByAdmin(AppointmentDto appointment) {
+        return appointmentMapper.getAppointmentsByAdmin(appointment);
+    }
     @Override
     public Appointment getAppointmentsById(Long appointmentId) {
         return appointmentMapper.getAppointmentById(appointmentId);
@@ -177,7 +181,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     public boolean isTimeSlotAvailable(Appointment appointment) {
-        //该时间段已经存在则返回false
-        return !appointmentMapper.existsByAppointmentDate(appointment);
+        //该时间段已经被其他学生的预约则返回false
+        boolean otherAppointment = !appointmentMapper.existsByAppointmentDate(appointment);
+        return otherAppointment;
     }
+
 }

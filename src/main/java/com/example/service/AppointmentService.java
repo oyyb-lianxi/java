@@ -14,10 +14,11 @@ public interface AppointmentService {
 
     public void makeAppointment(String studentId, String teacherId, String subject, LocalDateTime appointmentDate,
                                 LocalDateTime appointmentStartTime,LocalDateTime appointmentEndTime);
-    public Boolean confirmAppointment(Long appointmentId);
+    public Boolean confirmAppointment(AppointmentDto appointmentDto);
     public Boolean successFinishAppointment(Long appointmentId);
     public void cancelAppointment(Long appointmentId);
     public List<AppointmentVo> getAppointmentsByConditions(AppointmentDto appointment);
+    public List<AppointmentVo> getAppointmentsByAdmin(AppointmentDto appointment);
 
     public Appointment getAppointmentsById(Long appointmentId);
     public List<Appointment> getAllAppointments();

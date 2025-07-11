@@ -71,7 +71,7 @@
             <if test="appointmentEndTime != null">AND appointmentEndTime = #{appointmentEndTime}</if>
             <if test="status != null">AND status = #{status}</if>
             <if test="location != null">AND location = #{location}</if>
-            <if test="created != null">AND created &amp;gt; #{created} and created &amp;lt; #{created} + INTERVAL 1 DAY</if>
+            <if test="created != null">AND created BETWEEN #{created} and DATE_ADD(#{created},INTERVAL 1 DAY)</if>
         </where>
         ) as a
         left join (select userId,name from student) s on a.studentId = s.userId
@@ -80,6 +80,116 @@
         ORDER BY appointmentStartTime
         <if test="pageSize != null">LIMIT #{pageSize}</if>
         <if test="offSet != null">OFFSET #{offSet}</if>
+    </select>
+
+    <!-- 根据多个条件查询预约总数 -->
+    <select id="countAppointmentsByConditions" parameterType="com.example.model.dto.AppointmentDto"
+            resultType="Integer">
+        SELECT count(*) FROM appointment
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="studentId != null">AND studentId = #{studentId}</if>
+            <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+            <if test="subject != null">AND subject = #{subject}</if>
+            <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
+            <if test="appointmentStartTime != null">AND appointmentStartTime = #{appointmentStartTime}</if>
+            <if test="appointmentEndTime != null">AND appointmentEndTime = #{appointmentEndTime}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="location != null">AND location = #{location}</if>
+            <if test="created != null">AND created BETWEEN #{created} and DATE_ADD(#{created},INTERVAL 1 DAY)</if>
+        </where>
+    </select>
+
+    <!-- 管理员根据多个条件查询预约信息 -->
+    <select id="getAppointmentsByAdmin" parameterType="com.example.model.dto.AppointmentDto"
+            resultType="com.example.model.vo.AppointmentVo">
+        select id, studentId,studentName,teacherId,teacherName,subject,mobile,
+        adminPhone,appointmentDate,appointmentStartTime,appointmentEndTime,created,
+        status,location,comments,duration,
+        province,city,district,detailedAddress,longitude,latitude
+        from (
+        select a.id,a.studentId,a.teacherId, a.adminPhone,
+        UNIX_TIMESTAMP(a.appointmentDate) * 1000 AS appointmentDate,
+        UNIX_TIMESTAMP(a.appointmentStartTime) * 1000 AS appointmentStartTime,
+        UNIX_TIMESTAMP(a.appointmentEndTime) * 1000 AS appointmentEndTime,
+        UNIX_TIMESTAMP(a.created) * 1000 AS created,
+        a.status,a.location,a.comments,a.duration,
+        s.name studentName,
+        t.name teacherName, t.teachingType AS subject, t.mobile AS mobile,
+        d.province,d.city,d.district,d.detailedAddress,d.longitude,d.latitude
+        from
+        (
+        SELECT * FROM appointment
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="studentId != null">AND studentId = #{studentId}</if>
+            <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+            <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
+            <if test="appointmentStartTime != null">AND appointmentStartTime = #{appointmentStartTime}</if>
+            <if test="appointmentEndTime != null">AND appointmentEndTime = #{appointmentEndTime}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="location != null">AND location = #{location}</if>
+<!--            <if test="created != null">AND created &amp;gt; #{created} and created &amp;lt; #{created} + INTERVAL 1 DAY</if>-->
+            <if test="created != null">AND created BETWEEN #{created} and DATE_ADD(#{created},INTERVAL 1 DAY)</if>
+        </where>
+        ) as a
+        left join (select userId,name from student) s on a.studentId = s.userId
+        left join (select userId,name,teachingType,mobile from teacher) t on a.teacherId = t.userId
+        left join (select userId,province,city,district,detailedAddress,longitude,latitude from address where userType = 1) d on a.studentId = d.userId
+        )as b
+        <where>
+            <if test="studentName != null"> AND b.studentName LIKE CONCAT('%', #{studentName}, '%')</if>
+            <if test="teacherName != null"> AND b.teacherName LIKE CONCAT('%', #{teacherName}, '%')</if>
+            <if test="province != null"> AND b.province = #{province}</if>
+            <if test="city != null"> AND b.city = #{city}</if>
+            <if test="district != null"> AND b.district = #{district}</if>
+            <if test="subject != null"> AND b.subject = #{subject}</if>
+        </where>
+        ORDER BY created
+        <if test="pageSize != null">LIMIT #{pageSize}</if>
+        <if test="offSet != null">OFFSET #{offSet}</if>
+    </select>
+
+    <!-- 管理员根据多个条件查询预约总数 -->
+    <select id="countAppointmentsByAdmin" parameterType="com.example.model.dto.AppointmentDto"
+            resultType="Integer">
+        SELECT count(*) FROM (
+        select a.id,a.studentId,a.teacherId, a.adminPhone,
+        UNIX_TIMESTAMP(a.appointmentDate) * 1000 AS appointmentDate,
+        UNIX_TIMESTAMP(a.appointmentStartTime) * 1000 AS appointmentStartTime,
+        UNIX_TIMESTAMP(a.appointmentEndTime) * 1000 AS appointmentEndTime,
+        UNIX_TIMESTAMP(a.created) * 1000 AS created,
+        a.status,a.location,a.comments,a.duration,
+        s.name studentName,
+        t.name teacherName, t.teachingType AS subject, t.mobile AS mobile,
+        d.province,d.city,d.district,d.detailedAddress,d.longitude,d.latitude
+        from
+        (
+        SELECT * FROM appointment
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="studentId != null">AND studentId = #{studentId}</if>
+            <if test="teacherId != null">AND teacherId = #{teacherId}</if>
+            <if test="appointmentDate != null">AND appointmentDate = #{appointmentDate}</if>
+            <if test="appointmentStartTime != null">AND appointmentStartTime = #{appointmentStartTime}</if>
+            <if test="appointmentEndTime != null">AND appointmentEndTime = #{appointmentEndTime}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="location != null">AND location = #{location}</if>
+            <if test="created != null">AND created BETWEEN #{created} and DATE_ADD(#{created},INTERVAL 1 DAY)</if>
+        </where>
+        ) as a
+        left join (select userId,name from student) s on a.studentId = s.userId
+        left join (select userId,name,teachingType,mobile from teacher) t on a.teacherId = t.userId
+        left join (select userId,province,city,district,detailedAddress,longitude,latitude from address where userType = 1) d on a.studentId = d.userId
+        )as b
+        <where>
+            <if test="studentName != null"> AND b.studentName LIKE CONCAT('%', #{studentName}, '%')</if>
+            <if test="teacherName != null"> AND b.teacherName LIKE CONCAT('%', #{teacherName}, '%')</if>
+            <if test="province != null"> AND b.province = #{province}</if>
+            <if test="city != null"> AND b.city = #{city}</if>
+            <if test="district != null"> AND b.district = #{district}</if>
+            <if test="subject != null"> AND b.subject = #{subject}</if>
+        </where>
     </select>
 
     <!-- 查询该老师某天的可预约时间 -->
@@ -111,6 +221,7 @@
             <if test="status != null">status = #{status},</if>
             <if test="location != null">location = #{location},</if>
             <if test="comments != null">comments = #{comments},</if>
+            <if test="adminPhone != null">adminPhone = #{adminPhone}</if>
         </set>
         WHERE id = #{id}
     </update>
@@ -196,7 +307,12 @@
             <if test="appointmentEndTime != null">
                 AND appointmentEndTime = #{appointmentEndTime}
             </if>
-            AND status = 'CONFIRMED'
+            <if test="teacherId != null" >
+                AND status = 'CONFIRMED'
+            </if>
+            <if test="studentId != null">
+                AND (status = 'CONFIRMED' or status = 'PENDING')
+            </if>
         </where>
         ) THEN 1 ELSE 0 END
     </select>

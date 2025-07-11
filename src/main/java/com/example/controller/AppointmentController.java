@@ -142,8 +142,10 @@ public class AppointmentController {
     public Result studentAppointments(@RequestBody AppointmentDto appointmentDto) {
         Result result=new Result();
         Appointment appointment = new Appointment();
+        Appointment myAppointment = new Appointment();
         TeacherTime teacherTime =new TeacherTime();
         String teacherId = appointmentDto.getTeacherId();
+        String studentId = appointmentDto.getStudentId();
         teacherTime.setTeacherId(teacherId);
         // 定义时间格式
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -166,8 +168,14 @@ public class AppointmentController {
             appointment.setAppointmentEndTime(appointmentEndTime);
             //判断是否已经被其他学生预约
             appointment.setTeacherId(teacherId);
-            boolean existAppointment = appointmentService.isTimeSlotAvailable(appointment);
-            if(existAppointment){
+            boolean existOtherAppointment = appointmentService.isTimeSlotAvailable(appointment);
+
+            myAppointment.setStudentId(studentId);
+            myAppointment.setAppointmentDate(localDateTime);
+            myAppointment.setAppointmentStartTime(appointmentStartTime);
+            myAppointment.setAppointmentEndTime(appointmentEndTime);
+            boolean existMyAppointment = appointmentService.isTimeSlotAvailable(myAppointment);
+            if(existOtherAppointment && existMyAppointment){
                 appointment.setStudentId(appointmentDto.getStudentId());
                 appointment.setAdminPhone(appointmentDto.getAdminPhone());
                 appointment.setStatus("PENDING");
@@ -178,8 +186,8 @@ public class AppointmentController {
                 return result;
             }
         }
-        result.setCode(200);
-        result.setMsg("预约失败");
+        result.setCode(403);
+        result.setMsg("该时间段已有预约");
         return result;
     }
 

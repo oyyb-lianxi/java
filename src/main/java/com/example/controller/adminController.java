@@ -3,15 +3,20 @@ package com.example.controller;
 import com.example.mapper.AppointmentMapper;
 import com.example.mapper.StudentMapper;
 import com.example.mapper.TeacherMapper;
+import com.example.model.dto.AppointmentDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.AppointmentVo;
 import com.example.model.vo.TeacherVo;
+import com.example.service.AdminService;
+import com.example.service.AppointmentService;
+import com.example.service.StudentService;
 import com.example.service.TeacherInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +26,8 @@ import java.util.Map;
 public class adminController {
     @Autowired
     TeacherInfoService teacherInfoService;
+    @Autowired
+    AdminService adminService;
 
     @Autowired
     private TeacherMapper teacherMapper;
@@ -28,6 +35,8 @@ public class adminController {
     private StudentMapper studentMapper;
     @Autowired
     private AppointmentMapper appointmentMapper;
+    @Autowired
+    private AppointmentService appointmentService;
     /**
      * 统计数据
      */
@@ -52,6 +61,11 @@ public class adminController {
         result.setData(map);
         return result;
     }
+    @PostMapping("/studentToDo")
+    public Result studentToDo(@RequestBody AppointmentDto studentAppointment){
+        Result result =  adminService.adminQueryStudentToDo(studentAppointment);
 
+        return result;
+    }
 
 }
