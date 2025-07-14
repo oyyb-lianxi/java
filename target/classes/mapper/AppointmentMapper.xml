@@ -259,12 +259,10 @@
     </select>
 
     <!--//取消预约-更新预约状态为取消-->
-    <update id="cancelAppointment" parameterType="map">
+    <update id="cancelAppointment" parameterType="com.example.model.dto.AppointmentDto">
         UPDATE appointment
-        SET status = #{newStatus}, updatedAt = CURRENT_TIMESTAMP
-        WHERE id = #{appointmentId}
-        <if test="teacherId != null">AND teacherId = #{teacherId}</if>
-        <if test="studentId != null">AND studentId = #{studentId}</if>
+        SET status = 'CANCELLED', adminPhone = #{adminPhone}
+        WHERE id = #{id}
     </update>
 
     <!--//更新预约信息-更新预约时间-->
@@ -279,7 +277,7 @@
     <!--//更新预约状态-->
     <update id="updateAppointmentStatus" parameterType="map">
         UPDATE appointment
-        SET status = #{newStatus}, updatedAt = CURRENT_TIMESTAMP
+        SET status = #{status}, updatedAt = CURRENT_TIMESTAMP
         WHERE id = #{appointmentId}
         <if test="teacherId != null">AND teacherId = #{teacherId}</if>
         <if test="studentId != null">AND studentId = #{studentId}</if>

@@ -15,4 +15,5 @@ import java.util.List;
 public interface AdminService {
 
     Result adminQueryStudentToDo(AppointmentDto studentAppointment);
+    Result cancelAppointment(AppointmentDto studentAppointment);
 }

@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * 预约表
+ */
 @Data
 @AllArgsConstructor  // 满参构造方法
 @NoArgsConstructor  // 无参构造方法

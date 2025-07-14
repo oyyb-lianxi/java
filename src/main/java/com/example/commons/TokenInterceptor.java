@@ -16,6 +16,9 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("===========正在身份验证========");
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true; // 放行预检请求
+        }
         //1、获取请求头
         String token = request.getHeader("Authorization");
 

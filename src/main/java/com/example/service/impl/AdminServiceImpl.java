@@ -67,4 +67,20 @@ public class AdminServiceImpl implements AdminService {
         result.setData(map);
         return result;
     }
+
+    @Override
+    public Result cancelAppointment(AppointmentDto appointmentDto) {
+        Result result = new Result();
+
+        Integer integer = appointmentMapper.cancelAppointment(appointmentDto);
+        if(integer == 1){
+            result.setCode(200);
+            result.setMsg("取消预约成功");
+        }else {
+            result.setCode(403);
+            result.setMsg("取消预约失败");
+        }
+
+        return result;
+    }
 }

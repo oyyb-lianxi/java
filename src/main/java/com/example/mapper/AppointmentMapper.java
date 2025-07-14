@@ -38,6 +38,7 @@ public interface AppointmentMapper {
     void updateAppointment(Appointment appointment);
 
     void deleteAppointmentById(String id);
+    Integer cancelAppointment(AppointmentDto appointment);
 
     void saveNotification(Notification notification);
 

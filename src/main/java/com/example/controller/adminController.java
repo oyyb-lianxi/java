@@ -68,4 +68,11 @@ public class adminController {
         return result;
     }
 
+    @PostMapping("/cancelAppointment")
+    public Result cancelAppointment(@RequestBody AppointmentDto appointmentDto){
+        Result result =  adminService.cancelAppointment(appointmentDto);
+
+        return result;
+    }
+
 }
