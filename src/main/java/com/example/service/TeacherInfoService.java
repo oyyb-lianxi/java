@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.model.domain.Teacher;
 import com.example.model.dto.TeacherDto;
+import com.example.model.entity.Result;
 import com.example.model.vo.TeacherVo;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +21,6 @@ public interface TeacherInfoService {
 
     public Teacher queryByUserId(String userId);
 
+    Result upgradeTeacher(TeacherDto teacher);
+    Result demoteTeacher(TeacherDto teacher);
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class problemHelp  extends BasePojo {
+public class ProblemHelp extends BasePojo {
     /**
      * id
      */

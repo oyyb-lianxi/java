@@ -15,11 +15,11 @@ public class Notice  extends BasePojo {
      */
     private Long id;
     /**
-     * id
+     * title
      */
     private String title;
     /**
-     * id
+     * content
      */
     private String content;
 }

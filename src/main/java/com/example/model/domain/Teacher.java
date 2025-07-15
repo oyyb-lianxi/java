@@ -19,14 +19,15 @@ public class Teacher extends BasePojo{
     private String university;
     private String chinaIdNumber;
     private String chinaIdNumberPictureFileName;
-    private String address;
+    private String address;//授课区域
     private String mobile;
     private Integer teachingSeniority; //教龄
     private String teachingType;
     private String personalProfile;  //个人简介;
     private String academicQualification; //学历
-    private String academicQualificationPictureFileName; //学历照片
+    private String myStrengths; //我的优势myStrengths
     private Integer price; //价格
+    private Integer level; //等级
     private String lifePicture; //头像
 
 }

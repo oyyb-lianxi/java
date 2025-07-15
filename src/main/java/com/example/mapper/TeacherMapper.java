@@ -36,4 +36,6 @@ public interface TeacherMapper {
     int deleteTeacher(Teacher teacher);
     @InheritInverseConfiguration(name = "TeacherDto")
     Teacher teacherDTOToTeacher(TeacherDto teacherDto);
+
+    int upgradeTeacher(Teacher teacher);
 }

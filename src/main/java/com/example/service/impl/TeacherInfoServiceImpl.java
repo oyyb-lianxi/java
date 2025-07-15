@@ -92,11 +92,12 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
     @Override
     public Boolean updateTeacher(TeacherDto teacherDto) {
         Address address = getTeacherAddress(teacherDto);
-        int i1 = addressMapper.updateAddressById(address);
-        if(i1 != 1){
-            return false;
+        if(address!=null){
+            int i1 = addressMapper.updateAddressById(address);
+            if(i1 != 1){
+                return false;
+            }
         }
-        teacherDto.setLatitude("123");
         int i = teacherMapper.updateTeacher(teacherDto);
         if(i==1){
             return true;
@@ -127,6 +128,62 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
         log.info("teacherInfo");
         System.out.println("teacherInfo"+teacherInfo);
         return teacherInfo;
+    }
+
+    @Override
+    public Result upgradeTeacher(TeacherDto teacherDto) {
+        Result result =new Result();
+        Integer level = teacherDto.getLevel();
+        String userId = teacherDto.getUserId();
+        Teacher teacher = new Teacher();
+        Integer newLevel = level + 1;
+        if(newLevel > 5){
+            result.setMsg("已经是最高级");
+            result.setCode(403);
+            return result;
+        }
+        teacher.setLevel(newLevel);
+        teacher.setUserId(userId);
+
+        int i = teacherMapper.updateTeacher(teacher);
+        if(i==1){
+            result.setMsg("升级完成");
+            result.setCode(200);
+            result.setData(i);
+        }else {
+            result.setMsg("升级失败");
+            result.setCode(403);
+            result.setData(i);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Result demoteTeacher(TeacherDto teacherDto) {
+        Integer level = teacherDto.getLevel();
+        String userId = teacherDto.getUserId();
+        Teacher teacher = new Teacher();
+        Result result =new Result();
+        Integer newLevel = level -1;
+        if(newLevel < 0){
+            result.setMsg("已经是最低级");
+            result.setCode(403);
+            return result;
+        }
+        teacher.setLevel(newLevel);
+        teacher.setUserId(userId);
+        int i = teacherMapper.updateTeacher(teacher);
+        if(i==1){
+            result.setMsg("降级完成");
+            result.setCode(200);
+            result.setData(i);
+        }else {
+            result.setMsg("降级失败");
+            result.setCode(403);
+            result.setData(i);
+        }
+        return result;
     }
 
 

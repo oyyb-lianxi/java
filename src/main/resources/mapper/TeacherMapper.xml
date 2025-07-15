@@ -17,7 +17,7 @@
         <result property="teachingSeniority" column="teachingSeniority"/>
         <result property="teachingType" column="teachingType"/>
         <result property="personalProfile" column="personalProfile"/>
-        <result property="academicQualificationPictureFileName" column="academicQualificationPictureFileName"/>
+        <result property="myStrengths" column="myStrengths"/>
         <result property="price" column="price"/>
         <result property="lifePicture" column="lifePicture"/>
     </resultMap>
@@ -42,7 +42,7 @@
             <if test="teachingType != null">teachingType,</if>
             <if test="personalProfile != null">personalProfile,</if>
             <if test="academicQualification != null">academicQualification,</if>
-            <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName,</if>
+            <if test="myStrengths != null">myStrengths,</if>
             <if test="price != null">price,</if>
             <if test="lifePicture != null">lifePicture,</if>
         </trim>
@@ -64,7 +64,7 @@
             <if test="teachingType != null">#{teachingType},</if>
             <if test="personalProfile != null">#{personalProfile},</if>
             <if test="academicQualification != null">#{academicQualification},</if>
-            <if test="academicQualificationPictureFileName != null">#{academicQualificationPictureFileName},</if>
+            <if test="myStrengths != null">#{myStrengths},</if>
             <if test="price != null">#{price},</if>
             <if test="lifePicture != null">#{lifePicture},</if>
         </trim>
@@ -152,8 +152,9 @@
             <if test="teachingType != null">teachingType = #{teachingType},</if>
             <if test="personalProfile != null">personalProfile = #{personalProfile},</if>
             <if test="academicQualification != null">academicQualification = #{academicQualification},</if>
-            <if test="academicQualificationPictureFileName != null">academicQualificationPictureFileName = #{academicQualificationPictureFileName},</if>
+            <if test="myStrengths != null">myStrengths = #{myStrengths},</if>
             <if test="price != null">price = #{price},</if>
+            <if test="level != null">level = #{level},</if>
             <if test="lifePicture != null">lifePicture = #{lifePicture},</if>
         </set>
         WHERE userId = #{userId}
