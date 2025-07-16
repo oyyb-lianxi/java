@@ -9,4 +9,6 @@ public interface ProblemHelpService {
     Result getProblemHelpByConditions(ProblemHelpDto problemHelp);
     Result updateProblemHelpById(ProblemHelp problemHelp);
     Result deleteProblemHelpById(ProblemHelp problemHelp);
+
+    Result getProblemHelpById(Integer id);
 }

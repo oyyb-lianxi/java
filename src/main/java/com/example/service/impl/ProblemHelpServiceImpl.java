@@ -74,4 +74,13 @@ public class ProblemHelpServiceImpl implements ProblemHelpService {
         }
         return result;
     }
+
+    @Override
+    public Result getProblemHelpById(Integer id) {
+        Result result = new Result();
+        ProblemHelp problemHelp = problemHelpMapper.getProblemHelpById(id);
+        result.setCode(200);
+        result.setData(problemHelp);
+        return result;
+    }
 }

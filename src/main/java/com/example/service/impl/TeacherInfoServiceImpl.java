@@ -91,13 +91,17 @@ public class TeacherInfoServiceImpl implements TeacherInfoService {
 
     @Override
     public Boolean updateTeacher(TeacherDto teacherDto) {
-        Address address = getTeacherAddress(teacherDto);
-        if(address!=null){
-            int i1 = addressMapper.updateAddressById(address);
-            if(i1 != 1){
-                return false;
+        String province = teacherDto.getProvince();
+        if(province!=null){
+            Address address = getTeacherAddress(teacherDto);
+            if(address!=null){
+                int i1 = addressMapper.updateAddressById(address);
+                if(i1 != 1){
+                    return false;
+                }
             }
         }
+
         int i = teacherMapper.updateTeacher(teacherDto);
         if(i==1){
             return true;

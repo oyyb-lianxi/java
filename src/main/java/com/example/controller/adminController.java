@@ -195,13 +195,24 @@ public class adminController {
     }
 
     /**
-     * 查看帮助信息
+     * 查看帮助信息列表
      * @param
      * @return
      */
     @PostMapping("/getProblemHelpByConditions")
     public Result getProblemHelpByConditions(@RequestBody ProblemHelpDto problemHelp){
         Result result =  problemHelpService.getProblemHelpByConditions(problemHelp);
+        return result;
+    }
+
+    /**
+     * 查看帮助信息详情
+     * @param
+     * @return
+     */
+    @GetMapping("/getProblemHelpById/{id}")
+    public Result getProblemHelpById(@PathVariable Integer id){
+        Result result =  problemHelpService.getProblemHelpById(id);
         return result;
     }
 }

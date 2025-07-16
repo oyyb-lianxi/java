@@ -133,10 +133,11 @@ public class teacherController {
     public Result updateTeacher(@RequestBody TeacherDto teacher){
         Result result =new Result();
         Boolean aBoolean = teacherInfoService.updateTeacher(teacher);
-        result.setCode(200);
         if(aBoolean){
+            result.setCode(200);
             result.setMsg("修改成功");
         }else {
+            result.setCode(403);
             result.setMsg("修改失败");
         }
         return result;
