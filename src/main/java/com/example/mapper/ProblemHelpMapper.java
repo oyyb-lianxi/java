@@ -3,6 +3,7 @@ package com.example.mapper;
 import com.example.model.domain.Notice;
 import com.example.model.domain.ProblemHelp;
 import com.example.model.dto.ProblemHelpDto;
+import com.example.model.vo.ProblemHelpVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,6 +21,5 @@ public interface ProblemHelpMapper {
     int updateProblemHelpById(ProblemHelp problemHelp);
 
     int deleteProblemHelpById(ProblemHelp problemHelp);
-    @Select("SELECT * FROM problemHelp  WHERE id = #{id}")
-    ProblemHelp getProblemHelpById(@Param("id") Integer id);
+    ProblemHelpVo getProblemHelpById(@Param("id") Integer id);
 }

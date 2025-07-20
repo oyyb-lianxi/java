@@ -17,7 +17,14 @@
         <if test="type != null">#{type},</if>
         <if test="content != null">#{content}</if>)
     </insert>
-
+    <!-- 根据多个条件查询帮助信息 -->
+    <select id="getProblemHelpById" parameterType="Integer"
+            resultType="com.example.model.vo.ProblemHelpVo">
+        SELECT id, type,title,content,
+        UNIX_TIMESTAMP(created) * 1000 AS created,
+        UNIX_TIMESTAMP(updated) * 1000 AS updated
+        FROM problemHelp  WHERE id = #{id}
+    </select>
 
     <!-- 根据多个条件查询帮助信息 -->
     <select id="getProblemHelpByConditions" parameterType="com.example.model.dto.ProblemHelpDto"

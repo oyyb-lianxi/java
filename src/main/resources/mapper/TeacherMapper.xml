@@ -11,7 +11,7 @@
         <result property="middleSchool" column="middleSchool"/>
         <result property="highSchool" column="highSchool"/>
         <result property="university" column="university"/>
-        <result property="chinaIdNumberPictureFileName" column="chinaIdNumberPictureFileName"/>
+        <result property="personalizedSignature" column="personalizedSignature"/>
         <result property="address" column="address"/>
         <result property="mobile" column="mobile"/>
         <result property="teachingSeniority" column="teachingSeniority"/>
@@ -35,7 +35,7 @@
             <if test="highSchool != null">highSchool,</if>
             <if test="university != null">university,</if>
             <if test="chinaIdNumber != null">chinaIdNumber,</if>
-            <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName,</if>
+            <if test="personalizedSignature != null">personalizedSignature,</if>
             <if test="address != null">address,</if>
             <if test="mobile != null">mobile,</if>
             <if test="teachingSeniority != null">teachingSeniority,</if>
@@ -57,7 +57,7 @@
             <if test="highSchool != null">#{highSchool},</if>
             <if test="university != null">#{university},</if>
             <if test="chinaIdNumber != null">#{chinaIdNumber},</if>
-            <if test="chinaIdNumberPictureFileName != null">#{chinaIdNumberPictureFileName},</if>
+            <if test="personalizedSignature != null">#{personalizedSignature},</if>
             <if test="address != null">#{address},</if>
             <if test="mobile != null">#{mobile},</if>
             <if test="teachingSeniority != null">#{teachingSeniority},</if>
@@ -145,7 +145,7 @@
             <if test="highSchool != null">highSchool = #{highSchool},</if>
             <if test="university != null">university = #{university},</if>
             <if test="chinaIdNumber != null">chinaIdNumber = #{chinaIdNumber},</if>
-            <if test="chinaIdNumberPictureFileName != null">chinaIdNumberPictureFileName = #{chinaIdNumberPictureFileName},</if>
+            <if test="personalizedSignature != null">personalizedSignature = #{personalizedSignature},</if>
             <if test="address != null">address = #{address},</if>
             <if test="mobile != null">mobile = #{mobile},</if>
             <if test="teachingSeniority != null">teachingSeniority = #{teachingSeniority},</if>

@@ -5,6 +5,7 @@ import com.example.model.domain.Notice;
 import com.example.model.domain.ProblemHelp;
 import com.example.model.dto.ProblemHelpDto;
 import com.example.model.entity.Result;
+import com.example.model.vo.ProblemHelpVo;
 import com.example.service.ProblemHelpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,7 @@ public class ProblemHelpServiceImpl implements ProblemHelpService {
     @Override
     public Result getProblemHelpById(Integer id) {
         Result result = new Result();
-        ProblemHelp problemHelp = problemHelpMapper.getProblemHelpById(id);
+        ProblemHelpVo problemHelp = problemHelpMapper.getProblemHelpById(id);
         result.setCode(200);
         result.setData(problemHelp);
         return result;
