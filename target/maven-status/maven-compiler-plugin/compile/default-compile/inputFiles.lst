@@ -5,8 +5,10 @@ D:\java\src\main\java\com\example\service\impl\TeacherInfoServiceImpl.java
 D:\java\src\main\java\com\example\model\domain\Address.java
 D:\java\src\main\java\com\example\model\domain\Subject.java
 D:\java\src\main\java\com\example\service\impl\UserServiceImpl.java
+D:\java\src\main\java\com\example\service\impl\NoticeServiceImpl.java
 D:\java\src\main\java\com\example\service\AdminService.java
 D:\java\src\main\java\com\example\controller\OrderController.java
+D:\java\src\main\java\com\example\mapper\ProblemHelpMapper.java
 D:\java\src\main\java\com\example\model\vo\TimeSlotVo.java
 D:\java\src\main\java\com\example\service\WechatToolsService.java
 D:\java\src\main\java\com\example\controller\adminController.java
@@ -16,6 +18,8 @@ D:\java\src\main\java\com\example\service\TeacherTimeService.java
 D:\java\src\main\java\com\example\model\domain\Student.java
 D:\java\src\main\java\com\example\model\CommonUtils\OssTemplate.java
 D:\java\src\main\java\com\example\model\dto\StudentDto.java
+D:\java\src\main\java\com\example\service\NoticeService.java
+D:\java\src\main\java\com\example\model\domain\Notice.java
 D:\java\src\main\java\com\example\controller\fileController.java
 D:\java\src\main\java\com\example\service\FileService.java
 D:\java\src\main\java\com\example\model\entity\NasProperties.java
@@ -31,6 +35,7 @@ D:\java\src\main\java\com\example\model\entity\Result.java
 D:\java\src\main\java\com\example\service\impl\StudentServiceImpl.java
 D:\java\src\main\java\com\example\service\impl\WechatToolsServiceImpl.java
 D:\java\src\main\java\com\example\model\domain\TeacherSubject.java
+D:\java\src\main\java\com\example\service\impl\ProblemHelpServiceImpl.java
 D:\java\src\main\java\com\example\controller\studentController.java
 D:\java\src\main\java\com\example\mapper\UserMapper.java
 D:\java\src\main\java\com\example\model\domain\Teacher.java
@@ -44,14 +49,17 @@ D:\java\src\main\java\com\example\model\vo\TeacherVo.java
 D:\java\src\main\java\com\example\model\domain\TeacherTime.java
 D:\java\src\main\java\com\example\controller\loginController.java
 D:\java\src\main\java\com\example\model\vo\AdminVo.java
+D:\java\src\main\java\com\example\model\domain\ProblemHelp.java
 D:\java\src\main\java\com\example\service\TeacherInfoService.java
 D:\java\src\main\java\com\example\service\impl\TeacherTimeServiceImpl.java
 D:\java\src\main\java\com\example\commons\WebConfig.java
 D:\java\src\main\java\com\example\model\dto\TeacherDto.java
 D:\java\src\main\java\com\example\service\impl\AdminServiceImpl.java
 D:\java\src\main\java\com\example\controller\homePageController.java
+D:\java\src\main\java\com\example\model\vo\ProblemHelpVo.java
 D:\java\src\main\java\com\example\model\CommonUtils\SystemUtil.java
 D:\java\src\main\java\com\example\model\vo\StudentVo.java
+D:\java\src\main\java\com\example\service\ProblemHelpService.java
 D:\java\src\main\java\com\example\commons\TokenInterceptor.java
 D:\java\src\main\java\com\example\model\CommonUtils\JwtUtils.java
 D:\java\src\main\java\com\example\model\domain\Appointment.java
@@ -62,8 +70,10 @@ D:\java\src\main\java\com\example\service\AppointmentService.java
 D:\java\src\main\java\com\example\mapper\AddressMapper.java
 D:\java\src\main\java\com\example\service\OrderService.java
 D:\java\src\main\java\com\example\HelloworldApplication.java
+D:\java\src\main\java\com\example\mapper\NoticeMapper.java
 D:\java\src\main\java\com\example\service\HttpUtils.java
 D:\java\src\main\java\com\example\model\domain\Admin.java
 D:\java\src\main\java\com\example\model\domain\Notification.java
+D:\java\src\main\java\com\example\model\dto\ProblemHelpDto.java
 D:\java\src\main\java\com\example\mapper\StudentMapper.java
 D:\java\src\main\java\com\example\model\CommonUtils\WeChatCustomMessage.java

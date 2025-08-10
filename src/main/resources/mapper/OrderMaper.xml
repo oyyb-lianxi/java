@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.OrderMapper">
+    <!-- 插入订单信息 -->
+    <insert id="saveOrder" parameterType="com.example.model.domain.Order">
+        insert into order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">orderId,</if>
+            <if test="studentId != null">studentId,</if>
+            <if test="teacherId != null">teacherId,</if>
+            <if test="orderTime != null">orderTime,</if>
+            <if test="orderDate != null">orderDate,</if>
+            <if test="startTime != null">startTime,</if>
+            <if test="endTime != null">endTime,</if>
+            <if test="status != null">status,</if>
+            <if test="amount != null">amount</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="orderTime != null">#{orderTime},</if>
+            <if test="orderDate != null">#{orderDate},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="amount != null">#{amount}</if>
+        </trim>
+    </insert>
+
+    <!-- 更新订单信息 -->
+    <update id="updateOrder" parameterType="com.example.model.domain.Order">
+        UPDATE order
+        <set>
+            <if test="studentId != null">studentId = #{studentId},</if>
+            <if test="teacherId != null">teacherId = #{teacherId},</if>
+            <if test="orderTime != null">orderTime = #{orderTime},</if>
+            <if test="orderDate != null">orderDate = #{orderDate},</if>
+            <if test="startTime != null">startTime = #{startTime},</if>
+            <if test="endTime != null">endTime = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="amount != null">amount = #{amount}</if>
+        </set>
+        WHERE orderId = #{orderId}
+    </update>
+
+
+    <!-- 根据ID查询订单信息 -->
+    <select id="getOrderById" parameterType="String" resultType="com.example.model.vo.OrderVo">
+        SELECT
+            o.*,
+            s.name,
+            t.name
+        FROM
+            order o
+        left join
+            student s on o.studentId = s.userId
+        left join
+            teacher t on o.teacherId = t.userId
+        WHERE o.orderId = #{orderId}
+    </select>
+
+    <!-- 根据多个条件查询订单信息 -->
+    <select id="getOrdersByConditions" parameterType="com.example.model.dto.OrderDto" resultType="com.example.model.vo.OrderVo">
+        SELECT
+            o.*,
+            s.name,
+            t.name
+        FROM
+            order o
+        left join
+            student s on o.studentId = s.userId
+        left join
+            teacher t on o.teacherId = t.userId
+        <where>
+            <if test="studentId != null">AND o.studentId LIKE CONCAT('%', #{studentId}, '%')</if>
+            <if test="studentName != null">AND s.name LIKE CONCAT('%', #{studentName}, '%')</if>
+            <if test="teacherId != null">AND o.teacherId LIKE CONCAT('%', #{teacherId}, '%')</if>
+            <if test="teacherName != null">AND t.name LIKE CONCAT('%', #{teacherName}, '%')</if>
+            <if test="status != null">AND o.status = #{status}</if>
+            <if test="amount != null">AND o.amount = #{amount}</if>
+        </where>
+        ORDER BY o.status
+        <if test="pageSize != null">LIMIT #{pageSize}</if>
+        <if test="offSet != null">OFFSET #{offSet}</if>
+        ;
+    </select>
+
+    <!-- 根据多个条件查询订单信息总数 -->
+    <select id="countOrdersByConditions" parameterType="com.example.model.dto.OrderDto" resultType="Integer">
+        SELECT
+            count(*)
+        FROM
+            order o
+        left join
+            student s on o.studentId = s.userId
+        left join
+            teacher t on o.teacherId = t.userId
+        <where>
+            <if test="studentId != null">AND o.studentId LIKE CONCAT('%', #{studentId}, '%')</if>
+            <if test="studentName != null">AND s.name LIKE CONCAT('%', #{studentName}, '%')</if>
+            <if test="teacherId != null">AND o.teacherId LIKE CONCAT('%', #{teacherId}, '%')</if>
+            <if test="teacherName != null">AND t.name LIKE CONCAT('%', #{teacherName}, '%')</if>
+            <if test="status != null">AND o.status = #{status}</if>
+            <if test="amount != null">AND o.amount = #{amount}</if>
+        </where>;
+    </select>
+
+
+</mapper>

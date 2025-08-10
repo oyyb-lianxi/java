@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
-    private Long id;
+public class Order extends BasePojo{
+    private String orderId;
     private String studentId;
     private String teacherId;
     private LocalDateTime orderTime;
@@ -20,5 +20,5 @@ public class Order {
     private LocalDateTime endTime;
     private String status;
     private BigDecimal amount;
-    
+
 }
