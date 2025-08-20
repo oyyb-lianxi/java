@@ -31,9 +31,11 @@ lur数据结构：哈希表+双向连表；其中hash表存储key到链表的映
 为啥用hashTable不用concurrentMap是因为table所有方法都是同步的，在多线程环境下更容易理解维护。map需要更多的代码来确保操作的一致性。map虽然性能高 但是在这个场景下没有必要。并且table是java1.0出现的，concurrentMap是1.5才引入。
 
 8、Mysql三个日志是什么：
-undoLog：记录操作前的数据快照
-readLog：记录做了哪些操作
-binLog：操作完成之后的数据
+undoLog：记录操作前的数据快照。用于事务回滚
+readLog：事务提交之前记录数据页的修改（事务id，操作类型，表名，行id，修改前后的值）属于存储引擎层
+binLog：事务提交之后记录sql语句或者行级别的修改。属于server层
+Error Log：错误日志
+你查询一条记录，会从硬盘把一页的数据加载出来，加载出来的数据叫数据页，会放入到 Buffer Pool中。后续的查询或者修改都是直接从buffer Pool中更新。然后会把相关操作记录到undoLog中
 
 9、12306抢票系统的库存模块怎么设计？
 
