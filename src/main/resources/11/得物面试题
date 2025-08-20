@@ -40,7 +40,8 @@ lur数据结构：哈希表+双向连表；其中hash表存储key到链表的映
 MVCC是多版本并发控制，主要提高数据库性能的机制。允许多个事务同时读取和写入数据。、
 Mvcc机制是实际上是通过readView + undoLog日志实现的。 其中readView负责可见性规则，undoLog负责保存历史快照。
 查询一条记录时候会先获得一个事务版本id，然后获取readView。通过对比版本id确定该数据是否可读。
-数据隐式字段：单调递增的row_id 操作该数据事务的trx_id  roll_pointer 指向undoLog日志
+readView：trx_ids（未提交的事务版本号集合）low_limit_id（集合中最大值+1）up_limit_id（集合中最小值）
+数据隐式字段：单调递增的row_id 最后一次修改该数据事务的trx_id  roll_pointer 指向undoLog日志
 
 
 ==================
