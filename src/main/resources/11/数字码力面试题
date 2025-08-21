@@ -27,6 +27,12 @@
 7、mybatis的底层实现、#{}和${}的区别
 8、springBoot的自动装配怎么实现,springBootAppliaction中有哪些注解。
 9、自己实现一个starter
+一个starter一般包含：自动配置类，配置属性类，核心功能类。
+首先创建一个maven工程，添加springboot-starter和autoconfig等相关依赖自定义我的starter依赖
+创建一个配置属性类@configurationProperties用于读取配置文件中的属性；
+创建自动配置类@configuartion @enableConfigurationProrerties（MystarterProperties.class） @ConditionalOnClass(MyService.class)指定myservice类
+创建services提供具体功能 
+最后在meta-inf中的spring.factorices中注册自动配置类
 10、jdk动态代理怎么实现的
 11、怎么排查服务器卡顿
 12、正序索引跟倒排索引的区别
