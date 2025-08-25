@@ -30,7 +30,29 @@ reentrantLock底层是基于AQS实现的，使用一个int类型的state变量�
 9、dubbo原理,springCloud原理。
 
 10、查询每门科目分数大于80学生
+SELECT s.id, s.name
+FROM students s
+JOIN scores sc ON s.id = sc.student_id
+GROUP BY s.id, s.name
+HAVING MIN(sc.score) > 80;
+
 11、翻转字符串
+1.
+    public static String reverseString(String s) {
+        return new StringBuffer(s).reverse().toString();
+    }
+2.
+    public static String reverseStringManually(String s) {
+        char[] charArray = s.toCharArray();
+        int n = charArray.length;
+        for (int i = 0; i < n / 2; i++) {
+            char temp = charArray[i];
+            charArray[i] = charArray[n - 1 - i];
+            charArray[n - 1 - i] = temp;
+        }
+        return new String(charArray);
+    }
+
 ====================
 1、hashMap为啥不安全？怎么解决。
 hashMap不安全是因为在高并发场景下，可能存在a读取值，b同时put同一个key导致线程读取到数据不一致的问题。还有多级嵌套的hashMap可能会造成死锁。多个线程对hashMap进行插入操作可能会导致hashMap内部链表形成环。
