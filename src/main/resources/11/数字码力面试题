@@ -1,6 +1,14 @@
 1、线上频繁full gc怎么快速定位问题，如何通过jvm参数优化G1垃圾回收器
 2、metaSpace内存泄漏的场景有哪些？如何通过工具分析泄漏根源？
 3、ThreadLocal的内存泄漏问题如何避免？spring框架中哪些场景会用到ThreadLocal？
+ThreadLocal内存泄漏的原因是因为ThreadLocalMap的key是弱引用，值是强引用，当key被回收后，值没有被及时清理，特别是如果在线程池中使用，久而久之会导致这一大块内存不会被回收。
+。所以我们在使用ThreadLocal的时候要严格遵守try-finally+remove()来清理。但是我们在工作中一般都是使用static final修饰的，这样它的key就不再是弱引用，它的生命周期跟容器保持一致。并且不会被频繁创建threadLocal实例。
+spring框架中：请求上下文管理RequestContextHolder，事务管理TransactionSynchronizationManager。安全上下文SecurityContextHolder。本地化上下文LocaleContextHolder
+强软弱虚：
+强：只要引用关系存在，对象就不会被回收。
+软：在内存溢出之前回收。
+弱：下一次GC就会回收。
+虚: 适用于需要在对象被垃圾回收时得到通知的场景
 4、对比reentrantLock和synchronized的底层实现
 5、AQS如何管理线程阻塞队列的？
 6、如何设计一个高性能的本地缓存
