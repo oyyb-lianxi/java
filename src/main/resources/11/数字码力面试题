@@ -46,17 +46,41 @@ ribbit使用消息确认机制来确保消息不被重复消费。消费者处�
 
 时钟回拨问题：当系统时间被向后调整，在分布式系统中各个节点的时间存在偏差会导致生成的id变小。从而引发重复id问题。
 使用重试机制，知道系统时间恢复正常。使用网络时间协议同步时间确保各个节点时间一致。使用时间戳缓存记录上一次生成id的时间，在发生回拨的情况下使用缓存的时间戳来生成id
+
 3、你们项目中mq主要作用是什么？ribbitmq怎么刷盘？
+削峰填谷，异步通知。
+1.声明持久化队列（使用 queueDeclare 方法将队列设置为持久化） 2.发布持久化消息（在发布消息时，将消息的 delivery_mode 设置为 2） 3.配置刷盘策略 4.消息确认机制（确保在确认之前已经被持久化）
+同步刷盘：确保每条消息在被确认之前都被写入磁盘。提供最高的可靠性但是会显著降低性能
+异步刷盘：允许消息在内存中累积一段时间之后再批量写入磁盘，可以提高性能但是可能会导致在系统崩溃的时候丢失掉部分信息。
+
 4、spring怎么解决循环依赖？
+spring通过三级缓存解决循环依赖。一级缓存用于缓存已经完全初始化完成的实例。二级缓存用于缓存早期暴露的实例，这些实例没有完全加载完成，但是已经能够被使用。三级缓存用户创建早期暴露的实例。
+
 5、事务的特性。spring事务的传播方式。事务什么时候会失效？为什么失效
 事务方法中抛出了违背捕获的异常，或者捕获了异常没有正确处理。
 事务方法被多次调用导致事务嵌套。
 事务执行时间超过了配置的超时时间。
 多线程环境下也会失效
 事务没有被public方法修饰：spring事务管理器是通过代理管理事务的，spring使用的是jdk动态管理（要求被代理的方法必须是public）和cglb代理（可以代理非public方法）。spring默认使用jdk
+
 6、你工作中用的哪种分布式事务？什么模式？有什么好处？
+seata。有三个角色：TC事务协调者 协调事务提交和回滚；TM事务管理器开始事务 提交 回滚；RM字段管理器 与TM交谈分支事务的注册和报告。
+支持四种模式XA（强一致性）,TCC（分阶段，最终一致性，有业务入侵，需要人为编写try，confirm，cancel接口）,AT（基于undolog日志回滚，写操作时候会生成前置 后置镜像。分阶段，最终一致性，无业务入侵，不需要手动回滚事务，可能存在脏读问题，默认读未提交）,SAGA（长事务模式）四种模式 我们使用了AT模式。
+
 7、mybatis的底层实现、#{}和${}的区别
+MyBatis的底层实现涉及多个核心组件和机制，包括配置解析、SQL 解析、动态 SQL、缓存、事务管理等
+创建 SqlSessionFactory：通过 SqlSessionFactoryBuilder 创建 SqlSessionFactory。
+创建 SqlSession：通过 SqlSessionFactory 创建 SqlSession。
+获取 Mapper 接口：通过 SqlSession 获取 Mapper 接口的代理对象。
+通过sqlSource解析sql，通过handler处理执行结果。
+执行 SQL 语句：通过 Mapper 接口的方法执行 SQL 语句。
+处理结果：处理查询结果，返回给调用者。
+关闭资源：关闭 SqlSession 和 SqlSessionFactory。
+
+#{}是占位符，适用于插入参数值的场景，如 WHERE 子句中的条件值，${}是字符串拼接，适用于需要动态生成表名、列名等 SQL 语句的场景。会有sql注入的风险。工作中遇到过 限制输入。
+
 8、springBoot的自动装配怎么实现,springBootAppliaction中有哪些注解。
+
 9、自己实现一个starter
 一个starter一般包含：自动配置类，配置属性类，核心功能类。
 首先创建一个maven工程，添加springboot-starter和autoconfig等相关依赖自定义我的starter依赖
@@ -64,7 +88,15 @@ ribbit使用消息确认机制来确保消息不被重复消费。消费者处�
 创建自动配置类@configuartion @enableConfigurationProrerties（MystarterProperties.class） @ConditionalOnClass(MyService.class)指定myservice类
 创建services提供具体功能 
 最后在meta-inf中的spring.factorices中注册自动配置类
+
 10、jdk动态代理怎么实现的
+JDK 动态代理通过 Proxy 类和 InvocationHandler 接口在运行时创建代理对象，可以在不修改目标对象代码的情况下，为对象添加额外的功能。
+定义接口：定义目标对象和代理对象需要实现的接口。
+实现接口：实现目标对象。
+创建 InvocationHandler：实现 InvocationHandler 接口，定义处理方法调用的逻辑。
+创建代理对象：使用 Proxy.newProxyInstance 方法创建代理对象。
+通过代理对象调用方法：通过代理对象调用方法，实际调用的是 InvocationHandler 中的 invoke 方法。
+
 11、怎么排查服务器卡顿
 12、mysql索引，正序索引跟倒排索引的区别
 mysql索引结构是基于B+树是一种多路平衡查找树，由叶子节点与非叶子节点组成，非叶子节点储存的是索引值和指向子节点的指针，不存储实际数据，叶子节点存储的完整的数据行并通过双向链表连接。
