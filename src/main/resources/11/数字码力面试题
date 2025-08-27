@@ -6,10 +6,10 @@ ThreadLocal内存泄漏的原因是因为ThreadLocalMap的key是弱引用，值�
 。所以我们在使用ThreadLocal的时候要严格遵守try-finally+remove()来清理。但是我们在工作中一般都是使用static final修饰的，这样它的key就不再是弱引用，它的生命周期跟容器保持一致。并且不会被频繁创建threadLocal实例。
 spring框架中：请求上下文管理RequestContextHolder，事务管理TransactionSynchronizationManager。安全上下文SecurityContextHolder。本地化上下文LocaleContextHolder
 强软弱虚：
-强：只要引用关系存在，对象就不会被回收。
+强：只要引用关系存在，就算造成oom也不会对该对象进行回收。
 软：在内存溢出之前回收。
-弱：下一次GC就会回收。
-虚: 适用于需要在对象被垃圾回收时得到通知的场景
+弱：不管当前内存是否足够，下一次GC就会回收。
+虚: 就跟没有任何引用一样，并不会决定对象的生命周期，适用于需要在对象被垃圾回收时得到通知的场景
 
 4、对比reentrantLock和synchronized的底层实现
 synchronized是关键字，reentrantLock是lock的实现类。sync的底层是使用对象的内置锁（或者监视锁），它是基于monitor实现的，每个java的对象头中都包含一个锁记录，记录中包含了锁的状态信息。支持锁升级。执行完毕自动释放。
