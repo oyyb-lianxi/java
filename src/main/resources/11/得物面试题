@@ -146,6 +146,8 @@ explan分析执行计划：type：大于range （index全索引扫描，all全�
 
 优化sql，调整msql配置：增加缓存大小（query_cache_size  innodb_buffer_pool_size） ，调整线程池大小（thread_pool_size） ，增大连接数（max_connections）
 
+17.JUC下有哪些工具包：
+1.Excutor接口，Executors工具类，ThreadPoolExector类，ScheduledExcutorServices接口，ConcurrentHashMap，concurrentLinkedQueue，BlockingQueue，CountDownLatch，Lock
 <<<<<<< HEAD
 ======
 
